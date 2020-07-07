@@ -1,43 +1,22 @@
-'''The Dice object'''
-
-# -*- coding: utf-8 -*-
-
 import random
 
 class Dice:
-    '''Object that allows for the creation of single or multiple dice and provides the methods for
-    rolling and otherwise manipulatig them.'''
+    """Object that represents a single or multiple six-sided dice"""
 
-    def __init__(self, rolls=1, sides=6, add=0):
-        '''Set initial value for rolls, sides, add'''
+    def __init__(self, rolls=1, add=0):
+        """Initialize the dice object with default values"""
         self.rolls = rolls
-        self.sides = sides
         self.add = add
+        self.results = []
 
-    def setDice(self, rolls, sides, add):
-        '''Change all three values for object'''
-        self.rolls = rolls
-        self.sides = sides
-        self.add = add
+    def roll(self, rerolls=0):
+        """Perform the dice roll using prescribed values"""
+        self.results = [random.randint(1, 6) for _ in range(self.rolls)]
+        return self.results
 
-    def setRolls(self, rolls):
-        '''Change value for number of rolls'''
-        self.rolls = rolls
-
-    def setSides(self, sides):
-        '''Change value for number of sides'''
-        self.sides = sides
-
-    def setAdd(self, add):
-        '''Change value for number to add to roll'''
-        self.add = add
-
-    def roll(self):
-        '''Perform the dice roll using prescribed values'''
-        result = 0
-        for rollSeq in range(self.rolls):
-            result += random.randint(1, self.sides)
-
-        result += self.add
-        return result
-
+    def set_parameters(self, rolls=None, add=None):
+        """Set parameters for the dice"""
+        if rolls is not None:
+            self.rolls = rolls
+        if add is not None:
+            self.add = add
