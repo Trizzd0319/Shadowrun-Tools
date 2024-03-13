@@ -1,0 +1,51 @@
+{
+    "priorities": {
+        "A": "Magic/Resonance",
+        "B": "Skills",
+        "C": "Attributes",
+        "D": "Races",
+        "E": "Resources"
+    },
+    "details": [
+        "Metatype",
+        "Level",
+        "Experience",
+        "Class",
+        "Name",
+        "Age",
+        "Reputation",
+        "Karma",
+        "Ethnicity",
+        "Height",
+        "Weight",
+        "Sex"
+    ],
+    "attributes": {
+        "Strength": 0,
+        "Agility": 0,
+        "Body": 0,
+        "Intelligence": 0,
+        "Wisdom": 0,
+        "Charisma": 0
+    },
+    "skills": [
+        "Athletics",
+        "Astral",
+        "Biotech",
+        "Close Combat",
+        "Con",
+        "Conjuring",
+        "Cracking",
+        "Electronics",
+        "Engineering",
+        "Exotic Weapon",
+        "Firearms",
+        "Influence",
+        "Outdoors",
+        "Perception",
+        "Piloting",
+        "Sorcery",
+        "Stealth",
+        "Tasking"
+    ]
+}
