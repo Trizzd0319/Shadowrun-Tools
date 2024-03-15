@@ -1,174 +1,200 @@
 import random
 
 class Dice:
-    """Object that represents a single or multiple six-sided dice"""
-
-    def __init__(self, rolls=1, add=0):
-        """Initialize the dice object with default values"""
+    def __init__(self, rolls=1):
         self.rolls = rolls
-        self.add = add
-        self.results = []
 
     def roll(self):
-        """Perform the dice roll using prescribed values"""
-        self.results = [random.randint(1, 6) for _ in range(self.rolls)]
-        return self.results
-
-    def set_parameters(self, rolls=None, add=None):
-        """Set parameters for the dice"""
-        if rolls is not None:
-            self.rolls = rolls
-        if add is not None:
-            self.add = add
+        return sorted([random.randint(1, 6) for _ in range(self.rolls)])
 
 class SuccessTest(Dice):
-    """Success-test style rolling for ShadowRun (six-sided with hits and misses)"""
+    def __init__(self, edge_stashed=1):
+        super().__init__(1)  # Initialize with a placeholder value for rolls
+        self.edge_stashed = edge_stashed
+        self.setup_threshold_guide()
+        self.threshold = 3  # Default threshold for a success
 
-    def __init__(self):
-        """Set initial values for threshold, total_hits, success, glitch, and critical_glitch"""
-        super().__init__(1, 0)  # Calling the constructor of the parent class Dice
-        self.threshold = 3
-        self.total_hits = 0
-        self.success = False
-        self.glitch = False
-        self.critical_glitch = False
-        self.num_5s = 0
-        self.num_6s = 0
-        self.edge = 5  # Default edge points
+    def setup_threshold_guide(self):
         self.threshold_guide = {
-            1: "Simple task, only slightly more difficult than walking and talking. Shooting at a nearby building.",
-            2: "More complex, but still in the range of normal experience. A task an average person pulls off regularly. Shooting at a nearby building while running.",
-            3: "Normal starting point for Simple tests. Complicated enough to require skill. Shadowrunners are expected to be more competent than normal people, which is why game thresholds are based here. Shooting a window out of a nearby building.",
-            4: "More difficult, impressive enough to accomplish. Shooting an enemy in the window of a nearby building.",
-            5: "Tricky, the sort of thing only accomplished by those who have worked on their skills. Shooting an enemy in the window of a nearby building at minimum range.",
-            6: "Elite-level accomplishment, something that few in the world could pull off with any degree of regularity. Shooting an enemy in the window of a building at far range.",
-            7: "Standing out among the elite, demonstrating very rare ability. Shooting an enemy in the window of a building at far range while running."
+            1: "\033[92mSimple task, only slightly more difficult than walking and talking.\033[0m",  # Green
+            2: "\033[93mMore complex, but still in the range of normal experience.\033[0m",  # Yellow
+            3: "Normal starting point for Simple tests. Complicated enough to require skill.\033[0m",  # Red
+            4: "More difficult, impressive enough to accomplish.\033[0m",  # Red
+            5: "Tricky, the sort of thing only accomplished by those who have worked on their skills.\033[0m",
+            # Red
+            6: "\033[91mElite-level accomplishment, something that few in the world could pull off.\033[0m",  # Red
+            7: "\033[91mStanding out among the elite, demonstrating very rare ability.\033[0m"  # Red
         }
 
-    def roll_test(self, rerolls=0, reroll_5_edge=False):
-        """Roll the number of dice in a pool and return results"""
-        self.total_hits = 0
-        self.num_5s = 0
-        self.num_6s = 0
-        self.glitch = False  # Reset glitch variable
-        self.critical_glitch = False
-        results = self.roll()
-
-        # Count occurrences of 1s
-        num_ones = results.count(1)
-        if num_ones > self.rolls / 2:  # If the count of 1s exceeds half the dice pool
-            self.glitch = True
-
-        # Reroll lowest die if edge points are used
-        if self.edge > 0 and rerolls > 0:
-            for _ in range(rerolls):
-                min_value = min(results)
-                min_index = results.index(min_value)
-                results[min_index] = random.randint(1, 6)
-
-        # Rerolling all failed dice for 5-edge boost
-        if reroll_5_edge:
-            print("\nRerolling all failed dice...")
-            for i, result in enumerate(results):
-                if result < 5:
-                    print(f"Rerolling die {i + 1}: {result}")
-                    results[i] = random.randint(5, 6)
-
-        for result in results:
-            if result == 5:
-                self.num_5s += 1
-                self.total_hits += 1
-            elif result == 6:
-                self.num_6s += 1
-                self.total_hits += 2
-
-        # Determine if a critical glitch has occurred
-        if self.glitch and self.total_hits == 0:
-            self.critical_glitch = True
-
-        # Calculate percentage increase towards success
-        initial_success_chance = 100 * (1 - (5 / 6) ** self.total_hits)
-        final_success_chance = 100 * (1 - (5 / 6) ** (self.total_hits + rerolls))
-        success_increase_percent = final_success_chance - initial_success_chance
-
-        return results, self.total_hits, success_increase_percent
-
-    def run_test(self):
-        """Run the success test"""
-        num_dice = int(input("Enter the number of dice to roll: "))
-        self.rolls = num_dice
-        print("Threshold Guidelines:")
-        for key, value in self.threshold_guide.items():
-            print(f"{key}: {value}")
-
-        # Prompt for threshold selection
-        selected_threshold = input("Select a threshold from the list (leave blank for default threshold 3): ")
-        if selected_threshold == "":
-            self.threshold = 3
-        else:
-            self.threshold = int(selected_threshold)
-
-        results, total_hits, success_increase_percent = self.roll_test()
-
-        sorted_results = sorted(results)  # Sort the results
-        print("\nSorted Results (Numeric):", ', '.join(map(str, sorted_results)), f"(Count: {len(sorted_results)})")
+    def print_results_summary(self):
+        colored_results = [f"\033[92m{result}\033[0m" if result >= 5 else str(result) for result in self.results]
+        print("\nSorted Results (Numeric):", ', '.join(colored_results), f"(Count: {len(self.results)})")
+        total_hits = sum(result >= 5 for result in self.results) + sum(result == 6 for result in self.results)
         print("Success: Yes" if total_hits >= self.threshold else "Success: No")
         print("Threshold Required Hits:", self.threshold)
         print("Total Hits:", total_hits)
-        print("Number of 5s Rolled:", self.num_5s)
-        print("Total Hits Calculated for Number of 5s:", 1 * self.num_5s)
-        print("Number of 6s Rolled:", self.num_6s)
-        print("Total Hits Calculated for Number of 6s:", 2 * self.num_6s)
-        print("Number of 1s Rolled:", results.count(1))  # Display count of 1s
-        print("Glitch:", "Yes" if self.glitch else "No")
-        print("Critical Glitch:", "Yes" if self.critical_glitch else "No")
+        print("Number of 5s Rolled:", self.results.count(5))
+        print("Total Hits Calculated for Number of 5s:", self.results.count(5))
+        print("Number of 6s Rolled:", self.results.count(6))
+        print("Total Hits Calculated for Number of 6s:", 2 * self.results.count(6))
+        print("Number of 1s Rolled:", self.results.count(1))
+        print("Glitch:", "Yes" if self.results.count(1) > len(self.results) / 2 else "No")
+        print("Critical Glitch:", "Yes" if self.results.count(1) > len(self.results) / 2 and total_hits == 0 else "No")
 
-        # Prompt to use edge and specify number of edge points after showing results
-        if not self.success or self.glitch or self.critical_glitch:
-            print("\nEdge Chances:")
-            print("1-Edge Boost: Reroll one die")
-            print("Chance of Success with 1 edge point(s): {:.2f}%".format(100 * (1 - (5 / 6) ** (self.total_hits + 1))))
-            print("2-Edge Boost: +1 to a single die roll")
-            print("Chance of Success with 2 edge point(s): {:.2f}%".format(100 * (1 - (5 / 6) ** self.total_hits)))
-            print("3-Edge Boost: Buy one automatic hit")
-            print("Chance of Success with 3 edge point(s): {:.2f}%".format(100 * (1 - (5 / 6) ** (self.total_hits + 1))))
-            use_edge = input("Do you want to use edge? (yes/no/edge number): ").lower()
-            if use_edge == "yes":
-                use_edge = "1"
-            elif use_edge == "no":
-                use_edge = "0"
-            if use_edge.isdigit():
-                use_edge = int(use_edge)
-                if use_edge == 1:
-                    rerolls = 1
-                elif use_edge == 2:
-                    rerolls = 0
-                    for _ in range(self.rolls):
-                        self.results[self.results.index(min(self.results))] += 1
-                elif use_edge == 3:
-                    results, total_hits, success_increase_percent = self.roll_test(rerolls=1)
-                    print("\nBuying one automatic hit...\n")
-                else:
-                    rerolls = 0
+    def roll_test(self):
+        for key, description in self.threshold_guide.items():
+            print(f"{key}: {description}")
+        self.update_threshold_from_input()
+        # Replace direct input for dice rolls with a call to validate_and_parse_dice_input
+        self.results = self.validate_and_parse_dice_input()
+        self.print_results_summary()
+        # self.rolls = int(input("Enter the total number of dice to roll: "))
+        self.edge_stashed = int(input("Enter the total number of edge that you possess: "))
+        self.results = self.roll()
+        self.print_results_summary()
+
+        # Implement logic to prompt for and handle edge boost selection here...
+        # For simplicity, this example does not include detailed edge boost logic.
+
+    def apply_edge_boost(self, edge_choice):
+        if edge_choice == 1:  # Example: Reroll one die
+            self.reroll_one_die()
+        # Placeholder: Implement the logic to apply the chosen edge boost.
+        # Make sure to modify 'self.results' as needed based on the edge choice.
+        pass
+
+    def reroll_one_die(self):
+        die_to_reroll = self.select_die_to_reroll()  # Method to select a die index to reroll
+        original_value = self.results[die_to_reroll]
+        print(f"Original Roll: {self.colorize_results(die_to_reroll, original_value, 'red')}")
+        self.results[die_to_reroll] = random.randint(1, 6)  # Reroll the selected die
+        new_value = self.results[die_to_reroll]
+        color = 'green' if new_value >= 5 else 'red'
+        print(f"New Roll:      {self.colorize_results(die_to_reroll, new_value, color)}")
+        # Similar to the provided example, colorize the rerolled die
+        pass  # Placeholder for brevity
+
+    # def add_one_to_die(self):
+    #     die_to_boost = self.select_die_to_boost()
+    #     original_value = self.results[die_to_boost]
+    #     print(f"Original Roll: {self.colorize_results(die_to_boost, original_value, 'red')}")
+    #     self.results[die_to_boost] += 1
+    #     print(f"New Roll:      {self.colorize_results(die_to_boost, self.results[die_to_boost], 'green')}")
+
+    def add_one_to_die(self, roll_results, die_position):
+        """Add +1 to a die roll at the specified position under specific conditions, with refined glitch
+        evaluation."""
+        original_value = roll_results[die_position]
+        # Colorize and display the original roll for the specific die
+        print(f"Original Roll: {self.colorize_results(die_position, original_value, 'red')}")
+        # Check if the die is a 4 and turning it into a 5 would cause a success
+        if roll_results[die_position] == 4 and self.threshold <= 5:
+            roll_results[die_position] += 1
+            # Colorize and display the new roll for the specific die
+            print(f"New Roll:      {self.colorize_results(die_position, roll_results[die_position], 'green')}")
+            return roll_results
+
+        # For a die that's a 1, evaluate the impact of changing it on glitch scenarios
+        if roll_results[die_position] == 1:
+            # Determine the current number of 1s and successes
+            ones_count = roll_results.count(1)
+            successes_count = sum(1 for die in roll_results if die >= self.threshold)
+
+            # Evaluate the impact of incrementing a 1 on potential glitch scenarios
+            if ones_count > len(roll_results) // 2:
+                # Check if incrementing this 1 would prevent a glitch or critical glitch Note: This simplifies
+                # the logic by focusing on the count; detailed game mechanics might require further refinement
+                if successes_count == 0 or (successes_count > 0 and ones_count - 1 <= len(roll_results) // 2):
+                    roll_results[die_position] += 1
+
+        return roll_results
+
+    # Note: This update introduces a refined evaluation for when incrementing a 1 to a 2 is beneficial, particularly in the context of preventing or mitigating glitches and critical glitches.
+    # It's important to validate this logic against the specific rules and scenarios of the game being implemented.
+
+    # We should now consider testing this implementation to ensure it works as expected in various scenarios, including those close to glitch and critical glitch thresholds.
+
+    def buy_automatic_hit(self):
+        # Simulate adding an automatic '6' to the results and color it green
+        self.results.append(6)  # Adding a hit
+        print("Bought an automatic hit: \033[92m6\033[0m")
+
+    def make_6s_explode(self):
+        indices_of_6s = [i for i, result in enumerate(self.results) if result == 6]
+        for i in indices_of_6s:
+            # Each '6' explodes into another roll, color the original '6' green
+            print(f"Exploding: {self.colorize_results(i, 6, 'green')}")
+            new_roll = random.randint(1, 6)
+            self.results.append(new_roll)  # Add the result of the explosion
+            if new_roll >= 5:  # If the new roll is a hit, color it green
+                print(f"New Hit from Explosion: \033[92m{new_roll}\033[0m")
             else:
-                rerolls = 0
+                print(f"New Roll from Explosion: {new_roll}")
 
-            # Show results after edge usage
-            sorted_results = sorted(results)
-            print("After using edge:")
-            print("\nSorted Results (Numeric):", ', '.join(map(str, sorted_results)), f"(Count: {len(sorted_results)})")
-            print("Success: Yes" if total_hits >= self.threshold else "Success: No")
-            print("Threshold Required Hits:", self.threshold)
-            print("Total Hits:", total_hits)
-            print("Number of 5s Rolled:", self.num_5s)
-            print("Total Hits Calculated for Number of 5s:", 1 * self.num_5s)
-            print("Number of 6s Rolled:", self.num_6s)
-            print("Total Hits Calculated for Number of 6s:", 2 * self.num_6s)
-            print("Number of 1s Rolled:", results.count(1))  # Display count of 1s
-            print("Glitch:", "Yes" if self.glitch else "No")
-            print("Critical Glitch:", "Yes" if self.critical_glitch else "No")
-            print("Percentage Increase towards Success: {:.2f}%".format(success_increase_percent))
+    def reroll_failed_dice(self):
+        failed_dice_indices = [i for i, result in enumerate(self.results) if result < 5]
+        for i in failed_dice_indices:
+            print(f"Rerolling: {self.colorize_results(i, self.results[i], 'red')}")
+            self.results[i] = random.randint(1, 6)
+            new_color = 'green' if self.results[i] >= 5 else 'red'
+            print(f"New Roll:  {self.colorize_results(i, self.results[i], new_color)}")
+
+    def colorize_results(self, index_to_color, color):
+        colors = {'red': '\033[91m', 'green': '\033[92m', 'reset': '\033[0m'}
+        colored_results = [f"{colors['green']}{result}{colors['reset']}" if result >= 5 else str(result) for i, result
+                           in enumerate(self.results)]
+        if index_to_color is not None:
+            colored_results[index_to_color] = f"{colors[color]}{self.results[index_to_color]}{colors['reset']}"
+        return ', '.join(colored_results)
+
+    def select_die_to_reroll(self):
+        # Example method to select a die to reroll. This might involve user input or other logic in a full implementation.
+        return 0  # Simplified example: always selects the first die
+
+    def update_threshold_from_input(self):
+        input_value = input("Enter new threshold (press Enter to keep current): ").strip()
+        if input_value == "":
+            # If the user presses Enter without typing anything, keep the current threshold
+            print(f"Threshold remains as {self.threshold}.")
+        else:
+            try:
+                new_threshold = int(input_value)
+                self.threshold = new_threshold
+                print(f"Threshold updated to {self.threshold}.")
+            except ValueError:
+                # Handle cases where the input cannot be converted to an integer
+                print("Invalid input. Please enter a valid integer or press Enter to keep current.")
+
+    @staticmethod
+    def validate_and_parse_dice_input():
+        while True:
+            user_input = input("Enter dice rolls or number of dice to roll (1-6 for each dice): ").strip()
+            if " " in user_input or "," in user_input:
+                try:
+                    dice_rolls = sorted([int(d) for d in user_input.replace(',', ' ').split()])
+                except ValueError:
+                    print("Invalid input. Please enter numbers only.")
+                    continue
+
+                if all(1 <= d <= 6 for d in dice_rolls):
+                    return dice_rolls
+                else:
+                    print("Invalid input. Each dice roll must be between 1 and 6.")
+            else:
+                try:
+                    dice_count = int(user_input)
+                    if 1 <= dice_count:
+                        return sorted([random.randint(1, 6) for _ in range(dice_count)])
+                    else:
+                        print("Invalid input. Number of dice must be positive.")
+                except ValueError:
+                    print("Invalid input. Please enter a valid number.")
+
+        def main():
+            dice_rolls = validate_and_parse_dice_input()
+            print(f"Dice Rolls: {dice_rolls}")
+            # Continue with using dice_rolls for all calculations
 
 if __name__ == "__main__":
-    success_test = SuccessTest()
-    success_test.run_test()
+    test = SuccessTest(edge_stashed=3)  # Assume the user has 3 edge points available
+    test.roll_test()
