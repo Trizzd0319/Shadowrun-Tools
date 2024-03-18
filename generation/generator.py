@@ -1,7 +1,7 @@
 import json
 import tkinter
 from tkinter import Tk, Frame, Button, Label, Entry, ttk, Canvas, Scrollbar, VERTICAL, IntVar, filedialog, Text, NORMAL, \
-    END, DISABLED, Listbox, WORD
+    END, DISABLED, Listbox, WORD, messagebox
 
 import pandas as pd
 
@@ -161,15 +161,6 @@ class CharacterBuilderGUI:
 
         # Scrollable Area Setup
         self.create_scrollable_area()
-
-        # Create the qualities frame here
-        qualities_frame = Frame(self.scrollable_frame)
-        qualities_frame.pack(pady=10, expand=True, fill="both")
-
-        # Now you can safely initialize racial_quality_labels with Labels in qualities_frame
-        self.racial_quality_labels = [Label(qualities_frame, text="") for _ in range(3)]
-        for label in self.racial_quality_labels:
-            label.pack(side="left")
 
         # Sections Creation
         self.create_sections()
@@ -607,6 +598,177 @@ class CharacterBuilderGUI:
             else:
                 print(f"Label for {attribute_name} not found")  # For debugging purposes
 
+    def create_qualities_section(self):
+        # Assuming self.scrollable_frame is the parent widget where all sections are added
+        qualities_frame = Frame(self.scrollable_frame, bd=1, relief="solid")
+        qualities_frame.pack(fill='x', padx=10, pady=5, expand=True)
+
+        # Racial Qualities Section
+        # This will use data from the metatype selection in the Personal section
+        self.racial_qualities_frame = Frame(qualities_frame)
+        self.racial_qualities_frame.pack(fill='x', padx=10, pady=5)
+        Label(self.racial_qualities_frame, text="Racial Qualities:").pack(side="top")
+
+        # Placeholder for racial qualities labels, to be updated based on metatype selection
+        self.racial_qualities_labels = [Label(self.racial_qualities_frame, text="N/A") for _ in range(3)]
+        for label in self.racial_qualities_labels:
+            label.pack(side="top")
+
+        # Listboxes for Positive and Negative Qualities
+        self.positive_qualities_listbox = Listbox(qualities_frame, exportselection=False)
+        self.negative_qualities_listbox = Listbox(qualities_frame, exportselection=False)
+
+        # Setting up the Listboxes
+        self.setup_qualities_listboxes()
+
+        # Memo boxes for quality descriptions and costs
+        self.positive_qualities_memo = Text(qualities_frame, height=5, width=40)
+        self.negative_qualities_memo = Text(qualities_frame, height=5, width=40)
+
+        # Karma Counter Label
+        self.karma_counter_label = Label(qualities_frame, text="Karma: 0")
+
+        # Confirm Button
+        self.confirm_qualities_button = Button(qualities_frame, text="Confirm Qualities",
+                                               command=self.confirm_qualities)
+        self.qualities_frame = Frame(self.scrollable_frame)
+        self.qualities_frame.pack(fill='x', padx=10, pady=5, expand=True)
+
+        # Now proceed with adding components to self.qualities_frame
+        self.layout_qualities_section()
+
+        # Layout for the Qualities section
+        self.layout_qualities_section()
+
+    def setup_qualities_listboxes(self):
+        # Clear existing listbox entries
+        self.positive_qualities_listbox.delete(0, 'end')
+        self.negative_qualities_listbox.delete(0, 'end')
+
+        # Assuming racial qualities are stored in a list for the selected metatype
+        racial_qualities = [label.cget("text") for label in self.racial_qualities_labels]
+
+        # Populate positive and negative qualities listboxes, excluding racial qualities
+        for _, row in self.qualities.iterrows():
+            quality_name = row['Quality']
+            if quality_name not in racial_qualities:
+                if row['Type'] == 'Positive':
+                    self.positive_qualities_listbox.insert('end', quality_name)
+                elif row['Type'] == 'Negative':
+                    self.negative_qualities_listbox.insert('end', quality_name)
+
+        # Bind selection events to update memo boxes
+        self.positive_qualities_listbox.bind("<<ListboxSelect>>",
+                                             lambda event: self.update_quality_memo(event, 'Positive'))
+        self.negative_qualities_listbox.bind("<<ListboxSelect>>",
+                                             lambda event: self.update_quality_memo(event, 'Negative'))
+
+    def update_quality_memo(self, event, quality_type):
+        # Identify the selected quality
+        selected_index = event.widget.curselection()
+        if not selected_index:
+            return
+        selected_quality = event.widget.get(selected_index[0])
+
+        # Fetch the description and cost of the selected quality
+        quality_info = self.qualities[self.qualities['Quality'] == selected_quality].iloc[0]
+        description = quality_info['Description']
+        cost = quality_info['Cost per Level']  # or however the cost is stored
+
+        # Update the memo box
+        memo_box = self.positive_qualities_memo if quality_type == 'Positive' else self.negative_qualities_memo
+        memo_box.config(state='normal')
+        memo_box.delete('1.0', 'end')
+        memo_box.insert('1.0', f"{description}\nCost: {cost}")
+        memo_box.config(state='disabled')
+
+    def layout_qualities_section(self):
+        # Racial Qualities Frame
+        self.racial_qualities_frame.grid(row=0, column=0, columnspan=4, sticky='ew', padx=5, pady=5)
+
+        # Listboxes with Labels
+        Label(self.qualities_frame, text="Positive Qualities").grid(row=1, column=0, padx=5, pady=2, sticky='w')
+        Label(self.qualities_frame, text="Negative Qualities").grid(row=1, column=2, padx=5, pady=2, sticky='w')
+        self.positive_qualities_listbox.grid(row=2, column=0, padx=5, pady=2, sticky='ew')
+        self.negative_qualities_listbox.grid(row=2, column=2, padx=5, pady=2, sticky='ew')
+
+        # Memo Boxes
+        self.positive_qualities_memo.grid(row=3, column=0, padx=5, pady=2, sticky='ew')
+        self.negative_qualities_memo.grid(row=3, column=2, padx=5, pady=2, sticky='ew')
+
+        # Confirm Button
+        self.confirm_qualities_button.grid(row=4, column=0, columnspan=4, padx=5, pady=5, sticky='ew')
+
+        # Karma Counter Label
+        self.karma_counter_label.grid(row=5, column=0, columnspan=4, padx=5, pady=5, sticky='ew')
+
+        # Adjust the column configurations for equal width distribution
+        self.qualities_frame.columnconfigure(0, weight=1)
+        self.qualities_frame.columnconfigure(1, weight=1)  # This might be a spacer column if needed
+        self.qualities_frame.columnconfigure(2, weight=1)
+
+    def confirm_qualities(self):
+        # Fetch selected qualities
+        positive_selections = [self.positive_qualities_listbox.get(i) for i in
+                               self.positive_qualities_listbox.curselection()]
+        negative_selections = [self.negative_qualities_listbox.get(i) for i in
+                               self.negative_qualities_listbox.curselection()]
+
+        # Calculate karma impact
+        positive_karma_cost = sum(
+            self.qualities[self.qualities['Quality'].isin(positive_selections)]['Cost per Level']) * 2
+        negative_karma_gain = sum(self.qualities[self.qualities['Quality'].isin(negative_selections)]['Cost per Level'])
+
+        # Check for the 25 karma gain limit from negative qualities
+        if negative_karma_gain > 25:
+            # Display an error popup and abort the confirmation process
+            messagebox.showerror("Error", "Too much karma added from negative qualities. The limit is 25.")
+            return
+
+        # Update confirmed qualities
+        self.confirmed_positive_qualities.extend(positive_selections)
+        self.confirmed_negative_qualities.extend(negative_selections)
+
+        # Update available karma
+        karma_index = self.attributes_df.index[self.attributes_df['Attribute'] == 'Karma'][0]
+        current_karma = self.attributes_df.at[karma_index, 'LevelVar'].get()
+        new_karma = current_karma + negative_karma_gain - positive_karma_cost
+
+        # Ensure new karma does not make the total go below zero
+        if new_karma < 0:
+            print("Not enough karma available for these selections. Please adjust your selections.")
+            return
+
+        self.attributes_df.at[karma_index, 'LevelVar'].set(new_karma)
+
+        # Update UI elements
+        self.update_selected_qualities_label()
+        self.karma_counter_label.config(text=f"Karma: {new_karma}")
+
+    def update_selected_qualities_label(self):
+        confirmed_qualities = self.confirmed_positive_qualities + self.confirmed_negative_qualities
+        self.combined_qualities_label.config(text=f"Confirmed Qualities: {', '.join(confirmed_qualities)}")
+    def update_racial_qualities(self, event=None):
+        selected_metatype = self.metatype_combobox.get()
+
+        # Check if the selected metatype is in the metatype_data structure
+        if selected_metatype in self.metatype_data["Metatype"]:
+            metatype_index = self.metatype_data["Metatype"].index(selected_metatype)
+
+            # Retrieve and update racial qualities
+            for i, label in enumerate(self.racial_qualities_labels, start=1):
+                quality_key = f"Quality #{i}"
+                racial_quality = self.metatype_data[quality_key][metatype_index]
+                label.config(text=racial_quality or "N/A")  # Use "N/A" if the quality is not applicable
+
+            # Update listboxes to exclude these racial qualities
+            self.setup_qualities_listboxes()
+
+        else:
+            # Reset the labels if the selected metatype is not found
+            for label in self.racial_qualities_labels:
+                label.config(text="N/A")
+
     def update_memo_box(self, memo_box, text):
         memo_box.config(state=NORMAL)
         memo_box.delete('1.0', END)
@@ -755,113 +917,6 @@ class CharacterBuilderGUI:
         # Update the label with the priority value
         self.skills_priority_label.config(text="Priority: " + str(priority_value))
 
-    def update_racial_qualities(self, event=None):  # Adjusted to optionally accept an event argument
-        metatype_selection = self.metatype_combobox.get()
-        if metatype_selection:
-            metatype_index = self.metatype_data["Metatype"].index(metatype_selection)
-            racial_qualities = [
-                self.metatype_data["Quality #1"][metatype_index],
-                self.metatype_data["Quality #2"][metatype_index],
-                self.metatype_data["Quality #3"][metatype_index],
-            ]
-
-            # Ensure you don't exceed the bounds of the racial_quality_labels list
-            for i, quality in enumerate(racial_qualities):
-                if i < len(self.racial_quality_labels):
-                    self.racial_quality_labels[i].config(text=quality or "N/A")  # Handle empty or None quality
-                else:
-                    break  # Exit loop if there are more qualities than labels
-
-    def update_quality_comboboxes(self, updated=None):
-        # Gather all qualities
-        positive_qualities = self.qualities[self.qualities['Type'] == 'Positive']['Quality'].tolist()
-        negative_qualities = self.qualities[self.qualities['Type'] == 'Negative']['Quality'].tolist()
-
-        # Find what's currently selected
-        selected_positive = self.positive_qualities_cb.get()
-        selected_negative = self.negative_qualities_cb.get()
-
-        # Update combobox options based on what's selected
-        if updated == 'positive' and selected_positive in negative_qualities:
-            negative_qualities.remove(selected_positive)
-        elif updated == 'negative' and selected_negative in positive_qualities:
-            positive_qualities.remove(selected_negative)
-
-        self.positive_qualities_cb['values'] = positive_qualities
-        self.negative_qualities_cb['values'] = negative_qualities
-
-        # Restore selected values if still valid
-        if selected_positive in positive_qualities:
-            self.positive_qualities_cb.set(selected_positive)
-        if selected_negative in negative_qualities:
-            self.negative_qualities_cb.set(selected_negative)
-
-    def create_qualities_section(self):
-        qualities_frame = Frame(self.scrollable_frame)
-        qualities_frame.pack(pady=10, expand=True, fill="both")
-
-        # Creating the memo box for displaying descriptions
-        self.description_memo_box = Text(qualities_frame, height=10, width=50, state=DISABLED)
-        self.description_memo_box.pack(side="left", padx=5)
-
-        # Initialize comboboxes for positive and negative qualities
-        self.positive_qualities_cb = ttk.Combobox(qualities_frame, state="readonly")
-        self.negative_qualities_cb = ttk.Combobox(qualities_frame, state="readonly")
-
-        # Fill comboboxes with initial values
-        self.update_quality_comboboxes()
-
-        self.positive_qualities_cb.pack(side="left", fill="y", expand=True, padx=5)
-        self.negative_qualities_cb.pack(side="left", fill="y", expand=True, padx=5)
-
-        # Bind the selection event to update available options
-        self.positive_qualities_cb.bind("<<ComboboxSelected>>", lambda e: self.update_quality_comboboxes('positive'))
-        self.negative_qualities_cb.bind("<<ComboboxSelected>>", lambda e: self.update_quality_comboboxes('negative'))
-
-        # Confirm button to finalize the selection of qualities
-        confirm_btn = Button(qualities_frame, text="Confirm Qualities", command=self.confirm_qualities_selection)
-        confirm_btn.pack(side="left", pady=5)
-
-        # Label to display the selected qualities and karma counter
-        self.selected_qualities_label = Label(qualities_frame, text="Selected Qualities: None")
-        self.selected_qualities_label.pack(side="left", pady=5)
-
-        self.karma_counter_label = Label(qualities_frame, text=f"Karma Available: {self.karma_available}")
-        self.karma_counter_label.pack(side="left", pady=5)
-
-    def update_memo_box_with_description(self, event):
-        # Fetch the widget that triggered the event
-        w = event.widget
-        # Determine if any item is selected
-        if len(w.curselection()) > 0:
-            index = int(w.curselection()[0])
-            quality_name = w.get(index)
-            # Fetch the description from the qualities DataFrame
-            description = self.qualities.loc[self.qualities['Quality'] == quality_name, 'Description'].values[0]
-            # Update the memo box with the description
-            self.description_memo_box.config(state=NORMAL)
-            self.description_memo_box.delete('1.0', END)
-            self.description_memo_box.insert('1.0', description)
-            self.description_memo_box.config(state=DISABLED)
-
-    def confirm_qualities_selection(self):
-        # Handle the logic to confirm selections and update karma.
-        # This is a placeholder for the selection confirmation logic.
-        # You would include here the logic for updating confirmed qualities and the karma counter,
-        # similar to the outline provided in the previous instructions.
-
-        # Example placeholder for updating the label:
-        self.karma_counter_label.config(text='Karma Available: Updated Value')
-
-        # Example for retrieving selected qualities:
-        selected_positives = [self.positive_qualities_lb.get(i) for i in self.positive_qualities_lb.curselection()]
-        selected_negatives = [self.negative_qualities_lb.get(i) for i in self.negative_qualities_lb.curselection()]
-
-        # Example for updating confirmed qualities and calculating karma -- you'd replace this with your actual logic:
-        print("Selected Positive Qualities:", selected_positives)
-        print("Selected Negative Qualities:", selected_negatives)
-        # Here, you would invoke your karma calculation method, like update_karma_available()
-
     def update_comboboxes(self, event):
         """Update combobox selections and handle priority value display for all categories."""
         updated_combobox = event.widget
@@ -921,35 +976,30 @@ class CharacterBuilderGUI:
 
     def update_karma_available(self):
         # Calculate the total karma cost of confirmed positive qualities
-        total_positive_cost = sum(
-            self.qualities.loc[self.qualities['Quality'] == q, 'Cost'].values[0] * 2
-            for q in self.confirmed_positive_qualities
-        )
+        total_karma_cost = sum(
+            self.qualities.loc[self.qualities['Quality'] == q, 'Cost per Level'].values[0] * 2 for q in
+            self.confirmed_positive_qualities)
 
-        # Calculate the total karma gain from confirmed negative qualities, capped at 25
-        total_negative_gain = sum(
-            -self.qualities.loc[self.qualities['Quality'] == q, 'Cost'].values[0]
-            for q in self.confirmed_negative_qualities
-        )
-        total_negative_gain = min(total_negative_gain, 25)  # Cap the gain at 25 karma
+        # Calculate the total karma gain from confirmed negative qualities
+        total_karma_gain = sum(-self.qualities.loc[self.qualities['Quality'] == q, 'Cost per Level'].values[0] for q in
+                               self.confirmed_negative_qualities)
 
         # Calculate the net karma impact
-        net_karma_change = total_negative_gain - total_positive_cost
+        net_karma_impact = total_karma_gain - total_karma_cost
 
-        # Find the index in the DataFrame for the 'Karma' attribute
-        karma_index = self.attributes_df[self.attributes_df['Attribute'] == 'Karma'].index
+        # Update the available karma
+        karma_index = self.attributes_df.index[self.attributes_df['Attribute'] == 'Karma'][0]
+        current_karma = self.attributes_df.at[karma_index, 'LevelVar'].get()
+        new_karma = current_karma + net_karma_impact  # Adjust this line if you need to limit the karma in any way
 
-        # Calculate the new karma value ensuring it doesn't drop below zero
-        new_karma_value = max(0, self.attributes_df.loc[karma_index, 'LevelVar'].values[0] + net_karma_change)
+        # Ensure karma does not go below zero or exceed any maximum you might have set
+        new_karma = max(0, new_karma)  # Replace 0 with any minimum or add maximum logic if needed
 
-        # Update the DataFrame with the new karma value
-        self.attributes_df.at[karma_index, 'LevelVar'].values[0] = new_karma_value
+        # Update the Karma attribute's LevelVar
+        self.attributes_df.at[karma_index, 'LevelVar'].set(new_karma)
 
-        # Print the new karma value to the terminal for verification
-        print(f"Updated Karma Value: {new_karma_value}")
-
-        # Assuming you have a label that displays the current karma, update it to reflect the new value
-        self.karma_label.config(text=f"Karma: {new_karma_value}")
+        # Optionally, update the GUI element that displays available karma
+        self.karma_available_label.config(text=f"Karma Available: {new_karma}")
 
     # Reset any other stateful GUI elements here
 
