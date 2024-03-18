@@ -1,5 +1,6 @@
 import random
 
+
 class Dice:
     def __init__(self, rolls=1):
         self.rolls = rolls
@@ -7,9 +8,18 @@ class Dice:
     def roll(self):
         return sorted([random.randint(1, 6) for _ in range(self.rolls)])
 
+
+def select_die_to_reroll():
+    # Example method to select a die to reroll. This might involve user input or other logic in a full
+    # implementation.
+    return 0  # Simplified example: always selects the first die
+
+
 class SuccessTest(Dice):
     def __init__(self, edge_stashed=1):
         super().__init__(1)  # Initialize with a placeholder value for rolls
+        self.results = None
+        self.threshold_guide = None
         self.edge_stashed = edge_stashed
         self.setup_threshold_guide()
         self.threshold = 3  # Default threshold for a success
@@ -46,7 +56,7 @@ class SuccessTest(Dice):
             print(f"{key}: {description}")
         self.update_threshold_from_input()
         # Replace direct input for dice rolls with a call to validate_and_parse_dice_input
-        self.results = self.validate_and_parse_dice_input()
+        self.results = SuccessTest.validate_and_parse_dice_input()
         self.print_results_summary()
         # self.rolls = int(input("Enter the total number of dice to roll: "))
         self.edge_stashed = int(input("Enter the total number of edge that you possess: "))
@@ -57,20 +67,20 @@ class SuccessTest(Dice):
         # For simplicity, this example does not include detailed edge boost logic.
 
     def apply_edge_boost(self, edge_choice):
-        if edge_choice == 1:  # Example: Reroll one die
+        if edge_choice == 1:  # Example: Roll one die
             self.reroll_one_die()
         # Placeholder: Implement the logic to apply the chosen edge boost.
         # Make sure to modify 'self.results' as needed based on the edge choice.
         pass
 
     def reroll_one_die(self):
-        die_to_reroll = self.select_die_to_reroll()  # Method to select a die index to reroll
+        die_to_reroll = select_die_to_reroll()  # Method to select a die index to reroll
         original_value = self.results[die_to_reroll]
-        print(f"Original Roll: {self.colorize_results(die_to_reroll, original_value, 'red')}")
+        print(f"Original Roll: {self.colorize_results(die_to_reroll, original_value)}")
         self.results[die_to_reroll] = random.randint(1, 6)  # Reroll the selected die
         new_value = self.results[die_to_reroll]
-        color = 'green' if new_value >= 5 else 'red'
-        print(f"New Roll:      {self.colorize_results(die_to_reroll, new_value, color)}")
+        # color = 'green' if new_value >= 5 else 'red'
+        print(f"New Roll:      {self.colorize_results(die_to_reroll, new_value)}")
         # Similar to the provided example, colorize the rerolled die
         pass  # Placeholder for brevity
 
@@ -86,12 +96,12 @@ class SuccessTest(Dice):
         evaluation."""
         original_value = roll_results[die_position]
         # Colorize and display the original roll for the specific die
-        print(f"Original Roll: {self.colorize_results(die_position, original_value, 'red')}")
+        print(f"Original Roll: {self.colorize_results(die_position, original_value)}")
         # Check if the die is a 4 and turning it into a 5 would cause a success
         if roll_results[die_position] == 4 and self.threshold <= 5:
             roll_results[die_position] += 1
             # Colorize and display the new roll for the specific die
-            print(f"New Roll:      {self.colorize_results(die_position, roll_results[die_position], 'green')}")
+            print(f"New Roll:      {self.colorize_results(die_position, roll_results[die_position])}")
             return roll_results
 
         # For a die that's a 1, evaluate the impact of changing it on glitch scenarios
@@ -109,10 +119,12 @@ class SuccessTest(Dice):
 
         return roll_results
 
-    # Note: This update introduces a refined evaluation for when incrementing a 1 to a 2 is beneficial, particularly in the context of preventing or mitigating glitches and critical glitches.
-    # It's important to validate this logic against the specific rules and scenarios of the game being implemented.
+    # Note: This update introduces a refined evaluation for when incrementing a 1 to a 2 is beneficial, particularly
+    # in the context of preventing or mitigating glitches and critical glitches. It's important to validate this
+    # logic against the specific rules and scenarios of the game being implemented.
 
-    # We should now consider testing this implementation to ensure it works as expected in various scenarios, including those close to glitch and critical glitch thresholds.
+    # We should now consider testing this implementation to ensure it works as expected in various scenarios,
+    # including those close to glitch and critical glitch thresholds.
 
     def buy_automatic_hit(self):
         # Simulate adding an automatic '6' to the results and color it green
@@ -123,7 +135,7 @@ class SuccessTest(Dice):
         indices_of_6s = [i for i, result in enumerate(self.results) if result == 6]
         for i in indices_of_6s:
             # Each '6' explodes into another roll, color the original '6' green
-            print(f"Exploding: {self.colorize_results(i, 6, 'green')}")
+            print(f"Exploding: {self.colorize_results(i, 'green')}")
             new_roll = random.randint(1, 6)
             self.results.append(new_roll)  # Add the result of the explosion
             if new_roll >= 5:  # If the new roll is a hit, color it green
@@ -134,10 +146,10 @@ class SuccessTest(Dice):
     def reroll_failed_dice(self):
         failed_dice_indices = [i for i, result in enumerate(self.results) if result < 5]
         for i in failed_dice_indices:
-            print(f"Rerolling: {self.colorize_results(i, self.results[i], 'red')}")
+            print(f"Rerolling: {self.colorize_results(i, 'red')}")
             self.results[i] = random.randint(1, 6)
             new_color = 'green' if self.results[i] >= 5 else 'red'
-            print(f"New Roll:  {self.colorize_results(i, self.results[i], new_color)}")
+            print(f"New Roll:  {self.colorize_results(i, new_color)}")
 
     def colorize_results(self, index_to_color, color):
         colors = {'red': '\033[91m', 'green': '\033[92m', 'reset': '\033[0m'}
@@ -146,10 +158,6 @@ class SuccessTest(Dice):
         if index_to_color is not None:
             colored_results[index_to_color] = f"{colors[color]}{self.results[index_to_color]}{colors['reset']}"
         return ', '.join(colored_results)
-
-    def select_die_to_reroll(self):
-        # Example method to select a die to reroll. This might involve user input or other logic in a full implementation.
-        return 0  # Simplified example: always selects the first die
 
     def update_threshold_from_input(self):
         input_value = input("Enter new threshold (press Enter to keep current): ").strip()
@@ -190,10 +198,6 @@ class SuccessTest(Dice):
                 except ValueError:
                     print("Invalid input. Please enter a valid number.")
 
-        def main():
-            dice_rolls = validate_and_parse_dice_input()
-            print(f"Dice Rolls: {dice_rolls}")
-            # Continue with using dice_rolls for all calculations
 
 if __name__ == "__main__":
     test = SuccessTest(edge_stashed=3)  # Assume the user has 3 edge points available
