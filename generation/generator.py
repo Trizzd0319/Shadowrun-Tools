@@ -1,85 +1,28 @@
 import json
-import tkinter
-from tkinter import Tk, Frame, Button, Label, Entry, ttk, Canvas, Scrollbar, VERTICAL, IntVar, filedialog, Text, NORMAL, \
-    END, DISABLED, Listbox, WORD
+from tkinter import Tk, Frame, Button, Label, Entry, ttk, Canvas, Scrollbar, VERTICAL, IntVar, filedialog
 
 import pandas as pd
 
 
 class CharacterBuilderGUI:
-    def __init__(self, root, qualities_frame=None):
-        self.combined_qualities_label = Label(qualities_frame, text="Confirmed Qualities: None")
-        self.combined_qualities_label.pack(pady=10)  # Adjust padding as needed
-        self.karma_available = 50  # Or whatever your starting karma is
-        # Initialize as Labels instead of lists
-        self.confirmed_positive_qualities = []
-        self.confirmed_negative_qualities = []
-        initial_values = [0, 0, 0, 0, 0, 0, 0, 0, 50, 3]  # Default values for attributes, with Karma=50 and Edge=3
+    def __init__(self, root):
+        self.root = root
+        self.attributes_priority_label = None  # Placeholder for the dynamic label
+        self.magic_priority_label = None  # Placeholder for the dynamic label
+        self.metatype_priority_label = None  # Placeholder for the dynamic label
+        self.resources_priority_label = None  # Placeholder for the dynamic label
+        self.skills_priority_label = None  # Placeholder for the dynamic label
+        self.attributes_priority_points = 0  # Current available points
+        self.initial_attributes_priority_points = 0  # Initial points from priority selection
+        self.skills_priority_points = 0  # Initialize in __init__
+        self.total_karma = 50  # Assuming 50 is the starting total karma
+        # Initial values for attributes (including Karma and Edge)
+        initial_values = [0] * 8 + [50, 3]  # 8 attributes set to 0, Karma to 50, Edge to 3
         self.attributes_df = pd.DataFrame({
             'Attribute': ['Body', 'Agility', 'Reaction', 'Strength', 'Willpower', 'Logic', 'Intuition', 'Charisma',
                           'Karma', 'Edge'],
             'LevelVar': [IntVar(value=val) for val in initial_values]
         })
-        self.attributes_priority_label = None  # Placeholder for the dynamic label
-        self.attributes_priority_points = 0  # Current available points
-        self.ears_memo = None
-        self.height_combobox = None
-        self.initial_attributes_priority_points = 0  # Initial points from priority selection
-        self.known_for_memo = None
-        self.magic_priority_label = None  # Placeholder for the dynamic label
-        self.metatype_attributes = {
-            "Metatype": ["Human", "Dwarf", "Elf", "Ork", "Troll"],
-            "Body_min": [1, 1, 1, 1, 1],
-            "Body_max": [6, 7, 6, 8, 9],
-            "Agility_min": [1, 1, 1, 1, 1],
-            "Agility_max": [6, 6, 7, 6, 5],
-            "Reaction_min": [1, 1, 1, 1, 1],
-            "Reaction_max": [6, 5, 6, 6, 6],
-            "Strength_min": [1, 1, 1, 1, 1],
-            "Strength_max": [6, 8, 6, 8, 9],
-            "Willpower_min": [1, 1, 1, 1, 1],
-            "Willpower_max": [6, 7, 6, 6, 6],
-            "Logic_min": [1, 1, 1, 1, 1],
-            "Logic_max": [6, 6, 6, 6, 6],
-            "Intuition_min": [1, 1, 1, 1, 1],
-            "Intuition_max": [6, 6, 6, 6, 6],
-            "Charisma_min": [1, 1, 1, 1, 1],
-            "Charisma_max": [6, 6, 8, 5, 5],
-            "Edge_min": [1, 1, 1, 1, 1],
-            "Edge_max": [7, 6, 6, 6, 6]
-        }
-        self.metatype_combobox = None
-        self.metatype_data = {
-            "Metatype": ["Dwarf", "Elf", "Human", "Ork", "Troll"],
-            "Ears": [
-                "Slightly pointy",
-                "Pointy",
-                "Rounded",
-                "Pointy",
-                "Slightly pointy, often hidden by horns"
-            ],
-            "Known for": [
-                "Short size; stocky build; perseverance",
-                "Slender, lithe build; being attractive and knowing it",
-                "Average size; average build; freaking out about people who don’t meet their averages",
-                "Big, powerful physique; tusks; constantly being seen as outsiders",
-                "Being so big, you guys. Just huge. And horns."
-            ],
-            "Description": [
-                "Often accepted into mainstream society without being fully valued.",
-                "Prosperous nations, powerful positions, celebrities.",
-                "Majority of sentient beings, create definitions of 'normal'.",
-                "Make people nervous, kept from building collective strength.",
-                "Imposing, difficult to assimilate due to physical differences."
-            ],
-            "Average Height (feet)": [3.94, 6.23, 5.74, 6.23, 8.20],
-            "Average Weight (pounds)": [119.05, 176.37, 171.96, 282.19, 661.39],
-            "Quality #1": ["Thermographic Vision", "Low-Light Vision", "", "Low-Light Vision", "Thermographic Vision"],
-            "Quality #2": ["Toxin Resistance", "", "", "Built Tough 1", "Built Tough 1"],
-            "Quality #3": ["", "", "", "", "Dermal Deposits"],
-        }
-        self.negative_qualities_frame = None
-        self.positive_qualities_frame = None
         self.priority = {
             'PRIORITY': ['A', 'B', 'C', 'D', 'E'],
             'RACES': ['Dwarf, Ork, Troll (13)', 'Dwarf, Elf, Ork, Troll (11)', 'Dwarf, Elf, Human, Ork, Troll (9)',
@@ -94,6 +37,7 @@ class CharacterBuilderGUI:
                 'Mundane'],
             'RESOURCES': ['450,000¥', '275,000¥', '150,000¥', '50,000¥', '8,000¥']
         }
+        self.qualities_df = pd.read_csv('qualities.csv')
         self.priority_dict = {
             'PRIORITY': ['A', 'B', 'C', 'D', 'E'],
             'ATTRIBUTES': [24, 16, 12, 8, 2],
@@ -103,19 +47,105 @@ class CharacterBuilderGUI:
             'MAGIC OR RESONANCE': [0, 0, 0, 0, 0]
             # Add other priority information as needed
         }
-        self.qualities = pd.read_csv('qualities.csv')
-        self.racial_quality_labels = []  # Initialize the list for racial quality labels
-        self.racial_qualities_memo = None
-        self.resources_priority_label = None  # Placeholder for the dynamic label
-        self.root = root
-        self.skills_priority_label = None  # Placeholder for the dynamic label
-        self.skills_priority_points = 0  # Initialize in __init__
-        self.total_karma = 50  # Assuming 50 is the starting total karma
-        self.weight_combobox = None
+        skills_attributes = {
+            "Astral (Int/Will)": {
+                "Attributes-Primary": "Intuition",
+                "Attributes-Secondary": "Willpower",
+                "Description": "Astral skills govern the ability to perceive and interact with the astral plane, relying on Intuition for awareness and Willpower for mental defense."
+            },
+            "Athletics (Agi/Str)": {
+                "Attributes-Primary": "Agility",
+                "Attributes-Secondary": "Strength",
+                "Description": "Athletics encompasses physical activities that require Agility for coordination and movement, and Strength for power."
+            },
+            "Biotech (Log/Int)": {
+                "Attributes-Primary": "Logic",
+                "Attributes-Secondary": "Intuition",
+                "Description": "Biotech involves the application of medical knowledge and technology, using Logic for understanding complex systems and Intuition for diagnostic processes."
+            },
+            "Close Combat (Agi)": {
+                "Attributes-Primary": "Agility",
+                "Attributes-Secondary": "Strength",
+                "Description": "Close Combat skills determine proficiency in melee fighting, primarily requiring Agility for quick movements and Strength for forceful strikes."
+            },
+            "Con (Cha)": {
+                "Attributes-Primary": "Charisma",
+                "Attributes-Secondary": "Logic",
+                "Description": "Con skills revolve around deception and persuasion, with Charisma aiding in convincing others and Logic for constructing believable lies."
+            },
+            "Conjuring (Mag)": {
+                "Attributes-Primary": "Magic",
+                "Attributes-Secondary": "Willpower",
+                "Description": "Conjuring allows the summoning of spirits or magical entities, relying on Magic ability and supported by the caster's Willpower."
+            },
+            "Cracking (Log)": {
+                "Attributes-Primary": "Logic",
+                "Attributes-Secondary": "Intuition",
+                "Description": "Cracking skills are used for hacking and bypassing security systems, requiring Logic to solve puzzles and Intuition to anticipate system behavior."
+            },
+            "Electronics (Log)": {
+                "Attributes-Primary": "Logic",
+                "Attributes-Secondary": "Intuition",
+                "Description": "Electronics involve working with complex gadgets, where Logic is used for understanding circuitry and Intuition for troubleshooting."
+            },
+            "Enchanting (Mag)": {
+                "Attributes-Primary": "Magic",
+                "Attributes-Secondary": "Logic",
+                "Description": "Enchanting is the art of imbuing objects with magical properties, primarily using Magic and Logic to understand magical theory."
+            },
+            "Engineering (Log/Int)": {
+                "Attributes-Primary": "Logic",
+                "Attributes-Secondary": "Intuition",
+                "Description": "Engineering skills cover the design and maintenance of machinery, demanding Logic for technical knowledge and Intuition for innovative solutions."
+            },
+            "Exotic Weapons (Agi)": {
+                "Attributes-Primary": "Agility",
+                "Attributes-Secondary": "Logic",
+                "Description": "Handling exotic weapons requires Agility for precision and Logic for understanding unconventional mechanisms."
+            },
+            "Firearms (Agi)": {
+                "Attributes-Primary": "Agility",
+                "Attributes-Secondary": "Intuition",
+                "Description": "Proficiency with firearms depends on Agility for aiming and Intuition for timing and situational awareness."
+            },
+            "Influence (Cha/Log)": {
+                "Attributes-Primary": "Charisma",
+                "Attributes-Secondary": "Logic",
+                "Description": "Influence skills involve swaying others through negotiation, leveraging Charisma to appeal emotionally and Logic to argue convincingly."
+            },
+            "Outdoors (Int)": {
+                "Attributes-Primary": "Intuition",
+                "Attributes-Secondary": "Strength",
+                "Description": "Outdoor skills require Intuition for navigation and environmental awareness, supported by physical Strength for endurance."
+            },
+            "Perception (Int/Log)": {
+                "Attributes-Primary": "Intuition",
+                "Attributes-Secondary": "Logic",
+                "Description": "Perception covers the ability to notice details and clues, using Intuition for gut feelings and Logic for piecing together information."
+            },
+            "Piloting (Rea)": {
+                "Attributes-Primary": "Reaction",
+                "Attributes-Secondary": "Agility",
+                "Description": "Piloting vehicles demands quick Reaction to handle dynamic situations and Agility for precise control."
+            },
+            "Sorcery (Mag)": {
+                "Attributes-Primary": "Magic",
+                "Attributes-Secondary": "Willpower",
+                "Description": "Sorcery encompasses casting spells, requiring a strong Magic foundation and Willpower to control the magical energies."
+            },
+            "Stealth (Agi)": {
+                "Attributes-Primary": "Agility",
+                "Attributes-Secondary": "Intuition",
+                "Description": "Stealth involves moving unseen and unheard, relying on Agility for silent movements and Intuition for avoiding detection."
+            },
+            "Tasking (Res)": {
+                "Attributes-Primary": "Resonance",
+                "Attributes-Secondary": "Logic",
+                "Description": "Tasking in the context of technomancy involves using Resonance to interface with technology and Logic to manipulate complex systems."
+            }
+        }
 
-        # To dynamically include all skills from your DataFrame into this dictionary, you'd typically fetch these
-        # mappings from a database or an external file that defines these relationships, as hardcoding them (as done
-        # here) might not be scalable or easy to maintain for a large number of skills.
+        # To dynamically include all skills from your DataFrame into this dictionary, you'd typically fetch these mappings from a database or an external file that defines these relationships, as hardcoding them (as done here) might not be scalable or easy to maintain for a large number of skills.
 
         # Skills initialization
         skills = ["Astral (Int/Will)", "Athletics (Agi/Str)", "Biotech (Log/Int)", "Close Combat (Agi)",
@@ -130,7 +160,6 @@ class CharacterBuilderGUI:
         })
         self.character_creation = True  # Flag to indicate if it's character creation phase
         # Extract attributes and their levels
-        self.racial_quality_labels = []  # Initialize the list for racial quality labels
         attributes = {
             row['Attribute']: row['LevelVar'].get()
             for _, row in self.attributes_df.iterrows()
@@ -161,15 +190,6 @@ class CharacterBuilderGUI:
 
         # Scrollable Area Setup
         self.create_scrollable_area()
-
-        # Create the qualities frame here
-        qualities_frame = Frame(self.scrollable_frame)
-        qualities_frame.pack(pady=10, expand=True, fill="both")
-
-        # Now you can safely initialize racial_quality_labels with Labels in qualities_frame
-        self.racial_quality_labels = [Label(qualities_frame, text="") for _ in range(3)]
-        for label in self.racial_quality_labels:
-            label.pack(side="left")
 
         # Sections Creation
         self.create_sections()
@@ -302,8 +322,8 @@ class CharacterBuilderGUI:
             #     self.create_ids_selection_section()
             # if section == "Core Combat Info":
             #     self.create_core_combat_selection_section()
-            if section == "Qualities":
-                self.create_qualities_section()  # Call to create the Racial Qualities section
+            # if section == "Qualities":
+            #     self.create_priority_selection_section()
             # if section == "Contacts":
             #     self.create_contacts_selection_section()
             # if section == "Weapons, Ranged":
@@ -515,106 +535,17 @@ class CharacterBuilderGUI:
         Label(player_info_frame, text="Notes").grid(row=1, column=0, padx=5, pady=5)
         Entry(player_info_frame).grid(row=1, column=1, padx=5, pady=5)
 
-    def calculate_range_for_height(self, average, percentage):
-        start = average * (1 - percentage)
-        end = average * (1 + percentage)
-        start_inches = int(start * 12)
-        end_inches = int(end * 12)
-        range_values = [f"{inches // 12}' {inches % 12}\"" for inches in range(start_inches, end_inches + 1)]
-        print(f"Height Options: {range_values}")
-        return range_values
-
-    def calculate_range_for_weight(self, average, percentage):
-        start = average * (1 - percentage)
-        end = average * (1 + percentage)
-        range_values = [f"{lbs} lbs" for lbs in range(int(start), int(end) + 1)]
-        print(f"Weight Options: {range_values}")
-        return range_values
-
-    def setup_personal_info_label(self, frame, label_text, row):
-        info_label = Label(frame, text="", width=50, anchor="w")  # Width can be adjusted as needed
-        Label(frame, text=label_text).grid(row=row, column=0, padx=5, pady=5)
-        info_label.grid(row=row, column=1, padx=5, pady=5, sticky="W")
-        return info_label
-
     def create_personal_section(self):
-        personal_frame = Frame(self.scrollable_frame)
-        personal_frame.pack(fill='x', padx=10, pady=5)
+        personal_info_frame = Frame(self.scrollable_frame, bd=1, relief="solid")
+        personal_info_frame.pack(fill='x', padx=10, pady=5, expand=True)
 
-        # Metatype combobox setup
-        Label(personal_frame, text="Metatype:").grid(row=0, column=0, padx=5, pady=5)
-        self.metatype_combobox = ttk.Combobox(personal_frame, state="readonly", values=self.metatype_data['Metatype'])
-        self.metatype_combobox.grid(row=0, column=1, padx=5, pady=5)
-        self.metatype_combobox.bind("<<ComboboxSelected>>", self.update_personal_section_based_on_metatype)
-        # Add the following line to also update racial qualities when a new metatype is selected
-        self.metatype_combobox.bind("<<ComboboxSelected>>", self.update_racial_qualities)
+        Label(personal_info_frame, text="Player Name").grid(row=0, column=0, padx=5, pady=5)
+        Entry(personal_info_frame).grid(row=0, column=1, padx=5, pady=5)
 
-        # Setup for Ears, Known for, and Description labels
-        self.ears_label = self.setup_personal_info_label(personal_frame, "Ears:", 1)
-        self.known_for_label = self.setup_personal_info_label(personal_frame, "Known for:", 2)
-        self.description_label = self.setup_personal_info_label(personal_frame, "Description:", 3)
-
-        # Height and Weight combobox setup
-        self.height_combobox = ttk.Combobox(personal_frame, state="readonly")
-        self.weight_combobox = ttk.Combobox(personal_frame, state="readonly")
-        Label(personal_frame, text="Height:").grid(row=1, column=2, padx=5, pady=5)
-        self.height_combobox.grid(row=1, column=3, padx=5, pady=5)
-        Label(personal_frame, text="Weight:").grid(row=2, column=2, padx=5, pady=5)
-        self.weight_combobox.grid(row=2, column=3, padx=5, pady=5)
-
-    def update_personal_section_based_on_metatype(self, event=None):
-        metatype_selection = self.metatype_combobox.get()
-        metatype_index = self.metatype_data["Metatype"].index(metatype_selection)
-
-        # Update Ears, Known for, and Description labels
-        self.ears_label.config(text=self.metatype_data['Ears'][metatype_index])
-        self.known_for_label.config(text=self.metatype_data['Known for'][metatype_index])
-        self.description_label.config(text=self.metatype_data['Description'][metatype_index])
-
-        # Update Quality labels
-        for i, quality_label in enumerate(self.racial_quality_labels, start=1):
-            quality_text = self.metatype_data[f"Quality #{i}"][metatype_index]
-            quality_label.config(text=quality_text or "N/A")  # Use "N/A" or similar if the quality is empty
-
-        # Update height and weight comboboxes as previously shown
-        height_range = self.calculate_range_for_height(self.metatype_data['Average Height (feet)'][metatype_index], 0.1)
-        weight_range = self.calculate_range_for_weight(self.metatype_data['Average Weight (pounds)'][metatype_index],
-                                                       0.1)
-        self.height_combobox['values'] = height_range
-        self.weight_combobox['values'] = weight_range
-        if height_range:
-            self.height_combobox.set(height_range[0])
-        if weight_range:
-            self.weight_combobox.set(weight_range[0])
-
-        # Updating attribute maximum values
-        self.update_attribute_max_values(metatype_selection)
-        # Update racial qualities based on the selected metatype
-        self.update_racial_qualities(metatype_selection)
-
-
-
-    def update_attribute_max_values(self, metatype):
-        metatype_index = self.metatype_data["Metatype"].index(metatype)
-
-        for attribute_name in ['Body', 'Agility', 'Reaction', 'Strength', 'Willpower', 'Logic', 'Intuition', 'Charisma',
-                               'Edge']:
-            max_value = self.metatype_attributes[f"{attribute_name}_max"][metatype_index]
-
-            # Check if the attribute_label exists in the dictionary and update it
-            if attribute_name in self.attribute_labels:
-                self.attribute_labels[attribute_name].config(text=f"{attribute_name} (Max: {max_value})")
-            else:
-                print(f"Label for {attribute_name} not found")  # For debugging purposes
-
-    def update_memo_box(self, memo_box, text):
-        memo_box.config(state=NORMAL)
-        memo_box.delete('1.0', END)
-        memo_box.insert('1.0', text)
-        memo_box.config(state=DISABLED)
+        Label(personal_info_frame, text="Notes").grid(row=1, column=0, padx=5, pady=5)
+        Entry(personal_info_frame).grid(row=1, column=1, padx=5, pady=5)
 
     def create_attributes_section(self):
-        self.attribute_labels = {}  # Initialize a dictionary to hold references to the attribute labels
         attributes_frame = Frame(self.scrollable_frame, bd=1, relief="solid")
         attributes_frame.pack(fill='both', expand=True, padx=10, pady=5)
 
@@ -628,16 +559,12 @@ class CharacterBuilderGUI:
         row = 1  # Start from the second row due to the title label
 
         for i, attribute_row in enumerate(self.attributes_df.itertuples()):
-            attribute_name = attribute_row.Attribute
             column_offset = (i % attributes_per_row) * 4  # Space for Attribute Name, -, Level, +
 
             attribute_name = attribute_row.Attribute
             level_var = attribute_row.LevelVar
 
-            # Create and store a reference to the attribute label including its max value
-            attribute_label = Label(attributes_frame, text=f"{attribute_name} (Max: N/A)")
-            attribute_label.grid(row=row, column=column_offset, padx=5, pady=5)
-            self.attribute_labels[attribute_name] = attribute_label
+            Label(attributes_frame, text=attribute_name).grid(row=row, column=column_offset, padx=5, pady=5)
             Label(attributes_frame, textvariable=level_var, width=5).grid(row=row, column=column_offset + 1, padx=5,
                                                                           pady=5)
             decrement_button = Button(attributes_frame, text="-",
@@ -689,19 +616,14 @@ class CharacterBuilderGUI:
         self.skills_priority_label = Label(skills_frame, text="Priority: ")
         self.skills_priority_label.grid(row=0, column=4, padx=10, pady=5, sticky='w')
 
+
     # Function to get the priority value based on priority level
     def get_priority_value(self, category, selected_priority):
         """Retrieve the priority value for a given category based on the selected priority level."""
         if selected_priority not in self.priority_dict['PRIORITY']:
             return "Select Priority"  # Or another placeholder value indicating no valid selection
 
-        # Adjust the key for metatype-related information if the category is 'Metatype'
-        if category == "Metatype":
-            category_key = 'RACES'  # Use 'RACES' as the key for metatype information
-        else:
-            category_key = category.upper()  # Categories in priority_dict are uppercase
-
-        priority_values = self.priority_dict[category_key]  # Access the correct entry
+        priority_values = self.priority_dict[category.upper()]  # Categories in priority_dict are uppercase
         priority_index = self.priority_dict['PRIORITY'].index(selected_priority)
         return priority_values[priority_index]
 
@@ -755,112 +677,31 @@ class CharacterBuilderGUI:
         # Update the label with the priority value
         self.skills_priority_label.config(text="Priority: " + str(priority_value))
 
-    def update_racial_qualities(self, event=None):  # Adjusted to optionally accept an event argument
-        metatype_selection = self.metatype_combobox.get()
-        if metatype_selection:
-            metatype_index = self.metatype_data["Metatype"].index(metatype_selection)
-            racial_qualities = [
-                self.metatype_data["Quality #1"][metatype_index],
-                self.metatype_data["Quality #2"][metatype_index],
-                self.metatype_data["Quality #3"][metatype_index],
-            ]
-
-            # Ensure you don't exceed the bounds of the racial_quality_labels list
-            for i, quality in enumerate(racial_qualities):
-                if i < len(self.racial_quality_labels):
-                    self.racial_quality_labels[i].config(text=quality or "N/A")  # Handle empty or None quality
-                else:
-                    break  # Exit loop if there are more qualities than labels
-
-    def update_quality_comboboxes(self, updated=None):
-        # Gather all qualities
-        positive_qualities = self.qualities[self.qualities['Type'] == 'Positive']['Quality'].tolist()
-        negative_qualities = self.qualities[self.qualities['Type'] == 'Negative']['Quality'].tolist()
-
-        # Find what's currently selected
-        selected_positive = self.positive_qualities_cb.get()
-        selected_negative = self.negative_qualities_cb.get()
-
-        # Update combobox options based on what's selected
-        if updated == 'positive' and selected_positive in negative_qualities:
-            negative_qualities.remove(selected_positive)
-        elif updated == 'negative' and selected_negative in positive_qualities:
-            positive_qualities.remove(selected_negative)
-
-        self.positive_qualities_cb['values'] = positive_qualities
-        self.negative_qualities_cb['values'] = negative_qualities
-
-        # Restore selected values if still valid
-        if selected_positive in positive_qualities:
-            self.positive_qualities_cb.set(selected_positive)
-        if selected_negative in negative_qualities:
-            self.negative_qualities_cb.set(selected_negative)
-
-    def create_qualities_section(self):
-        qualities_frame = Frame(self.scrollable_frame)
-        qualities_frame.pack(pady=10, expand=True, fill="both")
-
-        # Creating the memo box for displaying descriptions
-        self.description_memo_box = Text(qualities_frame, height=10, width=50, state=DISABLED)
-        self.description_memo_box.pack(side="left", padx=5)
-
-        # Initialize comboboxes for positive and negative qualities
-        self.positive_qualities_cb = ttk.Combobox(qualities_frame, state="readonly")
-        self.negative_qualities_cb = ttk.Combobox(qualities_frame, state="readonly")
-
-        # Fill comboboxes with initial values
-        self.update_quality_comboboxes()
-
-        self.positive_qualities_cb.pack(side="left", fill="y", expand=True, padx=5)
-        self.negative_qualities_cb.pack(side="left", fill="y", expand=True, padx=5)
-
-        # Bind the selection event to update available options
-        self.positive_qualities_cb.bind("<<ComboboxSelected>>", lambda e: self.update_quality_comboboxes('positive'))
-        self.negative_qualities_cb.bind("<<ComboboxSelected>>", lambda e: self.update_quality_comboboxes('negative'))
-
-        # Confirm button to finalize the selection of qualities
-        confirm_btn = Button(qualities_frame, text="Confirm Qualities", command=self.confirm_qualities_selection)
-        confirm_btn.pack(side="left", pady=5)
-
-        # Label to display the selected qualities and karma counter
-        self.selected_qualities_label = Label(qualities_frame, text="Selected Qualities: None")
-        self.selected_qualities_label.pack(side="left", pady=5)
-
-        self.karma_counter_label = Label(qualities_frame, text=f"Karma Available: {self.karma_available}")
-        self.karma_counter_label.pack(side="left", pady=5)
-
-    def update_memo_box_with_description(self, event):
-        # Fetch the widget that triggered the event
-        w = event.widget
-        # Determine if any item is selected
-        if len(w.curselection()) > 0:
-            index = int(w.curselection()[0])
-            quality_name = w.get(index)
-            # Fetch the description from the qualities DataFrame
-            description = self.qualities.loc[self.qualities['Quality'] == quality_name, 'Description'].values[0]
-            # Update the memo box with the description
-            self.description_memo_box.config(state=NORMAL)
-            self.description_memo_box.delete('1.0', END)
-            self.description_memo_box.insert('1.0', description)
-            self.description_memo_box.config(state=DISABLED)
-
-    def confirm_qualities_selection(self):
-        # Handle the logic to confirm selections and update karma.
-        # This is a placeholder for the selection confirmation logic.
-        # You would include here the logic for updating confirmed qualities and the karma counter,
-        # similar to the outline provided in the previous instructions.
-
-        # Example placeholder for updating the label:
-        self.karma_counter_label.config(text='Karma Available: Updated Value')
-
-        # Example for retrieving selected qualities:
-        selected_positives = [self.positive_qualities_lb.get(i) for i in self.positive_qualities_lb.curselection()]
-        selected_negatives = [self.negative_qualities_lb.get(i) for i in self.negative_qualities_lb.curselection()]
-
-        # Example for updating confirmed qualities and calculating karma -- you'd replace this with your actual logic:
-        print("Selected Positive Qualities:", selected_positives)
-        print("Selected Negative Qualities:", selected_negatives)
-        # Here, you would invoke your karma calculation method, like update_karma_available()
+    # def update_comboboxes(self, event):
+    #     # Identifying which combobox was updated
+    #     updated_combobox = event.widget
+    #     updated_category = None
+    #     for category, combobox in self.comboboxes.items():
+    #         if combobox == updated_combobox:
+    #             updated_category = category
+    #             break
+    #
+    #     # Updating all comboboxes to reflect current selections and prevent duplicates
+    #     current_selections = [combobox.get() for combobox in self.comboboxes.values() if
+    #                           combobox.get() != "Select Priority"]
+    #     available_choices = [choice for choice in self.priority_choices if choice not in current_selections]
+    #
+    #     for combobox in self.comboboxes.values():
+    #         current_value = combobox.get()
+    #         combobox['values'] = ["Select Priority"] + available_choices
+    #         if current_value in self.priority_choices:
+    #             combobox.set(current_value)
+    #
+    #     # Update the appropriate priority label based on the combobox that was updated
+    #     if updated_category == "Attributes":
+    #         self.attributes_priority_label.config(text=f"Priority: {updated_combobox.get()}")
+    #     elif updated_category == "Skills":
+    #         self.skills_priority_label.config(text=f"Priority: {updated_combobox.get()}")
 
     def update_comboboxes(self, event):
         """Update combobox selections and handle priority value display for all categories."""
@@ -883,8 +724,6 @@ class CharacterBuilderGUI:
             elif updated_category == "Skills":
                 self.skills_priority_label.config(text=f"{priority_value}")
             # Add similar elif blocks for other categories if they have dedicated labels for displaying priority values
-        if updated_category == "Metatype":
-            self.update_metatype_options()
 
     def reset_form(self):
         # Reset attributes to their initial values, with Karma as 50 and Edge as 3
@@ -899,57 +738,6 @@ class CharacterBuilderGUI:
         # Reset priority comboboxes to "Select Priority"
         for combobox in self.comboboxes.values():  # Make sure to use .values() to access the combobox widgets
             combobox.set("Select Priority")
-
-    def update_metatype_options(self):
-        priority = self.comboboxes["Metatype"].get()
-        if priority == "A":
-            options = ['Troll', 'Ork', 'Dwarf']
-        elif priority == "B":
-            options = ['Ork', 'Dwarf', 'Elf']
-        elif priority == "C":
-            options = ['Elf', 'Dwarf', 'Human']
-        elif priority == "D":
-            options = ['Human', 'Dwarf']
-        else:  # priority == "E"
-            options = ['Human']
-
-        self.metatype_combobox['values'] = options
-        if options:
-            self.metatype_combobox.set(options[0])
-        else:
-            self.metatype_combobox.set('')
-
-    def update_karma_available(self):
-        # Calculate the total karma cost of confirmed positive qualities
-        total_positive_cost = sum(
-            self.qualities.loc[self.qualities['Quality'] == q, 'Cost'].values[0] * 2
-            for q in self.confirmed_positive_qualities
-        )
-
-        # Calculate the total karma gain from confirmed negative qualities, capped at 25
-        total_negative_gain = sum(
-            -self.qualities.loc[self.qualities['Quality'] == q, 'Cost'].values[0]
-            for q in self.confirmed_negative_qualities
-        )
-        total_negative_gain = min(total_negative_gain, 25)  # Cap the gain at 25 karma
-
-        # Calculate the net karma impact
-        net_karma_change = total_negative_gain - total_positive_cost
-
-        # Find the index in the DataFrame for the 'Karma' attribute
-        karma_index = self.attributes_df[self.attributes_df['Attribute'] == 'Karma'].index
-
-        # Calculate the new karma value ensuring it doesn't drop below zero
-        new_karma_value = max(0, self.attributes_df.loc[karma_index, 'LevelVar'].values[0] + net_karma_change)
-
-        # Update the DataFrame with the new karma value
-        self.attributes_df.at[karma_index, 'LevelVar'].values[0] = new_karma_value
-
-        # Print the new karma value to the terminal for verification
-        print(f"Updated Karma Value: {new_karma_value}")
-
-        # Assuming you have a label that displays the current karma, update it to reflect the new value
-        self.karma_label.config(text=f"Karma: {new_karma_value}")
 
     # Reset any other stateful GUI elements here
 
