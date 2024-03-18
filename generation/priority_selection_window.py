@@ -1,28 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
+from variables import priority_data
 
 
 class PrioritySelectionWindow:
-    priority_data = {
-        'A': {'Metatype': 'Dwarf, Ork, Troll (13)', 'Attributes': 24, 'Skills': 32,
-              'Magic/Resonance': 'Full: 4 Magic, Aspected: 5 Magic, Mystic Adept: 4 Magic, Adept: 4 Magic, Technomancer: 4 Resonance',
-              'Resources': '450,000'},
-        'B': {'Metatype': 'Dwarf, Elf, Ork, Troll (11)', 'Attributes': 16, 'Skills': 24,
-              'Magic/Resonance': 'Full: 3 Magic, Aspected: 4 Magic, Mystic Adept: 3 Magic, Adept: 3 Magic, Technomancer: 3 Resonance',
-              'Resources': '275,000'},
-        'C': {'Metatype': 'Dwarf, Elf, Human, Ork, Troll (9)', 'Attributes': 12, 'Skills': 20,
-              'Magic/Resonance': 'Full: 2 Magic, Aspected: 3 Magic, Mystic Adept: 2 Magic, Adept: 2 Magic, Technomancer: 2 Resonance',
-              'Resources': '150,000'},
-        'D': {'Metatype': 'Dwarf, Elf, Human, Ork, Troll (4)', 'Attributes': 8, 'Skills': 16,
-              'Magic/Resonance': 'Full: 1 Magic, Aspected: 2 Magic, Mystic Adept: 1 Magic, Adept: 1 Magic, Technomancer: 1 Resonance',
-              'Resources': '50,000'},
-        'E': {'Metatype': 'Dwarf, Elf, Human, Ork, Troll (1)', 'Attributes': 2, 'Skills': 10,
-              'Magic/Resonance': 'Mundane', 'Resources': '8,000'}
-    }
-
     def __init__(self, parent, callback):
         self.parent = parent
         self.callback = callback
+        self.root = None
 
         # Create Tkinter window
         self.root = tk.Toplevel(parent)
@@ -30,7 +15,8 @@ class PrioritySelectionWindow:
 
         # Sample data
         self.priorities = ['A', 'B', 'C', 'D', 'E']
-        self.options = ['Metatype', 'Attributes', 'Skills', 'Magic/Resonance', 'Resources']
+        self.options = ['Attributes', 'Skills', 'Magic/Resonance', 'Resources', 'Races']
+        self.options.sort()  # Sort the options alphabetically
 
         # Dictionary to store dropdowns and labels
         self.dropdowns = {}
@@ -45,7 +31,9 @@ class PrioritySelectionWindow:
             ttk.Label(self.root, text=f"Priority {priority}:").grid(row=i + 1, column=0, padx=10, pady=5, sticky='e')
             self.dropdowns[priority] = ttk.Combobox(self.root, values=self.options, state="readonly")
             self.dropdowns[priority].grid(row=i + 1, column=1, padx=10, pady=5, sticky='w')
-            self.dropdowns[priority].bind("<<ComboboxSelected>>", lambda event, index=i, priority=priority: self.handle_dropdown_selection(event, index, priority))
+            self.dropdowns[priority].bind("<<ComboboxSelected>>",
+                                          lambda event, index=i, priority=priority: self.handle_dropdown_selection(
+                                              event, index, priority))
             self.labels[priority] = ttk.Label(self.root, text="")
             self.labels[priority].grid(row=i + 1, column=2, padx=10, pady=5, sticky='w')
 
@@ -54,16 +42,34 @@ class PrioritySelectionWindow:
         self.display_data_label.grid(row=len(self.priorities) + 1, column=0, columnspan=3, padx=10, pady=10)
 
         # Button to confirm selections
-        self.confirm_button = ttk.Button(self.root, text="Confirm Selections", command=self.print_selected_options, state='disabled')
+        self.confirm_button = ttk.Button(self.root, text="Confirm Selections", command=self.print_selected_options,
+                                         state='disabled')
         self.confirm_button.grid(row=len(self.priorities) + 2, column=0, columnspan=3, padx=10, pady=10)
 
         # Button to reset options
         self.reset_button = ttk.Button(self.root, text="Reset Options", command=self.reset_options)
         self.reset_button.grid(row=len(self.priorities) + 3, column=0, columnspan=3, padx=10, pady=10)
 
+        # Dictionary to track selected options
+        self.selected_options = {}
+
     def handle_dropdown_selection(self, event, index, priority):
         selected_option = event.widget.get()
-        self.labels[priority].config(text=self.priority_data[priority][selected_option])
+
+        # Remove the selected option from other dropdowns
+        for p, dropdown in self.dropdowns.items():
+            if p != priority:
+                values = list(dropdown["values"])
+                if selected_option in values:
+                    values.remove(selected_option)
+                    dropdown["values"] = values
+
+                other_option = dropdown.get()
+                if other_option == selected_option:
+                    dropdown.set('')
+                    self.labels[p].config(text='')
+
+        self.labels[priority].config(text=priority_data[priority][selected_option])
         self.enable_confirm_button()
 
     def enable_confirm_button(self):
@@ -73,18 +79,30 @@ class PrioritySelectionWindow:
     def print_selected_options(self):
         selected_priority_options = {priority: self.dropdowns[priority].get() for priority in self.priorities}
         print(selected_priority_options)
-        # ccw = CharacterCreationOptionsWindow(self.parent, selected_priority_options)
-        # ccw.create_labels()
 
         self.callback(selected_priority_options)
 
         self.root.destroy()
 
     def reset_options(self):
+        # Clear the selection options array
+        self.selection_options = {}
+
+        # Reset the dropdowns and labels
         for priority in self.priorities:
             self.dropdowns[priority].set('')
             self.labels[priority].config(text='')
-        self.enable_confirm_button()
+            self.dropdowns[priority]["values"] = self.options
+
+    def confirm_selection(self):
+        selected_options = {}
+        for priority, dropdown in self.dropdowns.items():
+            selected_options[priority] = dropdown.get()
+        self.callback(selected_options)  # Call the callback function with selected options
+        self.root.destroy()
+
+        # Disable the confirm button
+        self.confirm_button['state'] = 'disabled'
 
 
 # Example usage

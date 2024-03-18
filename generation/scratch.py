@@ -1,181 +1,356 @@
-from tkinter import Tk, Frame, Button, Label, ttk, Canvas, Scrollbar, VERTICAL, IntVar
+import tkinter as tk
+from tkinter import ttk
+import json
+from tkinter import filedialog
+from priority_selection_window import PrioritySelectionWindow
+from metatype_selection_window import MetatypeSelectionWindow
+from variables import priority_data
 
-import pandas as pd
 
-
-class CharacterBuilderGUI:
-    def __init__(self, root):
-        self.root = root
-        self.attributes_priority_label = None
-        self.skills_priority_label = None
-        self.priority_dict = {
-            'PRIORITY': ['A', 'B', 'C', 'D', 'E'],
-            'ATTRIBUTES': [24, 16, 12, 8, 2],
-            'SKILLS': [32, 24, 20, 16, 10],
-            'RESOURCES': [450000, 275000, 150000, 50000, 8000],
-            'MAGIC OR RESONANCE': [0, 0, 0, 0, 0]
+class CharacterCreationOptionsWindow:
+    def __init__(self, parent, callback, priority_data):
+        self.master = None
+        self.reset_variables = None
+        self.divider = None
+        self.reset_button = None
+        self.adjustment_points_button = None
+        self.parent = parent
+        self.callback = callback
+        self.priority_data = priority_data
+        self.ui_components = {
+            "attributes": {},
+            "details": {},
+            "priorities": {},
+            "skills": {}
         }
-        self.create_initial_data()
-        self.setup_ui()
+        self.character_configuration = {
+            "priorities": {
+                "A": "Filler",
+                "B": "Filler",
+                "C": "Filler",
+                "D": "Filler",
+                "E": "Filler"
+            },
+            "details": [
+                "Metatype",
+                "Level",
+                "Experience",
+                "Class",
+                "Name",
+                "Age",
+                "Reputation",
+                "Karma",
+                "Ethnicity",
+                "Height",
+                "Weight",
+                "Sex"
+            ],
+            "attributes": {
+                "Strength": 0,
+                "Agility": 0,
+                "Body": 0,
+                "Intelligence": 0,
+                "Wisdom": 0,
+                "Charisma": 0
+            },
+            "skills": [
+                "Athletics",
+                "Astral",
+                "Biotech",
+                "Close Combat",
+                "Con",
+                "Conjuring",
+                "Cracking",
+                "Electronics",
+                "Engineering",
+                "Exotic Weapon",
+                "Firearms",
+                "Influence",
+                "Outdoors",
+                "Perception",
+                "Piloting",
+                "Sorcery",
+                "Stealth",
+                "Tasking"
+            ]
+        }
+        self.priority_data = {
+            'A': {'Races': {'Dwarf': 13, 'Ork': 13, 'Troll': 13}, 'Attributes': 24, 'Skills': 32,
+                  'Magic/Resonance': {'Full': 4, 'Aspected': 5, 'Mystic Adept': 4, 'Adept': 4, 'Technomancer': 4},
+                  'Resources': 450000},
+            'B': {'Races': {'Dwarf': 11, 'Elf': 11, 'Ork': 11, 'Troll': 11}, 'Attributes': 16, 'Skills': 24,
+                  'Magic/Resonance': {'Full': 3, 'Aspected': 4, 'Mystic Adept': 3, 'Adept': 3, 'Technomancer': 3},
+                  'Resources': 275000},
+            'C': {'Races': {'Dwarf': 9, 'Elf': 9, 'Human': 9, 'Ork': 9, 'Troll': 9}, 'Attributes': 12, 'Skills': 20,
+                  'Magic/Resonance': {'Full': 2, 'Aspected': 3, 'Mystic Adept': 2, 'Adept': 2, 'Technomancer': 2},
+                  'Resources': 150000},
+            'D': {'Races': {'Dwarf': 4, 'Elf': 4, 'Human': 4, 'Ork': 4, 'Troll': 4}, 'Attributes': 8, 'Skills': 16,
+                  'Magic/Resonance': {'Full': 1, 'Aspected': 2, 'Mystic Adept': 1, 'Adept': 1, 'Technomancer': 1},
+                  'Resources': 50000},
+            'E': {'Races': {'Dwarf': 1, 'Elf': 1, 'Human': 1, 'Ork': 1, 'Troll': 1}, 'Attributes': 2, 'Skills': 10,
+                  'Magic/Resonance': 'Mundane', 'Resources': 8000}
+        }
 
-    def create_initial_data(self):
-        # Initial values for attributes (including Karma and Edge)
-        initial_values = [0] * 8 + [50, 3]
-        self.attributes_df = pd.DataFrame({
-            'Attribute': ['Body', 'Agility', 'Reaction', 'Strength', 'Willpower', 'Logic', 'Intuition', 'Charisma',
-                          'Karma', 'Edge'],
-            'LevelVar': [IntVar(value=val) for val in initial_values]
-        })
-        self.skills_df = pd.DataFrame({
-            'Skill': ["Astral (Int/Will)", "Athletics (Agi/Str)", "Biotech (Log/Int)", "Close Combat (Agi)",
-                      "Con (Cha)", "Conjuring (Mag)", "Cracking (Log)", "Electronics (Log)", "Enchanting (Mag)",
-                      "Engineering (Log/Int)", "Exotic Weapons (Agi)", "Firearms (Agi)", "Influence (Cha/Log)",
-                      "Outdoors (Int)", "Perception (Int/Log)", "Piloting (Rea)", "Sorcery (Mag)", "Stealth (Agi)",
-                      "Tasking (Res)"],
-            'LevelVar': [IntVar(value=0) for _ in range(19)]
-        })
+        self.root = tk.Tk()
+        self.root.title("Character Creation Options")
+        self.priority_comboboxes = {}  # Initialize the dictionary to store comboboxes
 
-    def setup_ui(self):
-        # Window basic setup
-        self.root.title("Character Builder")
-        self.root.geometry("800x600")
+        self.priority_selection_window = None  # Ensure this is defined here for scope visibility
 
-        # Top Buttons
-        self.create_top_buttons()
+        self.initialize_ui()
 
-        # Save/Reset/Load Buttons
-        self.create_save_reset_load_buttons()
+    def initialize_ui(self, next_row=None):
+        # Priority Section Label
+        self.priority_section_label = ttk.Label(self.root, text="Priority Selection")
+        self.priority_section_label.grid(row=8, column=0, padx=10, pady=5, columnspan=3)
 
-        # Scrollable Area Setup
-        self.create_scrollable_area()
+        self.divider = ttk.Separator(self.root, orient="horizontal")
+        self.divider.grid(row=4, column=0, columnspan=3, sticky="ew", padx=10, pady=10)
+        self.divider = ttk.Separator(self.root, orient="horizontal")
+        self.divider.grid(row=9, column=0, columnspan=3, sticky="ew", padx=10, pady=10)
+        self.divider = ttk.Separator(self.root, orient="horizontal")
+        self.divider.grid(row=17, column=0, columnspan=3, sticky="ew", padx=10, pady=10)
 
-        # Sections Creation
-        self.create_sections()
+        self.buttons_frame = ttk.Frame(self.root)
+        self.buttons_frame.grid(row=5, column=0, columnspan=3, padx=10, pady=10)
+        self.update_combobox_options()
 
-    def create_top_buttons(self):
-        pass
-
-    def create_save_reset_load_buttons(self):
-        # Save/Reset/Load buttons frame
-        srl_buttons_frame = Frame(self.root)
-        srl_buttons_frame.pack(fill='x')
-
-        # Buttons: Save, Reset, Load
-        Button(srl_buttons_frame, text="Save", command=self.save_character_data).grid(row=0, column=0, padx=5, pady=5)
-        Button(srl_buttons_frame, text="Reset", command=self.reset_form).grid(row=0, column=1, padx=5, pady=5)
-        Button(srl_buttons_frame, text="Load", command=self.load_character_data).grid(row=0, column=2, padx=5, pady=5)
-
-    def create_scrollable_area(self):
-        # Create a canvas and a scrollbar attached to the root
-        self.canvas = Canvas(self.root)
-        self.scrollbar = Scrollbar(self.root, orient=VERTICAL, command=self.canvas.yview)
-
-        # Pack scrollbar to the right, fill y. Expand canvas to fill the rest
-        self.scrollbar.pack(side='right', fill='y')
-        self.canvas.pack(side='left', fill='both', expand=True)
-
-        # Configure canvas to be scrollable with the scrollbar
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-
-        # Bind canvas region to all
-        self.canvas.bind('<Configure>', lambda e: self.canvas.configure(scrollregion=self.canvas.bbox('all')))
-
-        # Create a frame inside the canvas
-        self.scrollable_frame = Frame(self.canvas)
-
-        # Add the frame to the canvas
-        self.canvas_frame = self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor='nw')
-
-        # Enable mousewheel scrolling on Windows/Linux
-        self.scrollable_frame.bind('<Enter>', lambda e: self.canvas.bind_all('<MouseWheel>', self.on_mousewheel))
-        self.scrollable_frame.bind('<Leave>', lambda e: self.canvas.unbind_all('<MouseWheel>'))
-
-    def on_mousewheel(self, event):
-        """Handle mouse wheel scroll for Windows/Linux."""
-        self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
-
-    def create_sections(self):
-        sections = [
-            "Priority Selections", "Player Info", "Personal", "Attributes", "Skills",
-            "IDs/Lifestyle/Currency", "Core Combat Info", "Qualities", "Contacts",
-            "Weapons, Ranged", "Weapons, Melee", "Armor", "Augmentations", "Gear",
-            "Vehicles", "Matrix Stats", "Spells / Preparations / Rituals / Complex Forms", "Adept Powers"
+        button_configs = [
+            ('Priority', self.open_priority_selection),
+            ('Metatype', self.open_metatype_selection),
+            ('Attributes', self.open_attributes_selection),
+            ('Skills', self.open_skills_selection),
+            ('Personal Choices', self.open_personal_selection)
         ]
+        self.divider = ttk.Separator(self.root, orient="horizontal")
+        self.divider.grid(row=7, column=0, columnspan=3, sticky="ew", padx=10, pady=10)
 
-        for section in sections:
-            if section == "Priority Selections":
-                self.create_priority_selection_section()
-            if section == "Player Info":
-                self.create_player_info_section()
-            if section == "Personal":
-                self.create_personal_section()
-            if section == "Attributes":
-                self.create_attributes_section()
-            if section == "Skills":
-                self.create_skills_section()
-            else:
-                section_frame = Frame(self.scrollable_frame, height=50, bd=1, relief="solid")
-                section_frame.pack(fill='x', padx=10, pady=5, expand=True)
-                Label(section_frame, text=section, font=("Arial", 12, "bold")).pack()
+        for i, (text, command) in enumerate(button_configs):
+            self.create_button(self.buttons_frame, text, command, i // 2, i % 2)
 
-    def create_priority_selection_section(self):
-        priority_frame = Frame(self.scrollable_frame, bd=1, relief="solid")
-        priority_frame.pack(fill='x', padx=10, pady=5, expand=True)
 
-        priority_categories = ["Attributes", "Magic/Resonance", "Metatype", "Skills", "Resources"]
+        self.reset_button = self.create_button(self.root, "Reset", self.reset_variables, 2, 0)
 
-        self.priority_choices = ["A", "B", "C", "D", "E"]
-        self.comboboxes = {}
 
-        for i, category in enumerate(priority_categories):
-            Label(priority_frame, text=f"{category} Priority:").grid(row=0, column=i, padx=5, pady=2)
-            combobox = ttk.Combobox(priority_frame, values=self.priority_choices, state="readonly",
-                                    name=f"{category.lower()}_priority_combobox")
-            combobox.grid(row=1, column=i, padx=5, pady=2)
-            combobox.set("Select Priority")
-            combobox.bind("<<ComboboxSelected>>", self.update_comboboxes)
-            self.comboboxes[category] = combobox
+        self.divider = ttk.Separator(self.root, orient="horizontal")
+        self.divider.grid(row=4, column=0, columnspan=3, sticky="ew", padx=10, pady=10)
 
-    def update_comboboxes(self, event):
-        updated_combobox = event.widget
-        updated_category = None
-        for category, combobox in self.comboboxes.items():
-            if combobox == updated_combobox:
-                updated_category = category
-                break
+        # Additional UI setup for sections below the divider...
+        self.setup_additional_ui()
+        self.setup_save_load_ui()
+        self.initialize_priority_ui()
+        # Create and place priority labels
+        self.priority_section_label = ttk.Label(self.root, text="Priority Selection")
+        self.priority_section_label.grid(row=8, column=0,padx=10, pady=10, columnspan=3)
 
-        current_selections = [combobox.get() for combobox in self.comboboxes.values() if
-                              combobox.get() != "Select Priority"]
-        available_choices = [choice for choice in self.priority_choices if choice not in current_selections]
+        self.priority_section_label = ttk.Label(self.root, text="Priority Selection")
+        self.priority_section_label.grid(row=8, column=0,padx=10, pady=10, columnspan=3)
 
-        for combobox in self.comboboxes.values():
+    def initialize_priority_ui(self):
+        priority_data = self.priority_data
+        self.priority_labels = {}
+        self.priority_comboboxes = {}
+        priority_options = list(self.priority_data.keys())  # Assuming priority_data is accessible
+
+        # Starting row for priority UI elements
+        row_index = 10
+
+        for priority in self.priority_data.keys():
+            # Create and place a label for each priority
+            label = ttk.Label(self.root, text=f"Priority {priority}:")
+            label.grid(row=row_index, column=0, padx=10, pady=5)
+
+            # Create and place a combobox for each priority
+            combobox = ttk.Combobox(self.root, values=list(self.priority_data.keys()), state="readonly")
+            combobox.grid(row=row_index, column=1, padx=10, pady=5, sticky="ew")
+            self.priority_comboboxes[priority] = combobox
+
+            # Increment row_index for the next priority label and combobox
+            row_index += 1  # Increment row_index for the next priority label and combobox
+
+        # Ensure that you bind an event to comboboxes if needed, for example:
+        # combobox.bind("<<ComboboxSelected>>", self.on_priority_selection)
+
+    # Example handler for combobox selection
+    def update_combobox_options(self, event=None):
+        selected_options = {combobox.get() for combobox in self.priority_comboboxes.values()}
+        all_options = set(sum([list(options.keys()) for options in priority_data.values()], []))
+
+        for priority, combobox in self.priority_comboboxes.items():
             current_value = combobox.get()
-            combobox['values'] = ["Select Priority"] + available_choices
-            if current_value in self.priority_choices:
-                combobox.set(current_value)
+            available_options = list((all_options - selected_options) | {current_value})
+            combobox['values'] = available_options
+            if current_value not in available_options:
+                combobox.set('')
 
-    def get_priority_value(self, priority_level):
-        if priority_level in self.priority_dict['PRIORITY']:
-            index = self.priority_dict['PRIORITY'].index(priority_level)
-            return self.priority_dict['ATTRIBUTES'][index]
+    def save_configuration(self, filename):
+        # Assuming character_configuration is now an attribute of the class
+        with open(filename, 'w') as file:
+            json.dump(self.character_configuration, file, indent=4)
+        print(f"Configuration saved to {filename}")
+
+    def load_configuration(self, filename):
+        with open(filename, 'r') as file:
+            self.character_configuration = json.load(file)
+        print(f"Configuration loaded from {filename}")
+        self.update_ui_with_loaded_configuration()  # Make sure to implement this method to update your UI based on the loaded configuration
+
+    def setup_save_load_ui(self):
+        # Example setup for Save and Load buttons
+        self.save_button = self.create_button(self.root, "Save", self.save_configuration_with_dialog, 2, 1,
+                                              columnspan=1)
+        self.load_button = self.create_button(self.root, "Load", self.load_configuration_with_dialog, 2, 2,
+                                              columnspan=1)
+
+    def create_button(self, frame, text, command, row, column, columnspan=1):
+        # Simplified button creation logic
+        button = ttk.Button(frame, text=text, command=command)
+        button.grid(row=row, column=column, padx=5, pady=5, sticky="ew", columnspan=columnspan)
+        return button
+
+    def update_ui_with_loaded_configuration(self):
+        # Update priorities display
+        priorities_text = ""
+        for priority, value in self.character_configuration["priorities"].items():
+            priorities_text += f"{priority}: {value}\n"
+        self.priorities_display_label.config(text=priorities_text.strip())
+
+        # Update attributes
+        for attr, value in self.character_configuration["attributes"].items():
+            if attr in self.ui_components["attributes"]:
+                self.ui_components["attributes"][attr].set(value)  # Assuming ttk.Entry; use .set for ttk.Combobox
+
+        # Update details - handling both Entries and Comboboxes
+        for detail in self.character_configuration.get("details", []):
+            if detail in self.ui_components["details"]:
+                ui_element = self.ui_components["details"][detail]
+                # Update the UI element with the corresponding value from the configuration
+                # Adjust this part based on the type of UI element you're using
+                ui_element.delete(0, tk.END)  # Clear the entry
+                ui_element.insert(0, value)  # Insert the new value
+
+    def setup_additional_ui(self):
+        # priority_keys = list(priority_data['A'].keys())
+        priority_values = list(priority_data['A'].values())
+        self.priority_section_label = ttk.Label(self.root, text="Priority Selection")
+        self.priority_section_label.grid(row=8, column=0, padx=10, pady=10, columnspan=3)
+        # self.priorities_label = {}
+        # # row_index = 8
+        # for priority in self.character_configuration["priorities"]:
+        #     label = ttk.Label(self.root, text=priority)
+        #     label.grid(row=row_index, column=0, padx=10, pady=5, sticky="w")
+        #     entry = ttk.Label(self.root, width=20)  # You can use Entry or any other widget you prefer
+        #     entry.grid(row=row_index, column=1, padx=10, pady=5, sticky="w")
+        #     self.priorities_label[priority] = entry  # Changed from detail_labels to priorities_label
+        #     row_index += 1
+
+        self.detail_label = ttk.Label(self.root, text="Character Configuration Details")
+        self.detail_label.grid(row=18, column=0, padx=10, pady=10, columnspan=3)
+        self.detail_label = {}
+        row_index = 19
+        for detail in self.character_configuration["details"]:
+            label = ttk.Label(self.root, text=detail)
+            label.grid(row=row_index, column=0, padx=10, pady=5, sticky="w")
+            entry = ttk.Label(self.root, width=20)  # You can use Entry or any other widget you prefer
+            entry.grid(row=row_index, column=1, padx=10, pady=5, sticky="w")
+            self.detail_label[detail] = entry
+            row_index += 1
+    # Additional UI setup...
+
+    def open_priority_selection(self):
+        """
+        Open the priority selection window.
+        """
+        if not self.priority_selection_window:
+            self.priority_selection_window = PrioritySelectionWindow(self.root, self.handle_priority_selection)
         else:
-            return None
+            self.priority_selection_window.root.lift()
 
-    def save_character_data(self):
+    def handle_priority_selection(self, selected_priority_options):
+        """
+        Handle selections from the PrioritySelectionWindow.
+        """
+        # Update character_configuration["priorities"] based on selected options
+        self.character_configuration["priorities"] = selected_priority_options
+
+        # Additional logic to update UI based on selected options
+        self.update_priority_options(selected_priority_options)
+        #  self.update_points_label(selected_priority_options)
+
+    def update_priority_options(self, selected_priority_options):
+        """
+        Logic to update the main window based on selections from the PrioritySelectionWindow.
+        """
+        # This is just an example. You'll need to tailor it to your application.
+        display_text = "\n".join(f"{priority}: {option}" for priority, option in selected_priority_options.items())
+        self.priorities_display_label.config(text=display_text)
+
+    def open_metatype_selection(self):
+        def handle_metatype_selection(selected_metatype):
+            print(f"Selected metatype: {selected_metatype}")  # Placeholder action
+            self.character_configuration["details"]["Metatype"] = selected_metatype
+            # Update UI or internal state as needed
+
+        if not self.metatype_selection_window:
+            self.metatype_selection_window = MetatypeSelectionWindow(
+                self.root,
+                handle_metatype_selection,
+                None,  # If you have an adjustment callback, use it here
+                "",  # Initial selected metatype, if any
+                available_metatypes
+            )
+        else:
+            self.metatype_selection_window.root.deiconify()
+
+    def open_attributes_selection(self):
+        # Your logic to open the attributes selection window goes here
         pass
 
-    def reset_form(self):
+    def open_skills_selection(self):
+        # Your logic to open the attributes selection window goes here
         pass
 
-    def load_character_data(self):
+    def open_adjustment_points(self):
+        # Your logic to open the attributes selection window goes here
+        pass
+    def open_personal_selection(self):
+        # Your logic to open the personal selection window goes here
         pass
 
-    def create_personal_section(self):
+    def save_configuration_with_dialog(self):
+        filename = filedialog.asksaveasfilename(defaultextension=".json",
+                                                filetypes=[("JSON files", "*.json"), ("All files", "*.*")])
+        if filename:
+            self.save_configuration(filename)
+
+    def load_configuration_with_dialog(self):
+        filename = filedialog.askopenfilename(filetypes=[("JSON files", "*.json"), ("All files", "*.*")])
+        if filename:
+            self.load_configuration(filename)
+
+    def update_combobox_options(self, event=None):
+        selected_options = set()
+        for combobox in self.priority_comboboxes.values():
+            selected_options.add(combobox.get())
+
+        available_options = list(priority_data['A'].keys())
+
+        for combobox in self.priority_comboboxes.values():
+            current_value = combobox.get()
+            combobox['values'] = list(available_options.union({current_value})) if current_value else list(
+                available_options)
+            combobox.event_generate("<<ComboboxSelected>>")
+
+    def on_priority_selection(self, event=None):
+        # Update logic based on combobox selection
         pass
 
 
-# Placeholder for executing the GUI application
+# Metatype selection logic...
+
+# Placeholder methods for attributes, skills selection, adjustment points, resetting variables, etc.
+
 if __name__ == "__main__":
-    root = Tk()
-    app = CharacterBuilderGUI(root)
+    root = tk.Tk()
+    app = CharacterCreationOptionsWindow(root, None, priority_data)
     root.mainloop()
