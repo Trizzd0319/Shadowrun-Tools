@@ -1,0 +1,42 @@
+{
+    "attributes": {
+        "Body": 3,
+        "Agility": 0,
+        "Reaction": 0,
+        "Strength": 0,
+        "Willpower": 1,
+        "Logic": 0,
+        "Intuition": 0,
+        "Charisma": 0,
+        "Karma": 39,
+        "Edge": 3
+    },
+    "skills": {
+        "Astral (Int/Will)": 0,
+        "Athletics (Agi/Str)": 0,
+        "Biotech (Log/Int)": 0,
+        "Close Combat (Agi)": 0,
+        "Con (Cha)": 0,
+        "Conjuring (Mag)": 0,
+        "Cracking (Log)": 0,
+        "Electronics (Log)": 0,
+        "Enchanting (Mag)": 0,
+        "Engineering (Log/Int)": 0,
+        "Exotic Weapons (Agi)": 0,
+        "Firearms (Agi)": 0,
+        "Influence (Cha/Log)": 0,
+        "Outdoors (Int)": 0,
+        "Perception (Int/Log)": 0,
+        "Piloting (Rea)": 0,
+        "Sorcery (Mag)": 0,
+        "Stealth (Agi)": 0,
+        "Tasking (Res)": 0
+    },
+    "priorities": {
+        "Attributes": "A",
+        "Magic/Resonance": "E",
+        "Metatype": "D",
+        "Skills": "B",
+        "Resources": "C"
+    }
+}

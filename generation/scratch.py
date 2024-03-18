@@ -1,268 +1,181 @@
-# Correcting the previous code by adding pass statements in the placeholder methods to avoid syntax errors.
+from tkinter import Tk, Frame, Button, Label, ttk, Canvas, Scrollbar, VERTICAL, IntVar
 
-import tkinter as tk
+import pandas as pd
 
 
-# Adjusting the ComplexGUIApp class to use labels with up/down arrows for attributes values adjustment.
-
-# Adjusting the ComplexGUIApp class to include a scrollbar for the main content area.
-
-class ComplexGUIApp:
+class CharacterBuilderGUI:
     def __init__(self, root):
         self.root = root
-        self.karma_value = tk.IntVar(value=50)  # Initialize karma with 50
+        self.attributes_priority_label = None
+        self.skills_priority_label = None
+        self.priority_dict = {
+            'PRIORITY': ['A', 'B', 'C', 'D', 'E'],
+            'ATTRIBUTES': [24, 16, 12, 8, 2],
+            'SKILLS': [32, 24, 20, 16, 10],
+            'RESOURCES': [450000, 275000, 150000, 50000, 8000],
+            'MAGIC OR RESONANCE': [0, 0, 0, 0, 0]
+        }
+        self.create_initial_data()
         self.setup_ui()
 
+    def create_initial_data(self):
+        # Initial values for attributes (including Karma and Edge)
+        initial_values = [0] * 8 + [50, 3]
+        self.attributes_df = pd.DataFrame({
+            'Attribute': ['Body', 'Agility', 'Reaction', 'Strength', 'Willpower', 'Logic', 'Intuition', 'Charisma',
+                          'Karma', 'Edge'],
+            'LevelVar': [IntVar(value=val) for val in initial_values]
+        })
+        self.skills_df = pd.DataFrame({
+            'Skill': ["Astral (Int/Will)", "Athletics (Agi/Str)", "Biotech (Log/Int)", "Close Combat (Agi)",
+                      "Con (Cha)", "Conjuring (Mag)", "Cracking (Log)", "Electronics (Log)", "Enchanting (Mag)",
+                      "Engineering (Log/Int)", "Exotic Weapons (Agi)", "Firearms (Agi)", "Influence (Cha/Log)",
+                      "Outdoors (Int)", "Perception (Int/Log)", "Piloting (Rea)", "Sorcery (Mag)", "Stealth (Agi)",
+                      "Tasking (Res)"],
+            'LevelVar': [IntVar(value=0) for _ in range(19)]
+        })
+
     def setup_ui(self):
-        self.root.title("Complex GUI Application")
-        self.top_buttons_frame = tk.Frame(self.root)
-        self.top_buttons_frame.pack(pady=10)
+        # Window basic setup
+        self.root.title("Character Builder")
+        self.root.geometry("800x600")
+
+        # Top Buttons
         self.create_top_buttons()
-        self.create_action_buttons()
 
-        # Setting up the scrollable main content area
-        self.main_canvas = tk.Canvas(self.root)
-        self.scrollbar = tk.Scrollbar(self.root, orient="vertical", command=self.main_canvas.yview)
-        self.scrollable_frame = tk.Frame(self.main_canvas)
+        # Save/Reset/Load Buttons
+        self.create_save_reset_load_buttons()
 
-        self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.main_canvas.configure(
-                scrollregion=self.main_canvas.bbox("all")
-            )
-        )
+        # Scrollable Area Setup
+        self.create_scrollable_area()
 
-        self.main_canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
-        self.main_canvas.configure(yscrollcommand=self.scrollbar.set)
-
-        self.main_canvas.pack(side="left", fill="both", expand=True)
-        self.scrollbar.pack(side="right", fill="y")
-
+        # Sections Creation
         self.create_sections()
 
     def create_top_buttons(self):
-        button_names = [["Priorities", "Metatype"], ["Stats", "Skills"], ["Spells", "Gear"]]
-        for row in range(2):
-            for col in range(3):
-                button = tk.Button(self.top_buttons_frame, text=button_names[col][row])
-                button.grid(row=row, column=col, padx=5, pady=5)
+        pass
 
-    def create_action_buttons(self):
-        action_buttons_frame = tk.Frame(self.root)
-        action_buttons_frame.pack(pady=5)
-        action_button_names = ["Save", "Reset", "Load"]
-        for index, name in enumerate(action_button_names):
-            button = tk.Button(action_buttons_frame, text=name)
-            button.grid(row=0, column=index, padx=5)
+    def create_save_reset_load_buttons(self):
+        # Save/Reset/Load buttons frame
+        srl_buttons_frame = Frame(self.root)
+        srl_buttons_frame.pack(fill='x')
+
+        # Buttons: Save, Reset, Load
+        Button(srl_buttons_frame, text="Save", command=self.save_character_data).grid(row=0, column=0, padx=5, pady=5)
+        Button(srl_buttons_frame, text="Reset", command=self.reset_form).grid(row=0, column=1, padx=5, pady=5)
+        Button(srl_buttons_frame, text="Load", command=self.load_character_data).grid(row=0, column=2, padx=5, pady=5)
+
+    def create_scrollable_area(self):
+        # Create a canvas and a scrollbar attached to the root
+        self.canvas = Canvas(self.root)
+        self.scrollbar = Scrollbar(self.root, orient=VERTICAL, command=self.canvas.yview)
+
+        # Pack scrollbar to the right, fill y. Expand canvas to fill the rest
+        self.scrollbar.pack(side='right', fill='y')
+        self.canvas.pack(side='left', fill='both', expand=True)
+
+        # Configure canvas to be scrollable with the scrollbar
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+        # Bind canvas region to all
+        self.canvas.bind('<Configure>', lambda e: self.canvas.configure(scrollregion=self.canvas.bbox('all')))
+
+        # Create a frame inside the canvas
+        self.scrollable_frame = Frame(self.canvas)
+
+        # Add the frame to the canvas
+        self.canvas_frame = self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor='nw')
+
+        # Enable mousewheel scrolling on Windows/Linux
+        self.scrollable_frame.bind('<Enter>', lambda e: self.canvas.bind_all('<MouseWheel>', self.on_mousewheel))
+        self.scrollable_frame.bind('<Leave>', lambda e: self.canvas.unbind_all('<MouseWheel>'))
+
+    def on_mousewheel(self, event):
+        """Handle mouse wheel scroll for Windows/Linux."""
+        self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
     def create_sections(self):
-        section_labels = [
-            "Selection Buttons", "Player Info", "Personal", "Attributes",
-            "Skills", "IDs/Lifestyle/Currency", "Core Combat Info", "Qualities",
-            "Contacts", "Weapons, Ranged", "Weapons, Melee", "Armor",
-            "Augmentations", "Gear", "Vehicles", "Matrix Stats",
-            "Spells / Preparations / Rituals / Complex Forms", "Adept Powers"
+        sections = [
+            "Priority Selections", "Player Info", "Personal", "Attributes", "Skills",
+            "IDs/Lifestyle/Currency", "Core Combat Info", "Qualities", "Contacts",
+            "Weapons, Ranged", "Weapons, Melee", "Armor", "Augmentations", "Gear",
+            "Vehicles", "Matrix Stats", "Spells / Preparations / Rituals / Complex Forms", "Adept Powers"
         ]
 
-        for index, label in enumerate(section_labels):
-            section_frame = tk.Frame(self.scrollable_frame, borderwidth=1, relief=tk.SOLID)
-            section_frame.pack(fill=tk.X, padx=10, pady=5)
+        for section in sections:
+            if section == "Priority Selections":
+                self.create_priority_selection_section()
+            if section == "Player Info":
+                self.create_player_info_section()
+            if section == "Personal":
+                self.create_personal_section()
+            if section == "Attributes":
+                self.create_attributes_section()
+            if section == "Skills":
+                self.create_skills_section()
+            else:
+                section_frame = Frame(self.scrollable_frame, height=50, bd=1, relief="solid")
+                section_frame.pack(fill='x', padx=10, pady=5, expand=True)
+                Label(section_frame, text=section, font=("Arial", 12, "bold")).pack()
 
-            label_widget = tk.Label(section_frame, text=label)
-            label_widget.grid(row=0, column=0, sticky=tk.W)
+    def create_priority_selection_section(self):
+        priority_frame = Frame(self.scrollable_frame, bd=1, relief="solid")
+        priority_frame.pack(fill='x', padx=10, pady=5, expand=True)
 
-            button = tk.Button(section_frame, text=label)
-            button.grid(row=0, column=1)
+        priority_categories = ["Attributes", "Magic/Resonance", "Metatype", "Skills", "Resources"]
 
-            if label == "Personal":
-                self.create_personal_section(section_frame)
+        self.priority_choices = ["A", "B", "C", "D", "E"]
+        self.comboboxes = {}
 
-            if label == "Attributes":
-                self.create_attributes_section(section_frame)
+        for i, category in enumerate(priority_categories):
+            Label(priority_frame, text=f"{category} Priority:").grid(row=0, column=i, padx=5, pady=2)
+            combobox = ttk.Combobox(priority_frame, values=self.priority_choices, state="readonly",
+                                    name=f"{category.lower()}_priority_combobox")
+            combobox.grid(row=1, column=i, padx=5, pady=2)
+            combobox.set("Select Priority")
+            combobox.bind("<<ComboboxSelected>>", self.update_comboboxes)
+            self.comboboxes[category] = combobox
 
-            if label == "Skills":
-                self.create_skills_section(section_frame)
+    def update_comboboxes(self, event):
+        updated_combobox = event.widget
+        updated_category = None
+        for category, combobox in self.comboboxes.items():
+            if combobox == updated_combobox:
+                updated_category = category
+                break
 
-    def create_personal_section(self, parent):
-        # Assuming the "Personal" label has already been placed, for example, at row=0
-        # Place the "Karma" label and value on the next line below the "Personal" label
+        current_selections = [combobox.get() for combobox in self.comboboxes.values() if
+                              combobox.get() != "Select Priority"]
+        available_choices = [choice for choice in self.priority_choices if choice not in current_selections]
 
-        # Place "Karma" label and its value below the "Personal" section label
-        karma_label = tk.Label(parent, text="Karma")
-        karma_label.grid(row=1, column=0, sticky=tk.W, padx=5, pady=2)  # Increment row index for karma label
+        for combobox in self.comboboxes.values():
+            current_value = combobox.get()
+            combobox['values'] = ["Select Priority"] + available_choices
+            if current_value in self.priority_choices:
+                combobox.set(current_value)
 
-        karma_value_label = tk.Label(parent, textvariable=self.karma_value)
-        karma_value_label.grid(row=1, column=1, sticky=tk.W, padx=5, pady=2)  # Match row index for karma value
+    def get_priority_value(self, priority_level):
+        if priority_level in self.priority_dict['PRIORITY']:
+            index = self.priority_dict['PRIORITY'].index(priority_level)
+            return self.priority_dict['ATTRIBUTES'][index]
+        else:
+            return None
 
-    def increment_value(self, var):
-        # Calculate cost of increment based on current level * 5
-        cost = var.get() * 5
-        if self.karma_value.get() >= cost and var.get() < 6:  # Ensure karma is sufficient and value doesn't exceed max
-            var.set(var.get() + 1)
-            self.karma_value.set(self.karma_value.get() - cost)
-
-    def decrement_value(self, var):
-        # Calculate cost of decrement based on the current level * 5
-        # Since we are decrementing, we consider the cost to reach the current level from the level below.
-        cost = (var.get() - 1) * 5  # Cost to decrement to the level below
-        if var.get() > 0:  # Ensure value doesn't go below minimum
-            var.set(var.get() - 1)
-            self.karma_value.set(self.karma_value.get() + cost)  # Re-apply karma cost for the level below
-
-    def create_attributes_section(self, parent):
-        attributes = [
-            "Body (P)", "Agility (P)", "Reaction (P)", "Strength (P)",
-            "Willpower (M)", "Logic (M)", "Intuition (M)", "Charisma (M)",
-            "Edge (S)", "Magic (S)", "Resonance (S)", "Essence (S)"
-        ]
-        # Grouping attributes by their category
-        physical_attrs = ["Body (P)", "Agility (P)", "Reaction (P)", "Strength (P)"]
-        mental_attrs = ["Willpower (M)", "Logic (M)", "Intuition (M)", "Charisma (M)"]
-        special_attrs = ["Edge (S)", "Magic (S)", "Resonance (S)", "Essence (S)"]
-
-        # Define a function to create attribute rows in a specific column
-        def create_attributes_section(self, parent):
-            # Grouping attributes by their category
-            physical_attrs = ["Body (P)", "Agility (P)", "Reaction (P)", "Strength (P)"]
-            mental_attrs = ["Willpower (M)", "Logic (M)", "Intuition (M)", "Charisma (M)"]
-            special_attrs = ["Edge (S)", "Magic (S)", "Resonance (S)", "Essence (S)"]
-
-            # Column configuration for better alignment
-            parent.columnconfigure(0, weight=1)
-            parent.columnconfigure(1, weight=1)
-            parent.columnconfigure(2, weight=1)
-
-            # Define a function to create attribute rows in a specific column
-
-        def create_attribute_rows(attributes, column):
-            for index, attribute in enumerate(attributes):
-                base_row = index * 2  # Allocate two rows for each attribute for better vertical spacing
-
-                # Attribute Label
-                label = tk.Label(parent, text=attribute)
-                label.grid(row=base_row, column=column, sticky=tk.W, padx=5, pady=2)
-
-                # Value Adjustment Buttons and Label
-                attribute_value = tk.IntVar(parent, value=0)
-                up_button_attrb = tk.Button(parent, text="+",
-                                            command=lambda var=attribute_value: self.increment_value(var))
-                down_button_attrb = tk.Button(parent, text="-",
-                                              command=lambda var=attribute_value: self.decrement_value(var))
-                value_label_attrb = tk.Label(parent, textvariable=attribute_value)
-
-                # Positioning the value label and buttons below the attribute label
-                down_button_attrb.grid(row=base_row + 1, column=column, padx=2, pady=5, sticky=tk.W)
-                value_label_attrb.grid(row=base_row + 1, column=column, padx=2, pady=5)
-                up_button_attrb.grid(row=base_row + 1, column=column, padx=2, pady=5, sticky=tk.E)
-
-        # Create attribute rows for each category in their respective columns
-        create_attribute_rows(physical_attrs, 0)  # Column 0 for Physical attributes
-        create_attribute_rows(mental_attrs, 1)  # Column 1 for Mental attributes
-        create_attribute_rows(special_attrs, 2)  # Column 2 for Special attributes
-
-        # for row, attribute in enumerate(attributes, start=1):
-        #     attribute_value = tk.IntVar(parent, value=0)
-        #
-        #     label = tk.Label(parent, text=attribute)
-        #     label.grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
-        #
-        #     value_label = tk.Label(parent, textvariable=attribute_value)
-        #     value_label.grid(row=row, column=1, padx=5, pady=2)
-        #
-        #     up_button = tk.Button(parent, text="+", command=lambda var=attribute_value: self.increment_value(var))
-        #     up_button.grid(row=row, column=2, padx=2)
-        #
-        #     down_button = tk.Button(parent, text="-", command=lambda var=attribute_value: self.decrement_value(var))
-        #     down_button.grid(row=row, column=3, padx=2)
-
-    # Attributes section implementation remains the same
-
-    def increment_value(self, var):
-        if var.get() < 6:
-            next_level_cost = (var.get() + 1) * 5
-            var.set(var.get() + 1)
-            self.karma_value.set(self.karma_value.get() - next_level_cost)
+    def save_character_data(self):
         pass
 
-    # Increment function remains the same
-
-    def decrement_value(self, var):
-        if var.get() > 0:
-            current_level_cost = var.get() * 5
-            var.set(var.get() - 1)
-            self.karma_value.set(self.karma_value.get() + current_level_cost)
+    def reset_form(self):
         pass
 
-    def create_skills_section(self, parent):
-        skills = [
-            "Astral (Int/Will)", "Athletics (Agi/Str)", "Biotech (Log/Int)",
-            "Close Combat (Agi)", "Con (Cha)", "Conjuring (Mag)", "Cracking (Log)",
-            "Electronics (Log)", "Enchanting (Mag)", "Engineering (Log/Int)",
-            "Exotic Weapons (Agi)", "Firearms (Agi)", "Influence (Cha/Log)",
-            "Outdoors (Int)", "Perception (Int/Log)", "Piloting (Rea)",
-            "Sorcery (Mag)", "Stealth (Agi)", "Tasking (Res)"
-        ]
+    def load_character_data(self):
+        pass
 
-        num_columns = 3
-        skills_per_column = 6
-
-        for index, skill in enumerate(skills):
-            column = index % num_columns
-            row = (index // num_columns) * 2
-
-            skill_label = tk.Label(parent, text=skill)
-            skill_label.grid(row=row, column=column, sticky=tk.W, padx=5, pady=2)
-
-            # Button frame for each skill to hold value and buttons, using grid
-            button_frame = tk.Frame(parent)
-            button_frame.grid(row=row + 1, column=column, padx=5, pady=2, sticky=tk.W)
-
-            skill_value = tk.IntVar(parent, value=0)
-            value_label = tk.Label(button_frame, textvariable=skill_value)
-            value_label.grid(row=0, column=1, padx=2)
-
-            down_button = tk.Button(button_frame, text="-", command=lambda var=skill_value: self.decrement_value(var))
-            down_button.grid(row=0, column=0, padx=2)
-
-            up_button = tk.Button(button_frame, text="+", command=lambda var=skill_value: self.increment_value(var))
-            up_button.grid(row=0, column=2, padx=2)
-
-        # Special handling for the last skill if necessary
-        # This might involve adjusting its grid placement or spanning multiple columns if it needs to be centered
-
-        # row_offset = 2  # Starting row for skills, assuming headers or spacing above
-        # for row, skill in enumerate(skills, start=row_offset):
-        #     # Skill Name and Attributes
-        #     skill_label = tk.Label(parent, text=skill)
-        #     skill_label.grid(row=row, column=0, sticky=tk.W, padx=5, pady=2)
-        #
-        #     # Skill Value Initialization
-        #     skill_value = tk.IntVar(parent, value=0)
-        #
-        #     # Display Skill Value
-        #     value_label = tk.Label(parent, textvariable=skill_value)
-        #     value_label.grid(row=row, column=1, padx=5, pady=2)
-        #
-        #     # Increment Button
-        #     up_button = tk.Button(parent, text="+", command=lambda var=skill_value: self.increment_skill(var))
-        #     up_button.grid(row=row, column=2, padx=2)
-        #
-        #     # Decrement Button
-        #     down_button = tk.Button(parent, text="-", command=lambda var=skill_value: self.decrement_skill(var))
-        #     down_button.grid(row=row, column=3, padx=2)
-
-    def increment_skill(self, var):
-        if var.get() < 9:
-            var.set(var.get() + 1)
-
-    def decrement_skill(self, var):
-        if var.get() > 0:
-            var.set(var.get() - 1)
+    def create_personal_section(self):
+        pass
 
 
-# Decrement function remains the same
-
-# Uncomment to test the application
-root = tk.Tk()
-app = ComplexGUIApp(root)
-root.mainloop()
+# Placeholder for executing the GUI application
+if __name__ == "__main__":
+    root = Tk()
+    app = CharacterBuilderGUI(root)
+    root.mainloop()
