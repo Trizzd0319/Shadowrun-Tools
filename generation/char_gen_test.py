@@ -141,7 +141,7 @@ class ComplexGUIApp:
         self.root = root
         self.karma_value = tk.IntVar(value=50)  # Initialize karma with 50
         self.setup_ui()
-        self.update_function = update_function  # Function to call on confirm
+        # self.update_function = update_function  # Function to call on confirm
         self.priority_df = priority_df
 
     def setup_ui(self):
@@ -151,8 +151,8 @@ class ComplexGUIApp:
         self.create_top_buttons()
         self.create_action_buttons()
         self.main_frame = tk.Frame(self.root)
-        self.confirm_button = tk.Button(self.main_frame, text="Confirm", command=self.confirm_selections)
-        self.confirm_button.grid(row=4, columnspan=4, pady=10)
+        # self.confirm_button = tk.Button(self.main_frame, text="Confirm", command=self.confirm_selections)
+        # self.confirm_button.grid(row=4, columnspan=4, pady=10)
         self.main_canvas = tk.Canvas(self.root)
         self.scrollbar = tk.Scrollbar(self.root, orient="vertical", command=self.main_canvas.yview)
         self.scrollable_frame = tk.Frame(self.main_canvas)
