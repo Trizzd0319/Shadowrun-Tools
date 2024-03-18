@@ -2,6 +2,8 @@ import json
 from tkinter import Tk, Frame, Button, Label, Entry, ttk, Canvas, Scrollbar, VERTICAL, IntVar, filedialog
 
 import pandas as pd
+import pdfrw
+import reportlab
 
 
 class CharacterBuilderGUI:
