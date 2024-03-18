@@ -1,1 +1,5 @@
 # Empty requirements.txt file
+
+pandas~=2.2.1
+pdfrw~=0.4
+reportlab~=4.1.0
