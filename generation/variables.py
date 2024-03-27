@@ -7,37 +7,67 @@ attributes = {
     'Charisma': '0',
     'Willpower': '0'
 }
-# skills.py
 skills = ['Archery', 'Automatics', 'Blades', 'Clubs', 'Exotic Ranged Weapon', 'Exotic Melee Weapon',
-          ]
-
-# stats.py
-stats = ['Essence', 'Magic', 'Resonance', 'Edge', 'Initiative', 'Matrix Initiative', 'Astral Initiative', ...]
-
-# metatypes.py
+          stats = ['Essence', 'Magic', 'Resonance', 'Edge', 'Initiative', 'Matrix Initiative', 'Astral Initiative', ...]
 metatype_type = {
-    'Human': {'Priority': 'E', 'Body': '-', 'Strength': '-', 'Quickness': '-', 'Intelligence': '-', 'Willpower': '-', 'Charisma': '-', 'Running Multiplier': '×3', 'Other': '1:10 Karma Pool accumulation', 'Origin': 'anywhere'},
-    'Dwarf': {'Priority': 'D', 'Body': '+1', 'Strength': '+2', 'Quickness': '-', 'Intelligence': '-', 'Willpower': '+1', 'Charisma': '-', 'Running Multiplier': '×2', 'Other': 'Thermographic vision, Resistance (+2 Body) to any disease or toxin', 'Origin': 'anywhere'},
-    'Gnome': {'Priority': 'D', 'Body': '+1', 'Strength': '+1', 'Quickness': '-', 'Intelligence': '-', 'Willpower': '+2', 'Charisma': '-', 'Running Multiplier': '×2', 'Other': 'Thermographic vision', 'Origin': 'Central Europe, Asia Minor'},
-    'Koborokuru': {'Priority': 'C', 'Body': '+1', 'Strength': '+2', 'Quickness': '-', 'Intelligence': '-', 'Willpower': '+1', 'Charisma': '-', 'Running Multiplier': '×3', 'Other': 'Thermographic vision, Resistance (+2 Body) to any disease or toxin, Natural Immunity Edge (1 point and 3 point), ×3 running multiplier', 'Origin': 'Japan'},
-    'Menehune': {'Priority': 'D', 'Body': '+2', 'Strength': '+1', 'Quickness': '-', 'Intelligence': '-', 'Willpower': '+1', 'Charisma': '-', 'Running Multiplier': '×2', 'Other': 'Thermographic vision, Resistance (+2 Body) to any disease or toxin', 'Origin': 'Pacific Islands'},
-    'Elf': {'Priority': 'C', 'Body': '-', 'Strength': '-', 'Quickness': '+1', 'Intelligence': '-', 'Willpower': '-', 'Charisma': '+2', 'Running Multiplier': '×3', 'Other': 'Low-Light Vision', 'Origin': 'anywhere'},
-    'Night One': {'Priority': 'C', 'Body': '-', 'Strength': '-', 'Quickness': '+2', 'Intelligence': '-', 'Willpower': '-', 'Charisma': '+2', 'Running Multiplier': '×3', 'Other': 'Mild allergy (Sunlight), Low-Light Vision', 'Origin': 'Central Europe'},
-    'Wakyambi': {'Priority': 'C', 'Body': '-', 'Strength': '-', 'Quickness': '-', 'Intelligence': '-', 'Willpower': '+1', 'Charisma': '+2', 'Running Multiplier': '×3', 'Other': 'Low-Light Vision', 'Origin': 'Sub-Saharan Africa'},
-    'Ork': {'Priority': 'D', 'Body': '+3', 'Strength': '+2', 'Quickness': '-', 'Intelligence': '-1', 'Willpower': '-', 'Charisma': '-1', 'Running Multiplier': '×3', 'Other': 'Low-Light Vision', 'Origin': 'anywhere'},
-    'Hobgoblin': {'Priority': 'D', 'Body': '+2', 'Strength': '+1', 'Quickness': '-', 'Intelligence': '-', 'Willpower': '-', 'Charisma': '-1', 'Running Multiplier': '×3', 'Other': 'Low-Light Vision', 'Origin': 'Middle East'},
-    'Ogre': {'Priority': 'D', 'Body': '+3', 'Strength': '+2', 'Quickness': '-', 'Intelligence': '-1', 'Willpower': '-', 'Charisma': '-', 'Running Multiplier': '×3', 'Other': '-', 'Origin': 'Continental Europe'},
-    'Oni': {'Priority': 'D', 'Body': '+2', 'Strength': '+2', 'Quickness': '-', 'Intelligence': '-1', 'Willpower': '+1', 'Charisma': '-1', 'Running Multiplier': '×3', 'Other': 'Low-Light Vision', 'Origin': 'Japan'},
-    'Satyr': {'Priority': 'D', 'Body': '+3', 'Strength': '+2', 'Quickness': '-1', 'Intelligence': '-1', 'Willpower': '+1', 'Charisma': '-1', 'Running Multiplier': '×4', 'Other': 'Low-Light Vision, ×4 running multiplier', 'Origin': 'Mediterranean'},
-    'Troll': {'Priority': 'C', 'Body': '+5', 'Strength': '+4', 'Quickness': '-1', 'Intelligence': '-2', 'Willpower': '-', 'Charisma': '-2', 'Running Multiplier': '×3', 'Other': 'Thermographic Vision, +1 Reach for Armed/Unarmed Combat, Dermal Armor (+1 Body)', 'Origin': 'anywhere'},
-    'Cyclops': {'Priority': 'C', 'Body': '+5', 'Strength': '+6', 'Quickness': '-1', 'Intelligence': '-2', 'Willpower': '-', 'Charisma': '-2', 'Running Multiplier': '×3', 'Other': '+1 Reach for Armed/Unarmed Combat, +2 TN for melee attacks', 'Origin': 'Mediterranean'},
-    'Fomori': {'Priority': 'C', 'Body': '+4', 'Strength': '+3', 'Quickness': '-1', 'Intelligence': '-2', 'Willpower': '-', 'Charisma': '-', 'Running Multiplier': '×3', 'Other': 'Thermographic Vision, +1 Reach for Armed/Unarmed Combat', 'Origin': 'British Isles'},
-    'Giant': {'Priority': 'C', 'Body': '+5', 'Strength': '+5', 'Quickness': '-1', 'Intelligence': '-2', 'Willpower': '-', 'Charisma': '-', 'Running Multiplier': '×3', 'Other': 'Thermographic Vision, +1 Reach for Armed/Unarmed Combat', 'Origin': 'Scandinavia, British Isles, Iceland'},
-    'Minotaur': {'Priority': 'C', 'Body': '+4', 'Strength': '+3', 'Quickness': '-1', 'Intelligence': '-1', 'Willpower': '-', 'Charisma': '-', 'Running Multiplier': '×3', 'Other': 'Thermographic Vision, +1 Reach for Armed/Unarmed Combat, Dermal Armor (+1 Body)', 'Origin': 'Mediterranean'}
+    'Human': {'Priority': 'E', 'Body': '-', 'Strength': '-', 'Quickness': '-', 'Intelligence': '-', 'Willpower': '-',
+              'Charisma': '-', 'Running Multiplier': '×3', 'Other': '1:10 Karma Pool accumulation',
+              'Origin': 'anywhere'},
+    'Dwarf': {'Priority': 'D', 'Body': '+1', 'Strength': '+2', 'Quickness': '-', 'Intelligence': '-', 'Willpower': '+1',
+              'Charisma': '-', 'Running Multiplier': '×2',
+              'Other': 'Thermographic vision, Resistance (+2 Body) to any disease or toxin', 'Origin': 'anywhere'},
+    'Gnome': {'Priority': 'D', 'Body': '+1', 'Strength': '+1', 'Quickness': '-', 'Intelligence': '-', 'Willpower': '+2',
+              'Charisma': '-', 'Running Multiplier': '×2', 'Other': 'Thermographic vision',
+              'Origin': 'Central Europe, Asia Minor'},
+    'Koborokuru': {'Priority': 'C', 'Body': '+1', 'Strength': '+2', 'Quickness': '-', 'Intelligence': '-',
+                   'Willpower': '+1', 'Charisma': '-', 'Running Multiplier': '×3',
+                   'Other': 'Thermographic vision, Resistance (+2 Body) to any disease or toxin, Natural Immunity Edge (1 point and 3 point), ×3 running multiplier',
+                   'Origin': 'Japan'},
+    'Menehune': {'Priority': 'D', 'Body': '+2', 'Strength': '+1', 'Quickness': '-', 'Intelligence': '-',
+                 'Willpower': '+1', 'Charisma': '-', 'Running Multiplier': '×2',
+                 'Other': 'Thermographic vision, Resistance (+2 Body) to any disease or toxin',
+                 'Origin': 'Pacific Islands'},
+    'Elf': {'Priority': 'C', 'Body': '-', 'Strength': '-', 'Quickness': '+1', 'Intelligence': '-', 'Willpower': '-',
+            'Charisma': '+2', 'Running Multiplier': '×3', 'Other': 'Low-Light Vision', 'Origin': 'anywhere'},
+    'Night One': {'Priority': 'C', 'Body': '-', 'Strength': '-', 'Quickness': '+2', 'Intelligence': '-',
+                  'Willpower': '-', 'Charisma': '+2', 'Running Multiplier': '×3',
+                  'Other': 'Mild allergy (Sunlight), Low-Light Vision', 'Origin': 'Central Europe'},
+    'Wakyambi': {'Priority': 'C', 'Body': '-', 'Strength': '-', 'Quickness': '-', 'Intelligence': '-',
+                 'Willpower': '+1', 'Charisma': '+2', 'Running Multiplier': '×3', 'Other': 'Low-Light Vision',
+                 'Origin': 'Sub-Saharan Africa'},
+    'Ork': {'Priority': 'D', 'Body': '+3', 'Strength': '+2', 'Quickness': '-', 'Intelligence': '-1', 'Willpower': '-',
+            'Charisma': '-1', 'Running Multiplier': '×3', 'Other': 'Low-Light Vision', 'Origin': 'anywhere'},
+    'Hobgoblin': {'Priority': 'D', 'Body': '+2', 'Strength': '+1', 'Quickness': '-', 'Intelligence': '-',
+                  'Willpower': '-', 'Charisma': '-1', 'Running Multiplier': '×3', 'Other': 'Low-Light Vision',
+                  'Origin': 'Middle East'},
+    'Ogre': {'Priority': 'D', 'Body': '+3', 'Strength': '+2', 'Quickness': '-', 'Intelligence': '-1', 'Willpower': '-',
+             'Charisma': '-', 'Running Multiplier': '×3', 'Other': '-', 'Origin': 'Continental Europe'},
+    'Oni': {'Priority': 'D', 'Body': '+2', 'Strength': '+2', 'Quickness': '-', 'Intelligence': '-1', 'Willpower': '+1',
+            'Charisma': '-1', 'Running Multiplier': '×3', 'Other': 'Low-Light Vision', 'Origin': 'Japan'},
+    'Satyr': {'Priority': 'D', 'Body': '+3', 'Strength': '+2', 'Quickness': '-1', 'Intelligence': '-1',
+              'Willpower': '+1', 'Charisma': '-1', 'Running Multiplier': '×4',
+              'Other': 'Low-Light Vision, ×4 running multiplier', 'Origin': 'Mediterranean'},
+    'Troll': {'Priority': 'C', 'Body': '+5', 'Strength': '+4', 'Quickness': '-1', 'Intelligence': '-2',
+              'Willpower': '-', 'Charisma': '-2', 'Running Multiplier': '×3',
+              'Other': 'Thermographic Vision, +1 Reach for Armed/Unarmed Combat, Dermal Armor (+1 Body)',
+              'Origin': 'anywhere'},
+    'Cyclops': {'Priority': 'C', 'Body': '+5', 'Strength': '+6', 'Quickness': '-1', 'Intelligence': '-2',
+                'Willpower': '-', 'Charisma': '-2', 'Running Multiplier': '×3',
+                'Other': '+1 Reach for Armed/Unarmed Combat, +2 TN for melee attacks', 'Origin': 'Mediterranean'},
+    'Fomori': {'Priority': 'C', 'Body': '+4', 'Strength': '+3', 'Quickness': '-1', 'Intelligence': '-2',
+               'Willpower': '-', 'Charisma': '-', 'Running Multiplier': '×3',
+               'Other': 'Thermographic Vision, +1 Reach for Armed/Unarmed Combat', 'Origin': 'British Isles'},
+    'Giant': {'Priority': 'C', 'Body': '+5', 'Strength': '+5', 'Quickness': '-1', 'Intelligence': '-2',
+              'Willpower': '-', 'Charisma': '-', 'Running Multiplier': '×3',
+              'Other': 'Thermographic Vision, +1 Reach for Armed/Unarmed Combat',
+              'Origin': 'Scandinavia, British Isles, Iceland'},
+    'Minotaur': {'Priority': 'C', 'Body': '+4', 'Strength': '+3', 'Quickness': '-1', 'Intelligence': '-1',
+                 'Willpower': '-', 'Charisma': '-', 'Running Multiplier': '×3',
+                 'Other': 'Thermographic Vision, +1 Reach for Armed/Unarmed Combat, Dermal Armor (+1 Body)',
+                 'Origin': 'Mediterranean'}
 }
-
-selected_metatype_data = {
-        'Human': {
+metatype = {
+    'Human': {
         'Priority': 'E',
         'Body': '-',
         'Strength': '-',
@@ -128,8 +158,6 @@ selected_metatype_data = {
         'Percentage Population': '2%'
     }
 }
-# priorities.py
-
 priority_data = {
     'A': {'Races': {'Dwarf': 13, 'Ork': 13, 'Troll': 13}, 'Attributes': 24, 'Skills': 32,
           'Magic/Resonance': {'Full': 4, 'Aspected': 5, 'Mystic Adept': 4, 'Adept': 4, 'Technomancer': 4},
@@ -147,7 +175,6 @@ priority_data = {
           'Magic/Resonance': 'Mundane', 'Resources': 8000}
 }
 
-
 # List of spell schools
 spell_schools = ['Combat', 'Detection', 'Health', 'Illusion', 'Manipulation', 'Drain', 'Enchantment', 'Geomancy']
 
@@ -155,11 +182,15 @@ spell_schools = ['Combat', 'Detection', 'Health', 'Illusion', 'Manipulation', 'D
 
 # Dictionary of spell lists
 spell_list = {
-    'Combat': ['Ball Lightning', 'Clout', 'Flamethrower', 'Ice Spear', 'Lightning Bolt', 'Manaball', 'Manabolt', 'Powerbolt'],
-    'Detection': ['Analyze Device', 'Analyze Truth', 'Assensing', 'Clairaudience', 'Clairvoyance', 'Detect Enemies', 'Detect Individual', 'Detect Life'],
+    'Combat': ['Ball Lightning', 'Clout', 'Flamethrower', 'Ice Spear', 'Lightning Bolt', 'Manaball', 'Manabolt',
+               'Powerbolt'],
+    'Detection': ['Analyze Device', 'Analyze Truth', 'Assensing', 'Clairaudience', 'Clairvoyance', 'Detect Enemies',
+                  'Detect Individual', 'Detect Life'],
     'Health': ['Decrease Attribute', 'Heal', 'Increase Attribute', 'Increase Reflexes', 'Stabilize'],
-    'Illusion': ['Chaotic World', 'Control Thoughts', 'Improved Invisibility', 'Mask', 'Physical Mask', 'Trid Phantasm'],
-    'Manipulation': ['Analyze Device', 'Control Actions', 'Control Thoughts', 'Fling', 'Influence', 'Levitate', 'Mob Mind'],
+    'Illusion': ['Chaotic World', 'Control Thoughts', 'Improved Invisibility', 'Mask', 'Physical Mask',
+                 'Trid Phantasm'],
+    'Manipulation': ['Analyze Device', 'Control Actions', 'Control Thoughts', 'Fling', 'Influence', 'Levitate',
+                     'Mob Mind'],
     'Enchantment': ['Armor', 'Bind', 'Elemental Barrier', 'Magic Fingers', 'Trid Phantasm'],
     'Drain': ['Alleviate Addiction', 'Death Touch', 'Mind Probe', 'Psychic Surgery'],
     'Geomancy': ['Elemental Manipulation', 'Plant Control', 'Shape Earth', 'Water Spirit']
