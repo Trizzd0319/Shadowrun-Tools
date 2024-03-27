@@ -1,0 +1,381 @@
+{
+    "Physical": {
+        "Body": {
+            "Skills": []
+        },
+        "Agility": {
+            "Skills": [
+                {
+                    "Name": "Athletics",
+                    "Details": {
+                        "Specializations": [
+                            "Climbing",
+                            "Flying",
+                            "Gymnastics",
+                            "Sprinting",
+                            "Swimming",
+                            "Throwing"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Agility",
+                        "Linked Attribute, Secondary": "Strength",
+                        "Description": "The Athletics skill is about physical grace and prowess, which is a combination of a number of factors\u2014strength, speed, quickness, nimbleness, and so on. More than that, it is the ability to coordinate all those qualities together, to draw on your abilities to meet what the situation demands. As a skill with a variety of uses, it can be employed in different ways. It is used in Sprint tests (p. 44) and Full Defense Actions (p. 43), and it is an attack skill for thrown weapons. In general, it is paired with Agility to express a certain fluidity of movement, but it also can be linked to Strength for tests when sheer muscle power is needed. These tests are often Simple tests (Full Defense being an exception). Diving and free-falling are covered with this skill. Beyond these guidelines, there are a few specific types of Athletics tests listed below."
+                    }
+                },
+                {
+                    "Name": "Biotech",
+                    "Details": {
+                        "Specializations": [
+                            "Biotechnology",
+                            "Cybertechnology",
+                            "First Aid",
+                            "Medicine"
+                        ],
+                        "Untrained": "No",
+                        "Linked Attribute, Primary": "Agility",
+                        "Linked Attribute, Secondary": "Strength",
+                        "Description": "The Athletics skill is about physical grace and prowess, which is a combination of a number of factors\u2014strength, speed, quickness, nimbleness, and so on. More than that, it is the ability to coordinate all those qualities together, to draw on your abilities to meet what the situation demands. As a skill with a variety of uses, it can be employed in different ways. It is used in Sprint tests (p. 44) and Full Defense Actions (p. 43), and it is an attack skill for thrown weapons. In general, it is paired with Agility to express a certain fluidity of movement, but it also can be linked to Strength for tests when sheer muscle power is needed. These tests are often Simple tests (Full Defense being an exception). Diving and free-falling are covered with this skill. Beyond these guidelines, there are a few specific types of Athletics tests listed below."
+                    }
+                },
+                {
+                    "Name": "Close Combat",
+                    "Details": {
+                        "Specializations": [
+                            "Blades",
+                            "Clubs",
+                            "Unarmed Combat"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Agility",
+                        "Description": "Are you near someone? Are you trying to hurt them? Then use this skill! Whether you\u2019re punching, stabbing, clubbing, or whatever, roll Close Combat + Agility vs. Reaction + Intuition (Athletics canbe added for Full Defense; see p. 43) Full details on Combat are in the Combat chapter (p. 104)."
+                    }
+                },
+                {
+                    "Name": "Exotic Weapons",
+                    "Details": {
+                        "Specializations": "See below",
+                        "Untrained": "No",
+                        "Linked Attribute, Primary": "Agility",
+                        "Description": "Some weapons are not like any other, and you need particular training to use them. This skill is for those weapons. You must select a specialization to use this skill, and you can only use this skill with weapons for which you have a specialization. Expertises cannot be acquired for this skill. You can buy ranks in this skill, and those ranks can be used with all specializations you have. This skill is exempt from the rule that you can only have one specialization per skill, and you cannot have expertise in this skill."
+                    }
+                },
+                {
+                    "Name": "Firearms",
+                    "Details": {
+                        "Specializations": [
+                            "Automatics",
+                            "Longarms",
+                            "Pistols",
+                            "Rifles",
+                            "Shotguns"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Agility",
+                        "Description": "Do you want to shoot things? Use this skill. The basics are, roll Firearms + Agility vs. Reaction + Intuition. The details that stack on top of that are available in the Combat chapter (p. 104)."
+                    }
+                },
+                {
+                    "Name": "Stealth",
+                    "Details": {
+                        "Specializations": [
+                            "Disguise",
+                            "Palming",
+                            "Sneaking"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Agility",
+                        "Linked Attribute, Secondary": null,
+                        "Description": "Shadowrunning isn\u2019t supposed to be obvious, as you should be able to guess by the name, so Stealth is a very valuable skill. Stealth covers all the activities characters perform that they do not want others to notice\u2014sneaking into a research facility, slipping a credstick out from under a Mafia don\u2019s nose, blending into a crowd of Lone Star officers, and so on. Typically, a Stealth + Agility test is made at the start of such an effort, with the net hits being used as a threshold for others to notice what the character is up to. Sometimes the attempt at stealth happens spontaneously, so it is a Stealth + Agility vs. Perception + Intuition Opposed test. In some circumstances, but not all, the size of a character may play a role in how stealthy they can be. If the gamemaster judges it to be appropriate, the Body of a character can be used as a threshold for their Stealth + Agility test, or the threshold can be increased based in their size."
+                    }
+                }
+            ]
+        },
+        "Reaction": {
+            "Skills": [
+                {
+                    "Name": "Piloting",
+                    "Details": {
+                        "Specializations": [
+                            "Ground Craft",
+                            "Aircraft",
+                            "Watercraft"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Reaction",
+                        "Linked Attribute, Secondary": null,
+                        "Description": "When you want a vehicle to move in a tricky way, this is the skill to use (riggers live or die by this skill). This is generally a Simple Test, Piloting + Reaction with a threshold based on the difficulty of the maneuver they are attempting. Sometimes a Piloting roll is about trying to avoid a tail, or tail someone else, or some other multi-vehicle action. In these cases, it\u2019s Piloting + Reaction vs. Piloting + Reaction."
+                    }
+                }
+            ]
+        },
+        "Strength": {
+            "Skills": [
+                {
+                    "Name": "Athletics",
+                    "Details": {
+                        "Specializations": [
+                            "Climbing",
+                            "Flying",
+                            "Gymnastics",
+                            "Sprinting",
+                            "Swimming",
+                            "Throwing"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Agility",
+                        "Linked Attribute, Secondary": "Strength",
+                        "Description": "The Athletics skill is about physical grace and prowess, which is a combination of a number of factors\u2014strength, speed, quickness, nimbleness, and so on. More than that, it is the ability to coordinate all those qualities together, to draw on your abilities to meet what the situation demands. As a skill with a variety of uses, it can be employed in different ways. It is used in Sprint tests (p. 44) and Full Defense Actions (p. 43), and it is an attack skill for thrown weapons. In general, it is paired with Agility to express a certain fluidity of movement, but it also can be linked to Strength for tests when sheer muscle power is needed. These tests are often Simple tests (Full Defense being an exception). Diving and free-falling are covered with this skill. Beyond these guidelines, there are a few specific types of Athletics tests listed below."
+                    }
+                },
+                {
+                    "Name": "Biotech",
+                    "Details": {
+                        "Specializations": [
+                            "Biotechnology",
+                            "Cybertechnology",
+                            "First Aid",
+                            "Medicine"
+                        ],
+                        "Untrained": "No",
+                        "Linked Attribute, Primary": "Agility",
+                        "Linked Attribute, Secondary": "Strength",
+                        "Description": "The Athletics skill is about physical grace and prowess, which is a combination of a number of factors\u2014strength, speed, quickness, nimbleness, and so on. More than that, it is the ability to coordinate all those qualities together, to draw on your abilities to meet what the situation demands. As a skill with a variety of uses, it can be employed in different ways. It is used in Sprint tests (p. 44) and Full Defense Actions (p. 43), and it is an attack skill for thrown weapons. In general, it is paired with Agility to express a certain fluidity of movement, but it also can be linked to Strength for tests when sheer muscle power is needed. These tests are often Simple tests (Full Defense being an exception). Diving and free-falling are covered with this skill. Beyond these guidelines, there are a few specific types of Athletics tests listed below."
+                    }
+                }
+            ]
+        }
+    },
+    "Mental": {
+        "Willpower": {
+            "Skills": [
+                {
+                    "Name": "Astral",
+                    "Details": {
+                        "Specializations": [
+                            "Astral Combat",
+                            "Astral Signatures",
+                            "Emotional States",
+                            "Spirit Types"
+                        ],
+                        "Untrained": "No",
+                        "Linked Attribute, Primary": "Intuition",
+                        "Linked Attribute, Secondary": "Willpower",
+                        "Description": "This skill can only be used by full or aspected magicians, or by adepts and mystic adepts who have chosen the Astral Perception adept power. It has two primary uses\u2014one is for assensing astral auras, as described on p. 159. The other is for astral combat, as described on p. 160."
+                    }
+                }
+            ]
+        },
+        "Logic": {
+            "Skills": [
+                {
+                    "Name": "Cracking",
+                    "Details": {
+                        "Specializations": [
+                            "Cybercombat",
+                            "Electronic Warfare",
+                            "Hacking"
+                        ],
+                        "Untrained": "No",
+                        "Linked Attribute, Primary": "Logic",
+                        "Description": "In the Matrix, there are two basic kinds of actions: legal and illegal. Cracking is what you use for the illegal ones. For details on the uses of Cracking, see Matrix, p. 171."
+                    }
+                },
+                {
+                    "Name": "Electronics",
+                    "Details": {
+                        "Specializations": [
+                            "Computer",
+                            "Hardware",
+                            "Software"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Logic",
+                        "Linked Attribute, Secondary": "Intuition, for kludge work",
+                        "Description": "This is the other side of Matrix work, the legal side. Whether you\u2019re using your commlink, kludging some software, fine-tuning your hardware, or whatever, Electronics is the skill for you. You can find more details about its use in the Matrix chapter, p. 170."
+                    }
+                },
+                {
+                    "Name": "Engineering",
+                    "Details": {
+                        "Specializations": [
+                            "Aeronautics Mechanic",
+                            "Automotive Mechanic",
+                            "Demolitions",
+                            "Gunnery",
+                            "Industrial Mechanic",
+                            "Lockpicking",
+                            "Nautical Mechanic"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Logic",
+                        "Linked Attribute, Secondary": "Intuition, for juryrigging; Agility, for lockpicking",
+                        "Description": "Engineering is about making things do the things you want them to do\u2014making cars move, planes fly, boats float, and machines spin and roar so they can achieve whatever purpose they were built for. As the specializations show, this can cover a wide range of areas, but the skill essentially covers four basic activities: building, repairing, juryrigging, and vehicle gunnery. Building and repairing both follow the same basic process\u2014roll an Engineering + Logic Extended test, with the threshold determined by the complexity of the item being built/repaired. Juryrigging is a Simple test, meant to get something to work in the short term with a quick adjustment or even a swift kick. Engineering is also used to pick mechanical locks and maglocks. It is combined with Agility for these tests."
+                    }
+                }
+            ]
+        },
+        "Intuition": {
+            "Skills": [
+                {
+                    "Name": "Astral",
+                    "Details": {
+                        "Specializations": [
+                            "Astral Combat",
+                            "Astral Signatures",
+                            "Emotional States",
+                            "Spirit Types"
+                        ],
+                        "Untrained": "No",
+                        "Linked Attribute, Primary": "Intuition",
+                        "Linked Attribute, Secondary": "Willpower",
+                        "Description": "This skill can only be used by full or aspected magicians, or by adepts and mystic adepts who have chosen the Astral Perception adept power. It has two primary uses\u2014one is for assensing astral auras, as described on p. 159. The other is for astral combat, as described on p. 160."
+                    }
+                },
+                {
+                    "Name": "Outdoors",
+                    "Details": {
+                        "Specializations": [
+                            "Navigation",
+                            "Survival",
+                            "Tracking",
+                            "by environment (Woods, Desert, Urban Areas, etc.)"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Intuition",
+                        "Description": "While staying indoors forever, watching trids and eating WhompSnappers, seems like a good enough life, sometimes you have to go outside. Outdoors is to help deal with those times. Whether you are following the tracks of someone or something, scaring up food, or figuring out the quickest way to your destination, Outdoors is the skill to use. Typically this is a Simple test, Outdoors + Intuition with a threshold set using the Threshold Guidelines on p. 36. Efforts to disguise tracks may set the threshold for Tracking tests."
+                    }
+                },
+                {
+                    "Name": "Perception",
+                    "Details": {
+                        "Specializations": [
+                            "Visual",
+                            "Aural",
+                            "Tactile",
+                            "by Environment (Woods, Desert, Urban, etc.)"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Intuition",
+                        "Linked Attribute, Secondary": "Logic, for pattern recognition.",
+                        "Description": "Is someone sneaking through the smog up ahead? Is there a secret compartment in that executive\u2019s desk? Where\u2019s the light switch? These are some of the questions that can be answered with a Perception test. When observing an environment, this is a Simple test, Perception + Intuition with a threshold determined by the gamemaster based on how difficult it is to find what the players are looking for (sample thresholds can be found in the Perception Thresholds table). Perception is also used to attempt to see those who do not wish to be seen, in which case the test is Perception + Intuition vs. Stealth + Agility (sometimes these tests are not rolled concurrently; see the Stealth section for more details). Sometimes Perception is about more than just taking in the details of your surroundings or trying to spot a hidden object. It may be about seeing how different things link to each other, or discerning a pattern in events or movements. In those cases, a gamemaster can have a player make a Perception + Logic test, with the threshold based on the complexity of the information they are trying to piece together."
+                    }
+                }
+            ]
+        },
+        "Charisma": {
+            "Skills": [
+                {
+                    "Name": "Con",
+                    "Details": {
+                        "Specializations": [
+                            "Acting",
+                            "Disguise",
+                            "Impersonation",
+                            "Performance"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Charisma",
+                        "Description": "The key aspect of this group is persuasion where you act as someone or something you\u2019re not. Maybe you\u2019re acting like the long-lost heir to a portion of Dunkelzahn\u2019s hoard, or maybe you\u2019re pretending to be a down-on-their-luck business suit looking to make a big score to launch them back to the top. Whatever the case may be, Con is the skill you use to convince other people that you are something you are not. Tests involving Con are Opposed tests, and the target rolls Intuition + Willpower to resist the con. Usually this is a simple pass/fail test, looking at whether the character pulled off their con or not, but if they scored a high number of net hits, the gamemaster can consider the con to be extra persuasive, making the mark an all-the-more-willing participant."
+                    }
+                },
+                {
+                    "Name": "Influence",
+                    "Details": {
+                        "Specializations": [
+                            "Etiquette",
+                            "Instruction",
+                            "Intimidation",
+                            "Leadership",
+                            "Negotiation"
+                        ],
+                        "Untrained": "Yes",
+                        "Linked Attribute, Primary": "Charisma",
+                        "Linked Attribute, Secondary": "Logic, when making a clear argument. Mainly in Negotiation, could also be in some leadership situations.",
+                        "Description": "This is the other way of shaping the opinions of others, along with Con. It might be said that this is the more honest side, but that would be underselling the integrity of con artists and overselling the honesty of business negotiators. The point is, whether you are trying to inspire your fellow runners, squeeze a few nuyen out of Mr. Johnson, or let someone know that intense physical pain awaits them if they cross you, Influence is the skill to use. The test usually is Influence + Charisma, but sometimes it can be Influence + Logic when the character is relying on pure reason to get their point across. It is opposed by Willpower + Intuition when Charisma is used, Willpower + Logic when Logic is used. Influence is also used for Instruction tests, which can shorten the time it takes to learn new skills (see p. 68). Instructors must have 4 or more ranks in the skill they want to teach. The instructor makes an Influence + Charisma test, which reduces the time to learn a skill by 1 day per net hit. See Social Test Edge (p. 97) for more information about how to gain Edge on social tests."
+                    }
+                }
+            ]
+        }
+    },
+    "Initiative": {
+        "Initiative, Physical": {
+            "Skills": []
+        },
+        "Initiative, Matrix": {
+            "Skills": []
+        },
+        "Initiative, Astral": {
+            "Skills": []
+        }
+    },
+    "Other": {
+        "Edge": {
+            "Skills": []
+        },
+        "Magic": {
+            "Skills": [
+                {
+                    "Name": "Conjuring",
+                    "Details": {
+                        "Specializations": [
+                            "Banishing",
+                            "Binding",
+                            "Summoning"
+                        ],
+                        "Untrained": "No",
+                        "Linked Attribute, Primary": "Magic",
+                        "Description": "This skill allows you to summon, bind, and banish spirits. For details, see Conjuring, p. 146."
+                    }
+                },
+                {
+                    "Name": "Enchanting",
+                    "Details": {
+                        "Specializations": [
+                            "Alchemy",
+                            "Artificing",
+                            "Disenchanting"
+                        ],
+                        "Untrained": "No",
+                        "Linked Attribute, Primary": "Magic",
+                        "Description": "Enchanting is used to craft\u2014and sometimes demolish\u2014foci, fetishes, and other items imbued with magic. Details about this can be found in the Magic chapter\u2019s Enchanting section, p. 149."
+                    }
+                },
+                {
+                    "Name": "Sorcery",
+                    "Details": {
+                        "Specializations": [
+                            "Counterspelling",
+                            "Ritual Spellcasting",
+                            "Spellcasting"
+                        ],
+                        "Untrained": "No",
+                        "Linked Attribute, Primary": "Magic",
+                        "Linked Attribute, Secondary": null,
+                        "Description": "The uses of Sorcery are numerous\u2014too numerous to cover here! Instead, look at the Magic chapter for information on Spells (p. 130), Counterspelling (p. 143), and other uses."
+                    }
+                }
+            ]
+        },
+        "Essence": {
+            "Skills": []
+        },
+        "Resonance": {
+            "Skills": [
+                {
+                    "Name": "Tasking",
+                    "Details": {
+                        "Specializations": [
+                            "Compiling",
+                            "Decompiling",
+                            "Registering"
+                        ],
+                        "Untrained": "No",
+                        "Linked Attribute, Primary": "Resonance",
+                        "Linked Attribute, Secondary": null,
+                        "Description": "This is the skill technomancers use to do various technomancer activities. More information about these activities can be found in the Technomancers section (p. 187)."
+                    }
+                }
+            ]
+        }
+    }
+}
