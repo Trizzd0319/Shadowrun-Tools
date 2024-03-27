@@ -1,0 +1,214 @@
+{
+    "Races": [
+        {
+            "Priority": "A",
+            "Dwarf": 13,
+            "Ork": 13,
+            "Troll": 13
+        },
+        {
+            "Priority": "B",
+            "Dwarf": 11,
+            "Elf": 11,
+            "Ork": 11,
+            "Troll": 11
+        },
+        {
+            "Priority": "C",
+            "Dwarf": 9,
+            "Elf": 9,
+            "Human": 9,
+            "Ork": 9,
+            "Troll": 9
+        },
+        {
+            "Priority": "D",
+            "Dwarf": 4,
+            "Elf": 4,
+            "Human": 4,
+            "Ork": 4,
+            "Troll": 4
+        },
+        {
+            "Priority": "E",
+            "Dwarf": 1,
+            "Elf": 1,
+            "Human": 1,
+            "Ork": 1,
+            "Troll": 1
+        }
+    ],
+    "Attributes": [
+        {
+            "Priority": "A",
+            "Value": 24
+        },
+        {
+            "Priority": "B",
+            "Value": 16
+        },
+        {
+            "Priority": "C",
+            "Value": 12
+        },
+        {
+            "Priority": "D",
+            "Value": 8
+        },
+        {
+            "Priority": "E",
+            "Value": 2
+        }
+    ],
+    "Skills": [
+        {
+            "Priority": "A",
+            "Value": 32
+        },
+        {
+            "Priority": "B",
+            "Value": 24
+        },
+        {
+            "Priority": "C",
+            "Value": 20
+        },
+        {
+            "Priority": "D",
+            "Value": 16
+        },
+        {
+            "Priority": "E",
+            "Value": 10
+        }
+    ],
+    "Magic/Resonance": [
+        {
+            "Priority": "A",
+            "Type": "Full",
+            "Value": 4
+        },
+        {
+            "Priority": "A",
+            "Type": "Aspected",
+            "Value": 5
+        },
+        {
+            "Priority": "A",
+            "Type": "Mystic Adept",
+            "Value": 4
+        },
+        {
+            "Priority": "A",
+            "Type": "Adept",
+            "Value": 4
+        },
+        {
+            "Priority": "A",
+            "Type": "Technomancer",
+            "Value": 4
+        },
+        {
+            "Priority": "B",
+            "Type": "Full",
+            "Value": 3
+        },
+        {
+            "Priority": "B",
+            "Type": "Aspected",
+            "Value": 4
+        },
+        {
+            "Priority": "B",
+            "Type": "Mystic Adept",
+            "Value": 3
+        },
+        {
+            "Priority": "B",
+            "Type": "Adept",
+            "Value": 3
+        },
+        {
+            "Priority": "B",
+            "Type": "Technomancer",
+            "Value": 3
+        },
+        {
+            "Priority": "C",
+            "Type": "Full",
+            "Value": 2
+        },
+        {
+            "Priority": "C",
+            "Type": "Aspected",
+            "Value": 3
+        },
+        {
+            "Priority": "C",
+            "Type": "Mystic Adept",
+            "Value": 2
+        },
+        {
+            "Priority": "C",
+            "Type": "Adept",
+            "Value": 2
+        },
+        {
+            "Priority": "C",
+            "Type": "Technomancer",
+            "Value": 2
+        },
+        {
+            "Priority": "D",
+            "Type": "Full",
+            "Value": 1
+        },
+        {
+            "Priority": "D",
+            "Type": "Aspected",
+            "Value": 2
+        },
+        {
+            "Priority": "D",
+            "Type": "Mystic Adept",
+            "Value": 1
+        },
+        {
+            "Priority": "D",
+            "Type": "Adept",
+            "Value": 1
+        },
+        {
+            "Priority": "D",
+            "Type": "Technomancer",
+            "Value": 1
+        },
+        {
+            "Priority": "E",
+            "Type": "Mundane",
+            "Value": "Mundane"
+        }
+    ],
+    "Resources": [
+        {
+            "Priority": "A",
+            "Value": 450000
+        },
+        {
+            "Priority": "B",
+            "Value": 275000
+        },
+        {
+            "Priority": "C",
+            "Value": 150000
+        },
+        {
+            "Priority": "D",
+            "Value": 50000
+        },
+        {
+            "Priority": "E",
+            "Value": 8000
+        }
+    ]
+}

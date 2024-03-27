@@ -1,0 +1,72 @@
+A:
+  Races:
+    Dwarf: 13
+    Ork: 13
+    Troll: 13
+  Attributes: 24
+  Skills: 32
+  Magic/Resonance:
+    Full: 4
+    Aspected: 5
+    Mystic Adept: 4
+    Adept: 4
+    Technomancer: 4
+  Resources: 450000
+B:
+  Races:
+    Dwarf: 11
+    Elf: 11
+    Ork: 11
+    Troll: 11
+  Attributes: 16
+  Skills: 24
+  Magic/Resonance:
+    Full: 3
+    Aspected: 4
+    Mystic Adept: 3
+    Adept: 3
+    Technomancer: 3
+  Resources: 275000
+C:
+  Races:
+    Dwarf: 9
+    Elf: 9
+    Human: 9
+    Ork: 9
+    Troll: 9
+  Attributes: 12
+  Skills: 20
+  Magic/Resonance:
+    Full: 2
+    Aspected: 3
+    Mystic Adept: 2
+    Adept: 2
+    Technomancer: 2
+  Resources: 150000
+D:
+  Races:
+    Dwarf: 4
+    Elf: 4
+    Human: 4
+    Ork: 4
+    Troll: 4
+  Attributes: 8
+  Skills: 16
+  Magic/Resonance:
+    Full: 1
+    Aspected: 2
+    Mystic Adept: 1
+    Adept: 1
+    Technomancer: 1
+  Resources: 50000
+E:
+  Races:
+    Dwarf: 1
+    Elf: 1
+    Human: 1
+    Ork: 1
+    Troll: 1
+  Attributes: 2
+  Skills: 10
+  Magic/Resonance: Mundane
+  Resources: 8000

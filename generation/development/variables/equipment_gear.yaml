@@ -1,0 +1,487 @@
+commlinks:
+  Meta Link:
+    DEVICE RATING: 1
+    ATTRIBUTES (D/F): 1/0
+    ACTIVE PROGRAM SLOTS: 0
+    AVAIL: 2
+    COST: "100\xA5"
+  Sony Emperor:
+    DEVICE RATING: 2
+    ATTRIBUTES (D/F): 1/1
+    ACTIVE PROGRAM SLOTS: 1
+    AVAIL: 2
+    COST: "700\xA5"
+  Renraku Sensei:
+    DEVICE RATING: 3
+    ATTRIBUTES (D/F): 2/0
+    ACTIVE PROGRAM SLOTS: 1
+    AVAIL: 2
+    COST: "1,000\xA5"
+  Erika Elite:
+    DEVICE RATING: 4
+    ATTRIBUTES (D/F): 2/1
+    ACTIVE PROGRAM SLOTS: 2
+    AVAIL: 2
+    COST: "2,500\xA5"
+  Hermes Ikon:
+    DEVICE RATING: 5
+    ATTRIBUTES (D/F): 3/0
+    ACTIVE PROGRAM SLOTS: 2
+    AVAIL: 3
+    COST: "5,000\xA5"
+  Transys Avalon:
+    DEVICE RATING: 6
+    ATTRIBUTES (D/F): 3/1
+    ACTIVE PROGRAM SLOTS: 3
+    AVAIL: 3
+    COST: "8,000\xA5"
+Cyberdecks:
+  Erika MCD-6:
+    DEVICE RATING: 1
+    ATTRIBUTES (A/S): 4/3
+    ACTIVE PROGRAM SLOTS: 2
+    AVAIL: 3(I)
+    COST: "24,750\xA5"
+  Spinrad Falcon:
+    DEVICE RATING: 2
+    ATTRIBUTES (A/S): 5/4
+    ACTIVE PROGRAM SLOTS: 4
+    AVAIL: 3(I)
+    COST: "61,500\xA5"
+  MCT 360:
+    DEVICE RATING: 3
+    ATTRIBUTES (A/S): 6/5
+    ACTIVE PROGRAM SLOTS: 6
+    AVAIL: 3(I)
+    COST: "107,000\xA5"
+  Renraku Kitsune:
+    DEVICE RATING: 4
+    ATTRIBUTES (A/S): 7/6
+    ACTIVE PROGRAM SLOTS: 8
+    AVAIL: 4(I)
+    COST: "95,000\xA5"
+  Shiawase Cyber-6:
+    DEVICE RATING: 5
+    ATTRIBUTES (A/S): 8/7
+    ACTIVE PROGRAM SLOTS: 10
+    AVAIL: 5(I)
+    COST: "172,500\xA5"
+  Fairlight Excalibur:
+    DEVICE RATING: 6
+    ATTRIBUTES (A/S): 9/8
+    ACTIVE PROGRAM SLOTS: 12
+    AVAIL: 8(I)
+    COST: "410,600\xA5"
+accessories:
+  AR gloves:
+    DEVICE RATING: 3
+    AVAIL: 1
+    COST: "150\xA5"
+  Biometric reader:
+    DEVICE RATING: 3
+    AVAIL: 2
+    COST: "200\xA5"
+  Electronic paper:
+    DEVICE RATING: 1
+    AVAIL: 1
+    COST: "5\xA5"
+  Printer:
+    DEVICE RATING: 3
+    AVAIL: 1
+    COST: "25\xA5"
+  Satellite link:
+    DEVICE RATING: 4
+    AVAIL: 3
+    COST: "500\xA5"
+  Simrig:
+    DEVICE RATING: 3
+    AVAIL: 4
+    COST: "1,000\xA5"
+  Subvocal mic:
+    DEVICE RATING: 3
+    AVAIL: 2
+    COST: "50\xA5"
+  Trid projector:
+    DEVICE RATING: 3
+    AVAIL: 1
+    COST: "200\xA5"
+  Trodes:
+    DEVICE RATING: 3
+    AVAIL: 1
+    COST: "70\xA5"
+rfid tags:
+  Standard tags:
+    DEVICE RATING: 1
+    AVAIL: 1
+    COST: "1\xA5"
+  Datachip:
+    DEVICE RATING: 1
+    AVAIL: 1
+    COST: "5\xA5"
+  Security/stealth tags:
+    DEVICE RATING: 3
+    AVAIL: 2
+    COST: "10\xA5"
+  Sensor tags:
+    DEVICE RATING: 2
+    AVAIL: 2
+    COST: "40\xA5"
+Communications and Countermeasures:
+  Bug scanner:
+    AVAIL: 3
+    COST: "200\xA5"
+  Data tap:
+    AVAIL: 2
+    COST: "300\xA5"
+  Headjammer:
+    AVAIL: 5(I)
+    COST: "Rating x 150\xA5"
+  Jammer, area:
+    AVAIL: 4(L)
+    COST: "Rating x 200\xA5"
+  Jammer, directional:
+    AVAIL: 4(L)
+    COST: "Rating x 200\xA5"
+  Micro-transceiver:
+    AVAIL: 1
+    COST: "100\xA5"
+  Tag eraser:
+    AVAIL: 3
+    COST: "450\xA5"
+  White noise generator:
+    AVAIL: 3
+    COST: "Rating x 50\xA5"
+Optical and Imaging Devices:
+  Binoculars:
+    Capacity: 1-3
+    Avail: 1
+    Cost: "Capacity x 50\xA5"
+  Binoculars, optical:
+    Capacity: '-'
+    Avail: 1
+    Cost: "50\xA5"
+  Camera:
+    Capacity: 1-6
+    Avail: 1
+    Cost: "Capacity x 100\xA5"
+  Micro-camera:
+    Capacity: '1'
+    Avail: 1
+    Cost: "100\xA5"
+  Contacts:
+    Capacity: 1-3
+    Avail: 2
+    Cost: "Capacity x 200\xA5"
+  Endoscope:
+    Capacity: '-'
+    Avail: 3
+    Cost: "250\xA5"
+  Glasses:
+    Capacity: 1-4
+    Avail: 1
+    Cost: "Capacity x 100\xA5"
+  Goggles:
+    Capacity: 1-6
+    Avail: 1
+    Cost: "Capacity x 50\xA5"
+  Imaging scope:
+    Capacity: '3'
+    Avail: 1
+    Cost: "300\xA5"
+  Monocle:
+    Capacity: 1-4
+    Avail: 1
+    Cost: "Capacity x 120\xA5"
+  Mage sight goggles:
+    Capacity: '-'
+    Avail: 5
+    Cost: "3,000\xA5"
+  Periscope:
+    Capacity: '-'
+    Avail: 2
+    Cost: "50\xA5"
+Visual Enhancements:
+  Flare compensation:
+    Capacity: '1'
+    Cost: "+250\xA5"
+  Image link:
+    Capacity: '1'
+    Cost: "+25\xA5"
+  Low-light vision:
+    Capacity: '1'
+    Cost: "+500\xA5"
+  Smartlink:
+    Capacity: '2'
+    Cost: "+2,000\xA5"
+  Thermographic vision:
+    Capacity: '1'
+    Cost: "+500\xA5"
+  Ultrasound link:
+    Capacity: '1'
+    Cost: "+300\xA5"
+  Vision enhancement:
+    Capacity: '2'
+    Cost: "+500\xA5"
+  Vision magnification:
+    Capacity: '1'
+    Cost: "+250\xA5"
+Auditory Devices:
+  Directional Microphone:
+    Capacity: 1-6
+    Avail: 2
+    Cost: "Capacity x 50\xA5"
+  Earbuds:
+    Capacity: 1-3
+    Avail: 1
+    Cost: "Capacity x 50\xA5"
+  Headphones:
+    Capacity: 1-6
+    Avail: 1
+    Cost: "Capacity x 50\xA5"
+  Laser Mic:
+    Capacity: 1-6
+    Avail: 2
+    Cost: "Capacity x 100\xA5"
+  Omnidirectional Mic:
+    Capacity: 1-6
+    Avail: 1
+    Cost: "Capacity x 50\xA5"
+Audio Enhancements:
+  Audio Enhancement [1]:
+    Capacity: 1
+    Cost: "500\xA5"
+  Select Sound Filter [Rating]:
+    Capacity: 3
+    Cost: "(Rating x 250)\xA5"
+  Spatial Recognizer [2]:
+    Capacity: 2
+    Cost: "+1,000\xA5"
+Sensors:
+  Handheld Housing:
+    Capacity: 1-3
+    Avail: 1
+    Cost: "Capacity x 100\xA5"
+  Wall-mounted Housing:
+    Capacity: 1-6
+    Avail: 1
+    Cost: "Capacity x 250\xA5"
+  Sensor Array:
+    Capacity: Rating 3
+    Cost: "Rating x 1,000\xA5"
+  Single Sensor [1]:
+    Capacity: 2
+    Cost: "Rating x 100\xA5"
+Sensor Packages:
+  RFID, Audio or Visual Device, Headware:
+    Max Sensor Rating: 2
+  Handheld Device, Small (or smaller) Drone:
+    Max Sensor Rating: 3
+  Wall-mounted Device, Medium Drone:
+    Max Sensor Rating: 4
+  Large Drone, Cyberlimb:
+    Max Sensor Rating: 5
+  Motorcycle:
+    Max Sensor Rating: 6
+  Vehicle (larger than a motorcycle):
+    Max Sensor Rating: 7
+  Building, Complex:
+    Max Sensor Rating: 8
+Sensor Functions:
+  Atmosphere sensor:
+    MAX RANGE: "\u2014"
+  Camera:
+    MAX RANGE: Line of sight
+  Cyberware scanner:
+    MAX RANGE: 15 meters
+  Directional microphone:
+    MAX RANGE: "\u2014"
+  Geiger counter:
+    MAX RANGE: "\u2014"
+  Laser microphone:
+    MAX RANGE: 100 meters
+  Laser range finder:
+    MAX RANGE: 1,000 meters
+  MAD scanner:
+    MAX RANGE: 5 meters
+  Motion sensor:
+    MAX RANGE: 25 meters
+  Olfactory sensor:
+    MAX RANGE: "\u2014"
+  Omni-directional microphone:
+    MAX RANGE: "\u2014"
+  Ultrasound:
+    MAX RANGE: 50 meters
+Security and Restraints:
+  Containment:
+    manacles:
+      AVAIL: 3
+      COST: "250\xA5"
+    Lock:
+      AVAIL: 2 Rating
+      COST: "Rating x 10\xA5"
+    Maglock:
+      AVAIL: 3 Rating
+      COST: "Rating x 100\xA5"
+    Keypad:
+      AVAIL: 1
+      COST: "50\xA5"
+    Card reader:
+      AVAIL: 1
+      COST: "50\xA5"
+    Biometric reader:
+      AVAIL: 2
+      COST: "200\xA5"
+    Metal restraints:
+      AVAIL: 1
+      COST: "20\xA5"
+    Plasteel restraints:
+      AVAIL: 2
+      COST: "50\xA5"
+    Plastic straps (10):
+      AVAIL: 1
+      COST: "5\xA5"
+Breaking and Entering Gear:
+  Autopicker:
+    RATING: "1\u20136"
+    AVAIL: 4
+    COST: "Rating x 500\xA5"
+  Cellular glove molder:
+    RATING: "1\u20134"
+    AVAIL: 6(I)
+    COST: "Rating x 500\xA5"
+  Chisel/wrecking bar:
+    RATING: n/a
+    AVAIL: 1
+    COST: "20\xA5"
+  Keycard copier:
+    RATING: "1\u20136"
+    AVAIL: 4(I)
+    COST: "Rating x 600\xA5"
+  Lockpick set:
+    RATING: n/a
+    AVAIL: 2
+    COST: "250\xA5"
+  Maglock passkey:
+    RATING: "1\u20134"
+    AVAIL: 3(I)
+    COST: "Rating x 2,000\xA5"
+  Miniwelder:
+    RATING: n/a
+    AVAIL: 1
+    COST: "250\xA5"
+  Miniwelder fuel canister:
+    RATING: n/a
+    AVAIL: 1
+    COST: "80\xA5"
+  Monofilament chainsaw:
+    RATING: n/a
+    AVAIL: 3
+    COST: "500\xA5"
+  Sequencer:
+    RATING: "1\u20136"
+    AVAIL: 4(I)
+    COST: "Rating x 250\xA5"
+Survival Gear:
+  "Chemsuit (rating 1\u20136)":
+    AVAIL: '4'
+    COST: "Rating x 150\xA5"
+  Climbing gear:
+    AVAIL: '1'
+    COST: "200\xA5"
+  Diving gear:
+    AVAIL: '3'
+    COST: "2,000\xA5"
+  Flashlight:
+    AVAIL: '1'
+    COST: "25\xA5"
+  Gas mask:
+    AVAIL: '1'
+    COST: "200\xA5"
+  Gecko tape gloves:
+    AVAIL: '3'
+    COST: "250\xA5"
+  Hazmat suit:
+    AVAIL: '3'
+    COST: "3,000\xA5"
+  Light stick:
+    AVAIL: '1'
+    COST: "25\xA5"
+  Magnesium torch/flare:
+    AVAIL: '1'
+    COST: "5\xA5"
+  Microflare launcher:
+    AVAIL: '1'
+    COST: "175\xA5"
+  Microflares:
+    AVAIL: '1'
+    COST: "25\xA5"
+  Rappelling gloves:
+    AVAIL: '1'
+    COST: "50\xA5"
+  "Respirator (rating 1\u20136)":
+    AVAIL: '1'
+    COST: "Rating x 50\xA5"
+  Survival kit:
+    AVAIL: '2'
+    COST: "200\xA5"
+Grapple Gun:
+  Grapple gun:
+    AVAIL: '3'
+    COST: "500\xA5"
+  Microwire:
+    AVAIL: '2'
+    COST: "50\xA5 per 100m"
+  Myomeric rope:
+    AVAIL: '4'
+    COST: "200\xA5 per 10m"
+  Standard rope:
+    AVAIL: '1'
+    COST: "50\xA5 per 100m"
+  Stealth rope:
+    AVAIL: 3(I)
+    COST: "85\xA5 per 100m"
+  Catalyst stick:
+    AVAIL: 3(I)
+    COST: "120\xA5"
+Biotech:
+  Biomonitor:
+    AVAIL: '2'
+    COST: "300\xA5"
+  DocWagon contracts:
+    Basic:
+      AVAIL: '1'
+      COST: "500\xA5/month or 5,000\xA5/year"
+    Gold:
+      AVAIL: '1'
+      COST: "2,500\xA5/month or 25,000\xA5/year"
+    Platinum:
+      AVAIL: '1'
+      COST: "5,000/month or 50,000\xA5/year"
+    Super-platinum:
+      AVAIL: '1'
+      COST: "100,000\xA5"
+  Disposable syringe:
+    AVAIL: '2'
+    COST: "10\xA5"
+  "Medkit (Rating 1\u20136)":
+    AVAIL: '3'
+    COST: "Rating x 250\xA5"
+  Medkit supplies:
+    AVAIL: '1'
+    COST: "100\xA5"
+  Slap patches:
+    Antidote patch:
+      AVAIL: '3'
+      COST: "150\xA5"
+    Chem patch:
+      AVAIL: '3'
+      COST: "200\xA5"
+    "Stim patch (rating 1\u20136)":
+      AVAIL: '3'
+      COST: "Rating x 25\xA5"
+    "Tranq patch (Rating 1\u201312)":
+      AVAIL: '3'
+      COST: "(Rating x Rating) x 10\xA5"
+    Trauma patch:
+      AVAIL: '3'
+      COST: "500\xA5"
