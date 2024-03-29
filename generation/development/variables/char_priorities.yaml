@@ -1,5 +1,5 @@
 A:
-  Races:
+  Metatypes:
     Dwarf: 13
     Ork: 13
     Troll: 13
@@ -13,7 +13,7 @@ A:
     Technomancer: 4
   Resources: 450000
 B:
-  Races:
+  Metatypes:
     Dwarf: 11
     Elf: 11
     Ork: 11
@@ -28,7 +28,7 @@ B:
     Technomancer: 3
   Resources: 275000
 C:
-  Races:
+  Metatypes:
     Dwarf: 9
     Elf: 9
     Human: 9
@@ -44,7 +44,7 @@ C:
     Technomancer: 2
   Resources: 150000
 D:
-  Races:
+  Metatypes:
     Dwarf: 4
     Elf: 4
     Human: 4
@@ -60,7 +60,7 @@ D:
     Technomancer: 1
   Resources: 50000
 E:
-  Races:
+  Metatypes:
     Dwarf: 1
     Elf: 1
     Human: 1

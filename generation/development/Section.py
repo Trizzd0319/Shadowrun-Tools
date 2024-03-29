@@ -1,5 +1,14 @@
-from tkinter import Tk, Frame, Button, Label, Entry, ttk, Canvas, Scrollbar, VERTICAL, IntVar, filedialog, Text, NORMAL, \
-    END, DISABLED, Listbox, WORD, messagebox, HORIZONTAL, Checkbutton, Spinbox
+import logging
+from tkinter import Frame, Label, ttk, Canvas, Scrollbar, VERTICAL, HORIZONTAL, Checkbutton, Spinbox
+
+
+def root_log():
+    logging.debug("This is a debug message from some_function")
+    try:
+        # Code that might raise an exception
+        pass
+    except Exception as e:
+        logging.error("An error occurred: %s", str(e))
 
 class Section:
     def __init__(self, parent, name, row, column, rowspan=1, columnspan=1, scrollable=False):

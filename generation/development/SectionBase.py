@@ -2,15 +2,14 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class SectionBase:
-    def __init__(self, root, title, position, row, column, scrollable=False):
-        self.root = root
+class SectionBase(tk.Frame):
+    def __init__(self, master, title, position, character_profile, **kw):
+        self.scrollable = kw.pop('scrollable', False)
+        super().__init__(master, **kw)
+        self.master = master
         self.title = title
         self.position = position
-        self.row = row
-        self.column = column  # Add the column parameter
-        self.position = position
-        self.scrollable = scrollable
+        self.character_profile = character_profile  # Now it's properly defined
         self.widgets = {}
         self.all_widgets = []
         self.bindings = []
@@ -27,17 +26,19 @@ class SectionBase:
 
     def _add_title_label(self):
         title_label = ttk.Label(self.frame, text=self.title, font=('Arial', 12, 'bold'))
-        title_label.pack(side="top", fill="x", pady=5)
+        # Use grid with appropriate row and column instead of side and fill
+        title_label.grid(row=0, column=0, sticky="ew", pady=5)
+        self.frame.grid_columnconfigure(0, weight=1)  # Make the label expand to fill the column
 
     def _setup_scrollable_frame(self):
-        self.container = tk.Frame(self.root)
+        self.container = tk.Frame(self.master)
         self.container.grid(row=self.position[0], column=self.position[1], sticky='nsew')
         self.canvas = tk.Canvas(self.container)
         self.scrollbar = ttk.Scrollbar(self.container, orient="vertical", command=self.canvas.yview)
         self.scrollable_frame = ttk.Frame(self.canvas)
         self.container.grid(row=self.position[0], column=self.position[1], sticky='nsew')
-        self.root.grid_rowconfigure(self.position[0], weight=1)
-        self.root.grid_columnconfigure(self.position[1], weight=1)
+        self.master.grid_rowconfigure(self.position[0], weight=1)
+        self.master.grid_columnconfigure(self.position[1], weight=1)
         self._bind_scroll_events()
 
         self.scrollable_frame.bind(
@@ -48,24 +49,24 @@ class SectionBase:
         self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
-        self.canvas.pack(side="left", fill="both", expand=True)
-        self.scrollbar.pack(side="right", fill="y")
+        self.canvas.grid(side="left", fill="both", expand=True)
+        self.scrollbar.grid(side="right", fill="y")
         self.frame = self.scrollable_frame
 
     def _bind_scroll_events(self):
-        event = "<MouseWheel>" if self.root.tk.call('tk', 'windowingsystem') != 'x11' else "<Button-4>"
+        event = "<MouseWheel>" if self.master.tk.call('tk', 'windowingsystem') != 'x11' else "<Button-4>"
         self.canvas.bind_all(event, self.on_mousewheel)
         self.bindings.append((None, event, self.on_mousewheel))
 
-        if self.root.tk.call('tk', 'windowingsystem') == 'x11':
+        if self.master.tk.call('tk', 'windowingsystem') == 'x11':
             self.canvas.bind_all("<Button-5>", self.on_mousewheel)
             self.bindings.append((None, "<Button-5>", self.on_mousewheel))
 
     def _setup_non_scrollable_frame(self):
-        self.frame = tk.Frame(self.root)
+        self.frame = tk.Frame(self.master)
         self.frame.grid(row=self.position[0], column=self.position[1], sticky='nsew')
-        self.root.grid_rowconfigure(self.position[0], weight=1)
-        self.root.grid_columnconfigure(self.position[1], weight=1)
+        self.master.grid_rowconfigure(self.position[0], weight=1)
+        self.master.grid_columnconfigure(self.position[1], weight=1)
 
     def clear_section(self):
         self._clear_global_bindings()
@@ -77,9 +78,9 @@ class SectionBase:
         self.widgets.clear()
 
     def on_mousewheel(self, event):
-        if self.root.tk.call('tk', 'windowingsystem') == 'win32':
+        if self.master.tk.call('tk', 'windowingsystem') == 'win32':
             self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
-        elif self.root.tk.call('tk', 'windowingsystem') == 'x11':
+        elif self.master.tk.call('tk', 'windowingsystem') == 'x11':
             if event.num == 4:
                 self.canvas.yview_scroll(-1, "units")
             elif event.num == 5:
@@ -131,6 +132,6 @@ class SectionBase:
     def _clear_global_bindings(self):
         for _, event, callback in self.bindings:
             if event:
-                self.root.unbind_all(event)
+                self.master.unbind_all(event)
             else:
                 raise ValueError("Event should not be None.")

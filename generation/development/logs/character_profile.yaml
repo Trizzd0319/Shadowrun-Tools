@@ -1,0 +1,178 @@
+name: 'Test'
+metatype: 'Troll'
+level: 1
+priorities:
+  attributes: 'A'
+  magic: 'B'
+  metatype: 'C'
+  resources: 'D'
+  skills: 'E'
+karma:
+  current: 0
+  total: 0
+  temporary: 0
+resources:
+  nuyen: 0
+  spent: 0
+attributes:
+  physical:
+    body: 1
+    agility: 1
+    reaction: 1
+    strength: 1
+  mental:
+    willpower: 1
+    logic: 1
+    intuition: 1
+    charisma: 1
+  magic:
+    type: 'Full'
+    rating: 3
+skills:
+  Astral: 1
+  Athletics: 1
+  Biotech: 1
+  Close Combat: 0
+  Con: 0
+  Conjuring: 0
+  Cracking: 0
+  Electronics: 0
+  Enchanting: 0
+  Engineering: 0
+  Exotic Weapons: 0
+  Firearms: 0
+  Influence: 0
+  Outdoors: 0
+  Perception: 0
+  Piloting: 0
+  Sorcery: 0
+  Stealth: 0
+  Tasking: 0
+spells_known:
+  Ball Lightning: false
+  Clout: false
+  Flamethrower: false
+  Ice Spear: false
+  Lightning Bolt: false
+  Manaball: false
+  Manabolt: false
+  Powerbolt: false
+  Analyze Device: false
+  Analyze Truth: false
+  Assensing: false
+  Clairaudience: false
+  Clairvoyance: false
+  Detect Enemies: false
+  Detect Individual: false
+  Detect Life: false
+  Decrease Attribute: false
+  Heal: false
+  Increase Attribute: false
+  Increase Reflexes: false
+  Stabilize: false
+  Chaotic World: false
+  Control Thoughts: false
+  Improved Invisibility: false
+  Mask: false
+  Physical Mask: false
+  Trid Phantasm: false
+  Analyze Device: false
+  Control Actions: false
+  Control Thoughts: false
+  Fling: false
+  Influence: false
+  Levitate: false
+  Mob Mind: false
+  Armor: false
+  Bind: false
+  Elemental Barrier: false
+  Magic Fingers: false
+  Trid Phantasm: false
+  Alleviate Addiction: false
+  Death Touch: false
+  Mind Probe: false
+  Psychic Surgery: false
+  Elemental Manipulation: false
+  Plant Control: false
+  Shape Earth: false
+  Water Spirit: false
+equipment:
+  melee:
+    1: ''
+    2: ''
+  firearms:
+    1:
+      name: ''
+      accessory:
+        barrel: ''
+        under: ''
+        top: ''
+    2:
+      name: ''
+      accessory:
+        barrel: ''
+        under: ''
+        top: ''
+    launchers:
+      name: ''
+      accessory:
+        barrel: ''
+        under: ''
+        top: ''
+    grenades:
+      1:
+        name: ''
+        quantity: 0
+      2:
+        name: ''
+        quantity: 0
+  armor:
+    name: ''
+    modifications:
+      1:
+        name: ''
+      2:
+        name: ''
+      3:
+        name: ''
+  helmet:
+    name: ''
+    modifications:
+      1:
+        name: ''
+      2:
+        name: ''
+      3:
+        name: ''
+  shields:
+    name: ''
+    modifications:
+      1:
+        name: ''
+      2:
+        name: ''
+      3:
+        name: ''
+  cyberdeck:
+    name:
+      modifications:
+        1:
+          name: ''
+        2:
+          name: ''
+        3:
+          name: ''
+        4:
+          name: ''
+        5:
+          name: ''
+        6:
+          name: ''
+        7:
+          name: ''
+        8:
+          name: ''
+        9:
+          name: ''
+        10:
+          name: ''

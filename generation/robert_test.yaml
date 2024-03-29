@@ -1,0 +1,444 @@
+attributes:
+  Astral: 0
+  Initiative:
+    Astral: 0
+    Matrix AR: 0
+    Matrix Cold Sim VR: 0
+    Matrix Hot Sim VR: 0
+    Physical: 0
+    Rigging AR: 0
+  Mental:
+    Charisma: 0
+    Intuition: 0
+    Logic: 0
+    Willpower: 0
+  Physical:
+    Agility: 0
+    Body: 0
+    Reaction: 0
+    Strength: 0
+equipment:
+  armor:
+    modifications:
+      1:
+        name: ''
+      2:
+        name: ''
+      3:
+        name: ''
+    name: ''
+  cyberdeck:
+    name:
+      modifications:
+        1:
+          name: ''
+        2:
+          name: ''
+        3:
+          name: ''
+        4:
+          name: ''
+        5:
+          name: ''
+        6:
+          name: ''
+        7:
+          name: ''
+        8:
+          name: ''
+        9:
+          name: ''
+        10:
+          name: ''
+  firearms:
+    1:
+      accessory:
+        barrel: ''
+        top: ''
+        under: ''
+      name: ''
+    2:
+      accessory:
+        barrel: ''
+        top: ''
+        under: ''
+      name: ''
+    launchers:
+      accessory:
+        barrel: ''
+        top: ''
+        under: ''
+      name: ''
+    grenades:
+      1:
+        name: ''
+        quantity: 0
+      2:
+        name: ''
+        quantity: 0
+  helmet:
+    modifications:
+      1:
+        name: ''
+      2:
+        name: ''
+      3:
+        name: ''
+    name: ''
+  melee:
+    1: ''
+    2: ''
+  shields:
+    modifications:
+      1:
+        name: ''
+      2:
+        name: ''
+      3:
+        name: ''
+    name: ''
+karma:
+  current: null
+  temporary: null
+  total: null
+level: 0
+metatype: ''
+name: ''
+player_name: Testing123
+priorities:
+  attributes: ''
+  magic: ''
+  metatype: ''
+  resources: ''
+  skills: ''
+resources:
+  nuyen: null
+  spent: null
+skills:
+  Agility:
+    Athletics:
+      Description: Covers physical grace and prowess, including sprinting, full defense
+        actions, and thrown weapon attacks.
+      Linked Attributes:
+        Primary: Agility
+        Secondary: Strength
+        Tertiary: None
+      Specializations:
+        - Climbing
+        - Flying
+        - Gymnastics
+        - Sprinting
+        - Swimming
+        - Throwing
+      Untrained: 'True'
+      rank: 0
+    Close Combat:
+      Description: Used for close-quarters combat with blades, clubs, or unarmed strikes.
+      Linked Attributes:
+        Primary: Agility
+        Secondary: None
+        Tertiary: None
+      Specializations:
+        - Blades
+        - Clubs
+        - Unarmed Combat
+      Untrained: 'False'
+      rank: 0
+    Exotic Weapons:
+      Description: Covers specialized weaponry requiring specific training.
+      Linked Attributes:
+        Primary: Agility
+        Secondary: None
+        Tertiary: None
+      Specializations: [ ]
+      Untrained: 'False'
+      rank: 0
+    Firearms:
+      Description: Involves proficiency with various ranged weapons.
+      Linked Attributes:
+        Primary: Agility
+        Secondary: None
+        Tertiary: None
+      Specializations:
+        - Automatics
+        - Longarms
+        - Pistols
+        - Rifles
+        - Shotguns
+      Untrained: 'True'
+      rank: 0
+    Stealth:
+      Description: Covers activities characters perform that they do not want others
+        to notice.
+      Linked Attributes:
+        Primary: Agility
+        Secondary: None
+        Tertiary: None
+      Specializations:
+        - Disguise
+        - Palming
+        - Sneaking
+      Untrained: 'True'
+      rank: 0
+  Charisma:
+    Con:
+      Description: Involves persuasion through deception or acting, convincing others
+        of false identities or intentions.
+      Linked Attributes:
+        Primary: Charisma
+        Secondary: None
+        Tertiary: None
+      Specializations:
+        - Acting
+        - Specialized: false
+        - Disguise
+        - Specialized: false
+        - Impersonation
+        - Specialized: false
+        - Performance
+        - Specialized: false
+      Untrained: 'True'
+      rank: 0
+    Influence:
+      Description: Involves shaping opinions through persuasion or intimidation.
+      Linked Attributes:
+        Primary: Charisma
+        Secondary: Logic
+        Tertiary: None
+      Specializations:
+        - Etiquette
+        - Specialized: false
+        - Instruction
+        - Specialized: false
+        - Intimidation
+        - Specialized: false
+        - Leadership
+        - Specialized: false
+        - Negotiation
+        - Specialized: false
+      Untrained: 'True'
+      rank: 0
+  Intuition:
+    Outdoors:
+      Description: Used for navigating natural environments and survival techniques.
+      Linked Attributes:
+        Primary: Intuition
+        Secondary: None
+        Tertiary: None
+      Specializations:
+        - Navigation
+        - Survival
+        - Tracking
+        - by Environment (Woods, Desert, Urban Areas, etc.)
+      Untrained: 'True'
+      rank: 0
+    Perception:
+      Description: Involves observing and noticing details in the environment.
+      Linked Attributes:
+        Primary: Intuition
+        Secondary: Logic
+        Tertiary: None
+      Specializations:
+        - Visual
+        - Aural
+        - Tactile
+        - by Environment (Woods, Desert, Urban, etc.)
+      Untrained: 'True'
+      rank: 0
+  Logic:
+    Cracking:
+      Description: Involves illegal actions in the Matrix, such as hacking and cyber
+        warfare.
+      Linked Attributes:
+        Primary: Logic
+        Secondary: None
+        Tertiary: None
+      Specializations:
+        - Cybercombat
+        - Specialized: false
+        - Electronic Warfare
+        - Specialized: false
+        - Hacking
+        - Specialized: false
+      Untrained: 'False'
+      rank: 0
+    Electronics:
+      Description: Covers legal Matrix activities like software manipulation and hardware
+        maintenance.
+      Linked Attributes:
+        Primary: Logic
+        Secondary: Intuition
+        Tertiary: None
+      Specializations:
+        - Computer
+        - Specialized: false
+        - Hardware
+        - Specialized: false
+        - Software
+        - Specialized: false
+      Untrained: 'True'
+      rank: 0
+    Engineering:
+      Description: Encompasses building, repairing, and modifying mechanical systems.
+      Linked Attributes:
+        Primary: Logic
+        Secondary: Intuition
+        Tertiary: Agility
+      Specializations:
+        - Aeronautics Mechanic
+        - Specialized: false
+        - Automotive Mechanic
+        - Specialized: false
+        - Demolitions
+        - Specialized: false
+        - Gunnery
+        - Specialized: false
+        - Industrial Mechanic
+        - Specialized: false
+        - Lockpicking
+        - Specialized: false
+        - Nautical Mechanic
+        - Specialized: false
+      Untrained: 'True'
+      rank: 0
+  Magic:
+    Astral:
+      Description: Used by magicians, adepts, and mystic adepts with Astral Perception
+        adept power for assensing astral auras and combat.
+      Linked Attributes:
+        Primary: Intuition
+        Secondary: Willpower
+      Specializations:
+        - Astral Combat
+        - Specialized: false
+        - Astral Signatures
+        - Specialized: false
+        - Emotional States
+        - Specialized: false
+        - Spirit Types
+        - Specialized: false
+      Untrained: 'False'
+      rank: 0
+    Conjuring:
+      Description: Used for summoning, binding, and banishing spirits.
+      Linked Attributes:
+        Primary: Magic
+        Secondary: None
+        Tertiary: None
+      Specializations:
+        - Banishing
+        - Specialized: false
+        - Binding
+        - Specialized: false
+        - Summoning
+        - Specialized: false
+      Untrained: 'False'
+      rank: 0
+    Enchanting:
+      Description: Involves crafting magical items like foci and imbuing objects with
+        magical properties.
+      Linked Attributes:
+        Primary: Magic
+        Secondary: None
+        Tertiary: None
+      Specializations:
+        - Alchemy
+        - Specialized: false
+        - Artificing
+        - Specialized: false
+        - Disenchanting
+        - Specialized: false
+      Untrained: 'False'
+      rank: 0
+    Sorcery:
+      Description: Involves casting spells and manipulating magical energies.
+      Linked Attributes:
+        Primary: Magic
+        Secondary: None
+        Tertiary: None
+      Specializations:
+        - Counterspelling
+        - Specialized: false
+        - Ritual Spellcasting
+        - Specialized: false
+        - Spellcasting
+        - Specialized: false
+      Untrained: 'False'
+      rank: 0
+  Reaction:
+    Piloting:
+      Description: Used for operating vehicles, including ground, air, and watercraft.
+      Linked Attributes:
+        Primary: Reaction
+        Secondary: None
+        Tertiary: None
+      Specializations:
+        - Ground Craft
+        - Specialized: false
+        - Aircraft
+        - Specialized: false
+        - Watercraft
+        - Specialized: false
+      Untrained: 'True'
+      rank: 0
+  Resonance:
+    Tasking:
+      Description: Skill technomancers use for various technomancer activities.
+      Linked Attributes:
+        Primary: Resonance
+        Secondary: None
+        Tertiary: None
+      Specializations:
+        - Compiling
+        - Specialized: false
+        - Decompiling
+        - Specialized: false
+        - Registering
+        - Specialized: false
+      Untrained: 'False'
+      rank: 0
+spells_known:
+  Alleviate Addiction: false
+  Analyze Device: false
+  Analyze Truth: false
+  Armor: false
+  Assensing: false
+  Ball Lightning: false
+  Bind: false
+  Chaotic World: false
+  Clairaudience: false
+  Clairvoyance: false
+  Clout: false
+  Control Actions: false
+  Control Thoughts: false
+  Death Touch: false
+  Decrease Attribute: false
+  Detect Enemies: false
+  Detect Individual: false
+  Detect Life: false
+  Elemental Barrier: false
+  Elemental Manipulation: false
+  Flamethrower: false
+  Fling: false
+  Heal: false
+  Ice Spear: false
+  Improved Invisibility: false
+  Increase Attribute: false
+  Increase Reflexes: false
+  Influence: false
+  Levitate: false
+  Lightning Bolt: false
+  Magic Fingers: false
+  Manaball: false
+  Manabolt: false
+  Mask: false
+  Mind Probe: false
+  Mob Mind: false
+  Physical Mask: false
+  Plant Control: false
+  Powerbolt: false
+  Psychic Surgery: false
+  Shape Earth: false
+  Stabilize: false
+  Trid Phantasm: false
+  Water Spirit: false
