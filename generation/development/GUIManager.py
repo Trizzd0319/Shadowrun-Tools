@@ -69,6 +69,7 @@ class GUIManager:
             self.root.geometry(f"{screen_width}x{screen_height}+0+0")
 
     def initialize_gui(self):
+        # Define layout and section parameters
         layout_params = {
             "Priorities": {"position": (0, 0), "scrollable": False},
             "Player Info": {"position": (0, 1), "scrollable": False},
@@ -80,9 +81,8 @@ class GUIManager:
             "Magic": {"position": (3, 1), "scrollable": False},
             "Equipment": {"position": (4, 0), "scrollable": False},
         }
-        # Pass shared_data and GUIManager reference as needed
-        priorities_section = self.sections.get("Priorities")
-        resources_section = self.sections.get("Resources")
+
+        # Map section names to their respective classes
         section_classes = {
             "Priorities": SectionPriorities,
             "Player Info": SectionPlayer,
@@ -92,8 +92,10 @@ class GUIManager:
             "Skills": SectionSkills,
             "Combat": SectionCombat,
             "Magic": SectionMagic,
-            "Equipment": SectionEquipment
+            "Equipment": SectionEquipment,
+            # Add other sections as necessary...
         }
+
         # Example of initialization with shared data
         self.sections["Priorities"] = SectionPriorities(self.root, "Priorities", (0, 0), self.character_profile,
                                                         shared_data=self.shared_data)
@@ -143,16 +145,16 @@ class GUIManager:
         self.shared_data[key] = value
         self.sections["Resources"].update_from_shared_data()
 
-        # Inside GUIManager's initialize_gui method
-        for Section_name, SectionClass in section_classes.items():
-            print(Section_name)
-            params = layout_params.get(Section_name, {})
-            position = params.pop('position', (0, 0))
-            scrollable = params.pop('scrollable', False)  # Use pop instead of get
-
-            # Now, **params will not contain 'scrollable', and you can safely pass it without duplication
-            self.sections[Section_name] = SectionClass(self.root, title=Section_name, position=position,
-                                                       scrollable=scrollable, character_profile=profile)
+        # Iterate through each section and initialize it with the appropriate arguments
+        for section_name, section_class in section_classes.items():
+            # Assume all sections are positioned at (0, 0) for simplification. Adjust as necessary.
+            self.sections[section_name] = section_class(
+                root=self.root,
+                title=section_name,  # Title is the section name
+                position=(0, 0),  # Adjust the position as necessary
+                character_profile=self.character_profile,  # Character profile instance
+                gui_manager=self  # Pass the GUIManager instance (`self`) as the gui_manager argument
+            )
 
     def save_character_profile(self):
         """Triggered by the 'Save' button in SectionPlayer. Collects and saves data from all sections."""

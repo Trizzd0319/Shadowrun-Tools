@@ -5,12 +5,12 @@ from SectionBase import SectionBase
 
 
 class SectionAttributes(SectionBase):
-    def __init__(self, root, title, position, scrollable=False, **kw):
+    def __init__(self, root, title, position, gui_manager, scrollable=False, **kw):
         character_profile = kw.pop('character_profile', None)
         super().__init__(root, title, position, character_profile, **kw)  # Pass character_profile here
         self.attribute_row_counter = 1
         self.attribute_widgets = []
-
+        self.gui_manager = gui_manager
         self.attributes_data = self.merge_attributes_data()
         self.attribute_vars = {}  # Dictionary to hold IntVar instances for each attribute
         self.initialize_attribute_vars()  # Initialize IntVars based on attributes_data
