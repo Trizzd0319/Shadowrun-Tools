@@ -1,0 +1,52 @@
+attributes:
+  Astral: 0
+  Initiative:
+    Astral: 0
+    Matrix AR: 0
+    Matrix Cold Sim VR: 0
+    Matrix Hot Sim VR: 0
+    Physical: 0
+    Rigging AR: 0
+  Mental:
+    Charisma: 0
+    Intuition: 0
+    Logic: 0
+    Willpower: 0
+  Physical:
+    Agility: 0
+    Body: 0
+    Reaction: 0
+    Strength: 0
+equipment:
+  armor: {}
+  cyberdeck: {}
+  firearms: {}
+  grenades: {}
+  helmet: {}
+  melee: {}
+  shields: {}
+karma:
+  current: null
+  temporary: null
+  total: null
+level: 0
+metatype: ''
+name: ''
+player_name: ''
+priorities:
+  attributes: A
+  magic: B
+  metatype: C
+  resources: D
+  skills: E
+resources:
+  nuyen: null
+  spent: null
+skills:
+  Agility: {}
+  Charisma: {}
+  Intuition: {}
+  Logic: {}
+  Reaction: {}
+  Resonance: {}
+spells_known: {}
