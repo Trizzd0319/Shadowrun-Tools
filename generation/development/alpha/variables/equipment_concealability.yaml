@@ -1,0 +1,33 @@
+Large:
+  THRESHOLD: 0
+  EXAMPLE: Assault Cannon
+Bulky:
+  THRESHOLD: 1
+  EXAMPLE: Assault Rifle
+Tuckable:
+  THRESHOLD: 2
+  EXAMPLE: SMG
+Pocket Size:
+  THRESHOLD: 3
+  EXAMPLE: Light Pistol
+Palm size:
+  THRESHOLD: 4
+  EXAMPLE: Deck of Cards
+Slim palm size:
+  THRESHOLD: 5
+  EXAMPLE: Single Card
+Palmable:
+  THRESHOLD: 6
+  EXAMPLE: Lighter
+Small:
+  THRESHOLD: 7
+  EXAMPLE: 6 sided die
+Mini:
+  THRESHOLD: 8
+  EXAMPLE: Stealth RFID Tag
+Fine:
+  THRESHOLD: 9
+  EXAMPLE: Powder traces
+Microscopic:
+  THRESHOLD: 10
+  EXAMPLE: A flea on your shoulder

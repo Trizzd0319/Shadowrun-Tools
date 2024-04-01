@@ -1,0 +1,126 @@
+Human:
+  Priority: E
+  Body: '-'
+  Strength: '-'
+  Quickness: '-'
+  Intelligence: '-'
+  Willpower: '-'
+  Charisma: '-'
+  Running Multiplier: "\xD73"
+  Other: 1:10 Karma Pool accumulation
+  Origin: anywhere
+  Average Height_cm: 170
+  Average Mass_kg: 70
+  Height Range_low_cm: 130
+  Height Range_high_cm: 221
+  Mass Range_low_kg: 31
+  Mass Range_high_kg: 153
+  Average Height_ft: 5'7"
+  Average Mass_lb: 154
+  Height Range_low_ft: 4'3"
+  Height Range_high_ft: 7'3"
+  Mass Range_low_lb: 68
+  Mass Range_high_lb: 337
+  Life Expectancy: 55 years
+  Percentage Population: 81%
+Dwarf:
+  Priority: D
+  Body: '+1'
+  Strength: '+2'
+  Quickness: '-'
+  Intelligence: '-'
+  Willpower: '+1'
+  Charisma: '-'
+  Running Multiplier: "\xD72"
+  Other: Thermographic vision, Resistance (+2 Body) to any disease or toxin
+  Origin: anywhere
+  Average Height_cm: 120
+  Average Mass_kg: 44
+  Height Range_low_cm: 95
+  Height Range_high_cm: 151
+  Mass Range_low_kg: 22
+  Mass Range_high_kg: 89
+  Average Height_ft: 3'11"
+  Average Mass_lb: 97
+  Height Range_low_ft: 3'1"
+  Height Range_high_ft: 4'11"
+  Mass Range_low_lb: 49
+  Mass Range_high_lb: 196
+  Life Expectancy: "estimated at 120\u2013150 years"
+  Percentage Population: 3%
+Elf:
+  Priority: C
+  Body: '-'
+  Strength: '-'
+  Quickness: '+1'
+  Intelligence: '-'
+  Willpower: '-'
+  Charisma: '+2'
+  Running Multiplier: "\xD73"
+  Other: Low-Light Vision
+  Origin: anywhere
+  Average Height_cm: 190
+  Average Mass_kg: 78
+  Height Range_low_cm: 146
+  Height Range_high_cm: 247
+  Mass Range_low_kg: 35
+  Mass Range_high_kg: 171
+  Average Height_ft: 6'3"
+  Average Mass_lb: 172
+  Height Range_low_ft: 4'9"
+  Height Range_high_ft: 8'1"
+  Mass Range_low_lb: 77
+  Mass Range_high_lb: 377
+  Life Expectancy: "estimated at 300\u2013500 years"
+  Percentage Population: 5%
+Ork:
+  Priority: D
+  Body: '+3'
+  Strength: '+2'
+  Quickness: '-'
+  Intelligence: '-1'
+  Willpower: '-'
+  Charisma: '-1'
+  Running Multiplier: "\xD73"
+  Other: Low-Light Vision
+  Origin: anywhere
+  Average Height_cm: 190
+  Average Mass_kg: 125
+  Height Range_low_cm: 147
+  Height Range_high_cm: 244
+  Mass Range_low_kg: 58
+  Mass Range_high_kg: 266
+  Average Height_ft: 6'3"
+  Average Mass_lb: 276
+  Height Range_low_ft: 4'10"
+  Height Range_high_ft: 8'0"
+  Mass Range_low_lb: 128
+  Mass Range_high_lb: 587
+  Life Expectancy: 38 years
+  Percentage Population: 9%
+Troll:
+  Priority: C
+  Body: '+5'
+  Strength: '+4'
+  Quickness: '-1'
+  Intelligence: '-2'
+  Willpower: '-'
+  Charisma: '-2'
+  Running Multiplier: "\xD73"
+  Other: Thermographic Vision, +1 Reach for Armed/Unarmed Combat, Dermal Armor (+1
+    Body)
+  Origin: anywhere
+  Average Height_cm: 280
+  Average Mass_kg: 491
+  Height Range_low_cm: 219
+  Height Range_high_cm: 357
+  Mass Range_low_kg: 236
+  Mass Range_high_kg: 1017
+  Average Height_ft: 9'2"
+  Average Mass_lb: 1082
+  Height Range_low_ft: 7'2"
+  Height Range_high_ft: 11'8"
+  Mass Range_low_lb: 520
+  Mass Range_high_lb: 2242
+  Life Expectancy: 50 years
+  Percentage Population: 2%

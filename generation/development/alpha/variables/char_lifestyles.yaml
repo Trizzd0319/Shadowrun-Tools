@@ -1,0 +1,69 @@
+Street:
+  Cost: Free
+  Description: "You have no place to rest your head. Whether you\u2019re crashing\
+    \ on someone\u2019s couch or sleeping out under the stars, you grab rest where\
+    \ you can and food where it\u2019s available. You have no place to store stuff\u2014\
+    if you don\u2019t carry it with you, it likely will be stolen by the time you\
+    \ come back to pick it up. It\u2019s a tough way to live, but it\u2019s cheap!\
+    \ If you haven\u2019t paid for a lifestyle in the current month, then you\u2019\
+    re living on the street."
+Squatter:
+  Cost: 500 nuyen a month
+  Description: "The Sixth World has been through a lot\u2014disease, disaster, warfare,\
+    \ and economic boom and bust. Many of the people who departed this world left\
+    \ space behind them, empty buildings that can be used as long as you can find\
+    \ a way in\u2014and put up with substandard conditions (buildings fall out of\
+    \ use for a reason). Security is going to be poor to nonexistent\u2014you can\
+    \ try to get a door to lock, but the wall might be deteriorated enough that would-be\
+    \ burglars will just come in through there instead. Plumbing and heat are just\
+    \ pipe dreams. But if you\u2019re lucky, the place will stay dry, and you might\
+    \ be able to slip some change to your neighbors to keep an eye on your stuff (after\
+    \ all, the discarded people of the world gotta stick together). Squatter food\
+    \ is a step better than street-level, in that you\u2019re not pulling stuff from\
+    \ dumpsters, but it\u2019s mostly soy packets and other flavorless drek\u2014\
+    the modern equivalent of orphan\u2019s gruel."
+Low:
+  Cost: 2,000 nuyen a month
+  Description: "Now we\u2019re getting somewhere. With this lifestyle, you live in\
+    \ a place that was actually intended to be a residence. Sure, it may have started\
+    \ life as a shipping container, but it was constructed as a home at some point,\
+    \ and it has electricity, running water (though it may be rotated off sometimes\
+    \ during low-supply days), and just enough heat to keep you alive. The doors lock,\
+    \ there\u2019s an official address, and you usually can get the food delivery\
+    \ guy to bring you some McHugh\u2019s soyburgers. Which, incidentally, you sometimes\
+    \ can afford to eat! Plenty of shadowrunners live at this level, along with the\
+    \ workers of the world that the higher-ups prefer to ignore whenever possible."
+Middle:
+  Cost: 5,000 nuyen a month
+  Description: "The good life is now starting to come in reach. Electricity and water\
+    \ around the clock, police officers that do more than chuckle derisively when\
+    \ you report a crime, flavor injections with most meals, and low odds of being\
+    \ mugged when you\u2019re near your home. Is it spectacular? No, but it\u2019\
+    s safe, and that\u2019s a rare enough thing in the Sixth World that many people\
+    \ make all sorts of bargains to gain it."
+High:
+  Cost: 10,000 nuyen a month
+  Description: "Flying on an airplane in economy class means watching trid entertainments\
+    \ that are interrupted every five to ten minutes or so by ads that leave you wondering\
+    \ who the hell buys the stuff on display. Aromatherapy foot massagers? Button-free\
+    \ wine bottle opener? Split-rock backyard fire pit? People with a High lifestyle\
+    \ are the targeted customers. They have money to spend and space to put the things\
+    \ they buy. They also have a deep need to not let their peers\u2019 homes be more\
+    \ impressive than theirs. They eat well, sleep comfortably, and have trouble understanding\
+    \ people who complain about the state of the world, because it seems just fine\
+    \ to them. Living among them is a sure sign that you\u2019ve made it, but don\u2019\
+    t sleep too well\u2014their tolerance for interlopers is low, and they have ways\
+    \ of pushing out those who they feel don\u2019t belong. The extra security you\
+    \ pay for may well be needed."
+Luxury:
+  Cost: 100,000 nuyen a month
+  Description: "The top. The cr\xE8me de la cr\xE8me. People with this lifestyle spend\
+    \ more in a month than squatters and street people earn in several years, or even\
+    \ a lifetime. They do all the things people in the lower lifestyle categories\
+    \ dream about. They eat real meat regularly. They float on boats in the Caribbean\
+    \ and dive off them into azure waters. They stay at hotels where armies of staffers\
+    \ scuttle quickly to meet their needs. They have trid producers hoping to film\
+    \ tours of their homes. Their daily reality is surreal, but any existential angst\
+    \ that might arise can be lulled away with the smoothest liquors, the softest\
+    \ pillows, and the best views money can buy. And remember, the key principle of\
+    \ the Sixth World is that money can buy anything."

@@ -1,50 +1,55 @@
-from Section import Section
+import tkinter as tk
+from CharacterProfileManager import CharacterProfileManager
 from SectionBase import SectionBase
 from SectionPriorities import SectionPriorities
 from SectionPlayer import SectionPlayer
-import tkinter as tk
+
+# Import other sections similarly...
 
 class GUIManager:
     def __init__(self, root):
         self.root = root
+        self.character_profile_manager = CharacterProfileManager(filepath='path_to_character_profile.yaml')
         self.sections = {}
         self.initialize_gui()
 
+    def maximize_window(self):
+        # Maximize window logic as before...
+        pass
+
     def initialize_gui(self):
-        # Mapping of section identifiers to their corresponding classes
-        layout_params = {
-            "Priorities": {"row": 0, "column": 0, "scrollable": False, "position": (0, 0)},
-            "Player Info": {"row": 0, "column": 1, "scrollable": False, "position": (0, 1)},
-            # "Personal": {"row": 1, "column": 0, "scrollable": False, "position": (0, 1)},
-            # "Resources": {"row": 1, "column": 1, "scrollable": False, "position": (1, 1)},
-            # "Attributes": {"row": 2, "column": 0, "scrollable": False, "position": (2, 0)},
-            # "Skills": {"row": 2, "column": 1, "scrollable": False, "position": (2, 1)},
-            # "Combat": {"row": 3, "column": 0, "scrollable": False, "position": (3, 0)},
-            # "Magic": {"row": 3, "column": 1, "scrollable": False, "position": (3, 1)},
-            # "Equipment": {"row": 4, "column": 0, "scrollable": False, "position": (4, 0)},
-            # Add layout params for other sections...
-        }
-        section_classes = {
-            "Priorities": SectionPriorities,
-            "Player Info": SectionPlayer,
-            # "Personal": sectionPersonal,
-            # "Resources": sectionResources,
-            # "Attributes": SectionAttributes,
-            # "Skills": SectionSkills,
-            # "Combat": sectionCombat,
-            # "Magic": sectionMagic,
-            # "Equipment": sectionEquipment
-            # Add mappings for other sections...
+        # Define the positions and any other parameters for your sections
+        section_details = {
+            "Priorities": {"class": SectionPriorities, "position": (0, 0)},
+            "Player Info": {"class": SectionPlayer, "position": (0, 1)},
+            # "Attributes": {"class": SectionAttributes, "position": (1, 0)},
+            # Continue for other sections...
         }
 
-        # Dynamically create and store instances of section classes
-        for section_name, SectionClass in section_classes.items():
-            params = layout_params.get(section_name, {})
-            self.sections[section_name] = SectionClass(self.root, title=section_name, **params)
-            # 'row', 'column', and 'scrollable' would be determined based on the specific layout you're aiming for.
+        # Initialize each section with necessary arguments
+        for name, details in section_details.items():
+            section_class = details["class"]
+            position = details["position"]
+            # Initialize section with character profile manager and any required data
+            self.sections[name] = section_class(
+                master=self.root,
+                title=name,
+                position=position,
+                character_profile=self.character_profile_manager.get_section_data(name.lower()),
+                shared_data={},  # Add shared data if necessary
+                gui_manager=self  # Pass self if sections need to callback to GUIManager
+            )
 
+    def update_shared_data(self, key, value):
+        # Method to update shared data between sections...
+        pass
 
-# Usage:
+    def save_character_profile(self):
+        # Method to trigger saving the character profile through CharacterProfileManager
+        self.character_profile_manager.save_profile()
+
+# Application initialization
 root = tk.Tk()
 app = GUIManager(root)
+app.maximize_window()
 root.mainloop()
